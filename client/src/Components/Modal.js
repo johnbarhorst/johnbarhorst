@@ -6,7 +6,7 @@ const cardVariants = {
   open: {
     y: 0,
     transition: {
-      staggerChildren: .3,
+      staggerChildren: .2,
       when: "beforeChildren"
     }
   },
@@ -52,7 +52,7 @@ const Modal = ({ isModalOpen, setIsModalOpen }) => {
               >
                 Sub Headlines!
               </motion.h3>
-              <button onClick={() => setIsModalOpen(false)}>Action Has Been Called!</button>
+              <Button onClick={() => setIsModalOpen(false)} variants={textVariants}>Action Has Been Called!</Button>
             </ModalCard>
           </ModalContainer>
         </motion.div>
@@ -85,4 +85,15 @@ const ModalCard = styled(motion.div)`
   background: #fff;
   border-radius: 15px;
   box-shadow: 1px 1px 15px rgba(0,0,0,0.4);
-`;
+  `;
+
+const Button = styled(motion.button)`
+  height: 50px;
+  padding: 0 10px;
+  border: 1px solid #aaa;
+  border-radius: 10px;
+  font-weight: bold;
+  background: linear-gradient(#C9D6FF, #E2E2E2);
+  box-shadow: 1px 1px 5px rgba(0,0,0,0.4);
+
+  `;
