@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion';
 import AnimatedList from './AnimatedList';
 import Menu from './Menu';
+import SwipeToDismiss from './SwipeToDismiss';
 import { Card } from '../Elements';
 
 const Portfolio = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const x = useMotionValue(0)
+  const opacity = useTransform(x, [-100, 0, 100], [0, 1, 0]);
   return (
     <AnimatePresence>
       <Section
@@ -17,11 +20,20 @@ const Portfolio = () => {
         <motion.h1>HEADLINES!</motion.h1>
         <Content>
           <Card
-            whileHover={{ scale: 1.3 }}
+            whileHover={{ scale: 1.1 }}
+            drag='x'
+            dragConstraints={{ left: -100, right: 100 }}
+            style={{ x, opacity }}
           >
             <Menu setIsMenuOpen={setIsMenuOpen} isMenuOpen={isMenuOpen} />
             <AnimatedList isMenuOpen={isMenuOpen} />
           </Card>
+          <SwipeToDismiss>
+            <Card>
+              <Menu setIsMenuOpen={setIsMenuOpen} isMenuOpen={isMenuOpen} />
+              <AnimatedList isMenuOpen={isMenuOpen} />
+            </Card>
+          </SwipeToDismiss>
         </Content>
       </Section>
     </AnimatePresence>
