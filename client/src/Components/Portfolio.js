@@ -1,48 +1,20 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
-
+import AnimatedBlock from './AnimatedBlock';
 
 
 
 const Portfolio = () => {
-  const [isSwitched, setIsSwitched] = useState(false);
-  const variants = {
-    switched: {
-      background: '#EB5757'
-    },
-    unSwitched: {
-      background: '#000000'
-    }
-  }
-  const textVariants = {
-    switched: {
-      color: '#000000'
-    },
-    unSwitched: {
-      color: '#EB5757'
-    }
-  }
   return (
     <AnimatePresence>
       <Section
-        animate={isSwitched ? "switched" : "unSwitched"}
-        transition={{
-          duration: 3
-        }}
-        exit={{
-          opacity: 0
-        }}
-        variants={variants}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
       >
-        <motion.h1
-          animate={isSwitched ? "switched" : "unSwitched"}
-          transition={{
-            duration: 3
-          }}
-          variants={textVariants}
-        >HEADLINES!</motion.h1>
-        <Button onClick={() => setIsSwitched(!isSwitched)}>Presto!</Button>
+        <motion.h1>HEADLINES!</motion.h1>
+        <AnimatedBlock />
       </Section>
     </AnimatePresence>
   )
@@ -52,8 +24,9 @@ export default Portfolio;
 
 const Section = styled(motion.section)`
   text-align: center;
-  /* background: linear-gradient(#4B79A1, #283E51); */
+  margin: 0 auto;
   height: 100vh;
+  width: 100%;
 `;
 
 const Button = styled.button`

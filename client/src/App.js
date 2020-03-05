@@ -12,7 +12,7 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <Navigation />
+        <Navigation setIsModalOpen={setIsModalOpen} />
         <Modal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
         <Switch>
           <Route path='/portfolio'>
@@ -25,7 +25,6 @@ function App() {
             <Main />
           </Route>
         </Switch>
-        <button onClick={() => setIsModalOpen(true)}>Modal!</button>
       </div>
     </Router>
   );

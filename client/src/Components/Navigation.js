@@ -4,13 +4,14 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
 
-const Navigation = () => {
+const Navigation = ({ setIsModalOpen }) => {
   return (
     <nav>
       <Ul>
         <li><Link to="/">J B</Link></li>
         <li><Link to="/about">About Me</Link></li>
         <li><Link to="/portfolio">Portfolio</Link></li>
+        <li><button onClick={() => setIsModalOpen(true)}>Modal!</button></li>
       </Ul>
     </nav>
   )
