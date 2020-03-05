@@ -6,7 +6,7 @@ const AnimatedBlock = () => {
   return (
     <Container
       initial={{
-        borderRadius: '25%',
+        borderRadius: '5%',
         rotate: 0,
         scale: 1,
         x: 0
@@ -15,7 +15,7 @@ const AnimatedBlock = () => {
         borderRadius: '50%',
         rotate: 180,
         scale: 1.1,
-        x: 100
+        x: "100%"
       }}
       transition={{
         duration: 3

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
-import AnimatedBlock from './AnimatedBlock';
-
-
+import AnimatedList from './AnimatedList';
+import Menu from './Menu';
+import { Card } from '../Elements';
 
 const Portfolio = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
     <AnimatePresence>
       <Section
@@ -14,7 +15,14 @@ const Portfolio = () => {
         exit={{ opacity: 0 }}
       >
         <motion.h1>HEADLINES!</motion.h1>
-        <AnimatedBlock />
+        <Content>
+          <Card
+            whileHover={{ scale: 1.3 }}
+          >
+            <Menu setIsMenuOpen={setIsMenuOpen} isMenuOpen={isMenuOpen} />
+            <AnimatedList isMenuOpen={isMenuOpen} />
+          </Card>
+        </Content>
       </Section>
     </AnimatePresence>
   )
@@ -26,7 +34,7 @@ const Section = styled(motion.section)`
   text-align: center;
   margin: 0 auto;
   height: 100vh;
-  width: 100%;
+  max-width: 90%;
 `;
 
 const Button = styled.button`
@@ -35,5 +43,9 @@ const Button = styled.button`
   border-radius: 5px;
   background: radial-gradient(#dd1818, #318);
   border: 1px solid #333;
+`;
+
+const Content = styled.article`
+  display: flex;
 `;
 
