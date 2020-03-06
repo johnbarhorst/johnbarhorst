@@ -14,7 +14,8 @@ const ulVariants = {
     height: 0,
     transition: {
       staggerChildren: .2,
-      when: "afterChildren"
+      when: "afterChildren",
+      staggerDirection: -1
     }
   }
 };
@@ -49,9 +50,12 @@ export default AnimatedList;
 
 const Ul = styled(motion.ul)`
   list-style: none;
+  padding: 5px 5px;
+  margin: 0;
 
 `;
 
 const Li = styled(motion.li)`
-
+  padding: 0 5px;
+  margin: 0;
 `;

@@ -2,17 +2,37 @@ import React from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 
+const containerVariants = {
+  initial: {
+    opacity: 0
+  },
+  open: {
+    opacity: 1
+  },
+  closed: {
+    opacity: 0,
+    y: -300,
+    overflow: 'hidden',
+    transition: {
+      staggerChildren: .2,
+      when: 'afterChildren',
+    }
+  }
+}
+
+
 const cardVariants = {
   open: {
     y: 0,
     transition: {
-      staggerChildren: .2,
+      staggerChildren: .1,
       when: "beforeChildren"
     }
   },
   closed: {
     y: 50,
     transition: {
+      staggerChildren: .1,
       when: "afterChildren"
     }
   }
@@ -20,27 +40,32 @@ const cardVariants = {
 
 const textVariants = {
   open: {
-    opacity: 1
+    opacity: 1,
+    y: 0
   },
   closed: {
-    opacity: 0
+    opacity: 0,
+    y: 10
   }
 }
 
 const Modal = ({ isModalOpen, setIsModalOpen }) => {
   return (
-    <AnimatePresence>
+    <AnimatePresence exitBeforeEnter>
       {isModalOpen &&
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
+          variants={containerVariants}
+          initial='initial'
+          animate='open'
+          exit='closed'
         >
           <ModalContainer>
             <ModalCard
               variants={cardVariants}
               initial="closed"
               animate="open"
+              exit="closed"
+              key={'card'}
             >
               <motion.h1
                 variants={textVariants}

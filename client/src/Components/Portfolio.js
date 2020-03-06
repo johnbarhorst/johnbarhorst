@@ -30,8 +30,7 @@ const Portfolio = () => {
           </Card>
           <SwipeToDismiss>
             <Card>
-              <Menu setIsMenuOpen={setIsMenuOpen} isMenuOpen={isMenuOpen} />
-              <AnimatedList isMenuOpen={isMenuOpen} />
+              <h3>Swipe me, I go away</h3>
             </Card>
           </SwipeToDismiss>
         </Content>
