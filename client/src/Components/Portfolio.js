@@ -57,6 +57,8 @@ const Button = styled.button`
 `;
 
 const Content = styled.article`
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
 `;
 

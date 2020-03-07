@@ -82,7 +82,6 @@ const Modal = ({ isModalOpen, setIsModalOpen }) => {
           </ModalContainer>
         </motion.div>
       }
-
     </AnimatePresence>
   )
 }
@@ -90,6 +89,7 @@ const Modal = ({ isModalOpen, setIsModalOpen }) => {
 export default Modal;
 
 const ModalContainer = styled.div`
+  z-index: 1000;
   display: flex;
   justify-content: center;
   align-items: center;
