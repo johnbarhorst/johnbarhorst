@@ -11,10 +11,11 @@ const containerVariants = {
   },
   closed: {
     opacity: 0,
-    y: -300,
     overflow: 'hidden',
     transition: {
-      staggerChildren: .2,
+      duration: .5,
+      staggerChildren: 0.2,
+      staggerOrder: -1,
       when: 'afterChildren',
     }
   }
@@ -35,6 +36,13 @@ const cardVariants = {
       staggerChildren: .1,
       when: "afterChildren"
     }
+  },
+  exit: {
+    height: 0,
+    transition: {
+      staggerChildren: .1,
+      when: "afterChildren"
+    }
   }
 }
 
@@ -51,36 +59,44 @@ const textVariants = {
 
 const Modal = ({ isModalOpen, setIsModalOpen }) => {
   return (
-    <AnimatePresence exitBeforeEnter>
+    <AnimatePresence>
       {isModalOpen &&
-        <motion.div
+        <ModalContainer
           variants={containerVariants}
           initial='initial'
           animate='open'
           exit='closed'
         >
-          <ModalContainer>
-            <ModalCard
-              variants={cardVariants}
-              initial="closed"
-              animate="open"
+          <ModalCard
+            variants={cardVariants}
+            initial="closed"
+            animate="open"
+            exit="exit"
+            key={0}
+          >
+            <motion.h1
+              variants={textVariants}
+              key={1}
               exit="closed"
-              key={'card'}
             >
-              <motion.h1
-                variants={textVariants}
-              >
-                Headlines!
+              Headlines!
               </motion.h1>
-              <motion.h3
-                variants={textVariants}
-              >
-                Sub Headlines!
+            <motion.h3
+              variants={textVariants}
+              key={2}
+              exit="closed"
+            >
+              Sub Headlines!
               </motion.h3>
-              <Button onClick={() => setIsModalOpen(false)} variants={textVariants}>Action Has Been Called!</Button>
-            </ModalCard>
-          </ModalContainer>
-        </motion.div>
+            <Button
+              onClick={() => setIsModalOpen(false)}
+              variants={textVariants}
+              key={3}
+              exit="closed"
+            >Action Has Been Called!
+              </Button>
+          </ModalCard>
+        </ModalContainer>
       }
     </AnimatePresence>
   )
@@ -88,7 +104,7 @@ const Modal = ({ isModalOpen, setIsModalOpen }) => {
 
 export default Modal;
 
-const ModalContainer = styled.div`
+const ModalContainer = styled(motion.div)`
   z-index: 1000;
   display: flex;
   justify-content: center;

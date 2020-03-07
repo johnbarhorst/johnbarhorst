@@ -26,7 +26,7 @@ const liVariants = {
     opacity: 1
   },
   closed: {
-    height: 30,
+    height: 0,
     opacity: 0
   }
 };
