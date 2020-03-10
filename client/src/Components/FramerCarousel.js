@@ -2,7 +2,24 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 
-
+const variants = {
+  enter: ({ direction }) => {
+    return {
+      x: direction > 0 ? -1000 : 1000,
+      opacity: 0
+    }
+  },
+  active: {
+    x: 0,
+    opacity: 1
+  },
+  exit: ({ direction }) => {
+    return {
+      x: direction < 0 ? 1000 : -1000,
+      opacity: 0
+    }
+  }
+}
 
 
 const FramerCarousel = ({ slidesArray }) => {
@@ -30,14 +47,16 @@ const FramerCarousel = ({ slidesArray }) => {
           background={slidesArray[index]}
           onDragEnd={(event, { offset, velocity }) => {
             if (offset.x > 0) {
-              paginate(1);
-            } else {
               paginate(-1);
+            } else if (offset.x < 0) {
+              paginate(1);
             }
           }}
-          exit={{
-            opacity: 0
-          }}
+          variants={variants}
+          custom={{ direction }}
+          initial='enter'
+          animate='active'
+          exit='exit'
         />
       </AnimatePresence>
     </div>
@@ -50,4 +69,5 @@ const SlideDisplay = styled(motion.div)`
   height: 300px;
   width: 100%;
   background: ${props => props.background};
+  overflow: hidden;
 `;
