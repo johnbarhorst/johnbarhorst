@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion';
 import AnimatedList from './AnimatedList';
-import Menu from './Menu';
 import SwipeToDismiss from './SwipeToDismiss';
+import SquareShuffle from './SquareShuffle';
+import Menu from './Menu';
 import { Card } from '../Elements';
 
 const Portfolio = () => {
@@ -33,6 +34,9 @@ const Portfolio = () => {
               <h3>Swipe me, I go away</h3>
             </Card>
           </SwipeToDismiss>
+          <Card>
+            <SquareShuffle />
+          </Card>
         </Content>
       </Section>
     </AnimatePresence>
