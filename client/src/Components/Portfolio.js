@@ -4,8 +4,18 @@ import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-mo
 import AnimatedList from './AnimatedList';
 import SwipeToDismiss from './SwipeToDismiss';
 import SquareShuffle from './SquareShuffle';
+import FramerCarousel from './FramerCarousel';
 import Menu from './Menu';
 import { Card } from '../Elements';
+
+const colors = [
+  '#FF6F61',
+  '#6B5B95',
+  '#88B04B',
+  '#F7CAC9',
+  '#92A8D1',
+  '#955251'
+]
 
 const Portfolio = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -38,6 +48,11 @@ const Portfolio = () => {
             <SquareShuffle />
           </Card>
         </Content>
+        <Content>
+          <Card>
+            <FramerCarousel slidesArray={colors} />
+          </Card>
+        </Content>
       </Section>
     </AnimatePresence>
   )
@@ -63,6 +78,7 @@ const Button = styled.button`
 const Content = styled.article`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 15px;
+  gap: 20px;
+  margin-bottom: 20px;
 `;
 
