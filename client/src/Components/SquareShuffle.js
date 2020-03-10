@@ -29,11 +29,11 @@ const SquareShuffle = () => {
   }
 
   useEffect(() => {
-    setTimeout(() => {
+    let shuffleFrames = setTimeout(() => {
       setColorList(prev => shuffle(prev.slice()));
     }, 3000)
     return () => {
-      clearTimeout();
+      clearTimeout(shuffleFrames);
     };
   }, [colorList]);
 
