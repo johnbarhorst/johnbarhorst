@@ -17,7 +17,7 @@ const FramerCarousel = ({ slidesArray }) => {
     return ((((num - min) % rangeSize) + rangeSize) % rangeSize) + min;
   }
 
-  const index = wrapNumber(0, slidesArray.length + 1, slide);
+  const index = wrapNumber(0, slidesArray.length, slide);
 
   return (
     <div>
