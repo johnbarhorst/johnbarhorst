@@ -9,7 +9,10 @@ const colors = [
   '#88B04B',
   '#F7CAC9',
   '#92A8D1',
-  '#955251'
+  '#955251',
+  '#009B77',
+  '#EFC050',
+  '#5B5EA6',
 ]
 
 const SquareShuffle = () => {
@@ -61,7 +64,7 @@ const Square = styled(motion.div)`
 
 const Container = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 10px;
   align-items: center;
   justify-items: center;
