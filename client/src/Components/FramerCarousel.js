@@ -10,11 +10,13 @@ const variants = {
     }
   },
   active: {
+    zIndex: 1,
     x: 0,
     opacity: 1
   },
   exit: ({ direction }) => {
     return {
+      zIndex: 0,
       x: direction < 0 ? 1000 : -1000,
       opacity: 0
     }
@@ -37,26 +39,34 @@ const FramerCarousel = ({ slidesArray }) => {
   const index = wrapNumber(0, slidesArray.length, slide);
 
   return (
-    <div>
-      <AnimatePresence>
+    <div style={{ position: 'relative', height: 300, overflow: 'hidden' }}>
+      <AnimatePresence custom={{ direction }} initial={false} >
         <SlideDisplay
           key={slide}
+          background={slidesArray[index]}
           drag='x'
           dragConstraints={{ left: 0, right: 0 }}
           dragElastic={1}
-          background={slidesArray[index]}
           onDragEnd={(event, { offset, velocity }) => {
-            if (offset.x > 0) {
-              paginate(-1);
-            } else if (offset.x < 0) {
+            if (offset.x > 200) {
               paginate(1);
+            } else if (offset.x < -200) {
+              paginate(-1);
             }
           }}
-          variants={variants}
           custom={{ direction }}
+          variants={variants}
           initial='enter'
           animate='active'
           exit='exit'
+          transition={{
+            x: {
+              type: 'spring',
+              stiffness: 300,
+              damping: 200,
+            },
+            opacity: { duration: .2 }
+          }}
         />
       </AnimatePresence>
     </div>
@@ -70,4 +80,7 @@ const SlideDisplay = styled(motion.div)`
   width: 100%;
   background: ${props => props.background};
   overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
 `;
