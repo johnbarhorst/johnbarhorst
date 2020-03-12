@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -24,7 +24,7 @@ const variants = {
 }
 
 
-const FramerCarousel = ({ slidesArray }) => {
+const FramerCarousel = ({ slidesArray, autoSlide = true, timer = 3000 }) => {
   const [[slide, direction], setSlide] = useState([0, 0]);
 
   const paginate = (direction) => {
@@ -37,6 +37,18 @@ const FramerCarousel = ({ slidesArray }) => {
   }
 
   const index = wrapNumber(0, slidesArray.length, slide);
+
+  useEffect(() => {
+    let automation = autoSlide ? setTimeout(() => {
+      paginate(-1);
+    }, 3000) : null;
+
+    return () => {
+      if (autoSlide) {
+        clearTimeout(automation);
+      }
+    };
+  }, [autoSlide, paginate])
 
   return (
     <div style={{ position: 'relative', height: 300, overflow: 'hidden' }}>
