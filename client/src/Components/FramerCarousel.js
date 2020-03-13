@@ -24,7 +24,7 @@ const variants = {
 }
 
 
-const FramerCarousel = ({ slidesArray, autoSlide = true, timer = 3000 }) => {
+const FramerCarousel = ({ slidesArray, autoSlide = true, timer = 5000 }) => {
   const [[slide, direction], setSlide] = useState([0, 0]);
 
   const paginate = (direction) => {
@@ -41,14 +41,14 @@ const FramerCarousel = ({ slidesArray, autoSlide = true, timer = 3000 }) => {
   useEffect(() => {
     let automation = autoSlide ? setTimeout(() => {
       paginate(-1);
-    }, 3000) : null;
+    }, timer) : null;
 
     return () => {
       if (autoSlide) {
         clearTimeout(automation);
       }
     };
-  }, [autoSlide, paginate])
+  }, [autoSlide, paginate, timer]);
 
   return (
     <div style={{ position: 'relative', height: 300, overflow: 'hidden' }}>
