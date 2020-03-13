@@ -1,16 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 const containerVariants = {
   initial: {
     opacity: 0
   },
   open: {
-    opacity: 1
+    opacity: 1,
+    zIndex: 1000
   },
   closed: {
     opacity: 0,
+    scale: 0.5,
+    zIndex: -1,
     overflow: 'hidden',
     transition: {
       duration: .5,
@@ -59,46 +62,40 @@ const textVariants = {
 
 const Modal = ({ isModalOpen, setIsModalOpen }) => {
   return (
-    <AnimatePresence>
+    <ModalContainer
+      variants={containerVariants}
+      initial='initial'
+      animate={isModalOpen ? 'open' : 'closed'}
+      exit='closed'
+    >
       {isModalOpen &&
-        <ModalContainer
-          variants={containerVariants}
-          initial='initial'
-          animate='open'
-          exit='closed'
+        <ModalCard
+          variants={cardVariants}
+          initial="closed"
+          animate={isModalOpen ? 'open' : 'closed'}
+          key={0}
         >
-          <ModalCard
-            variants={cardVariants}
-            initial="closed"
-            animate="open"
-            exit="exit"
-            key={0}
+          <motion.h1
+            variants={textVariants}
+            key={1}
           >
-            <motion.h1
-              variants={textVariants}
-              key={1}
-              exit="closed"
-            >
-              Headlines!
+            Headlines!
               </motion.h1>
-            <motion.h3
-              variants={textVariants}
-              key={2}
-              exit="closed"
-            >
-              Sub Headlines!
+          <motion.h3
+            variants={textVariants}
+            key={2}
+          >
+            Sub Headlines!
               </motion.h3>
-            <Button
-              onClick={() => setIsModalOpen(false)}
-              variants={textVariants}
-              key={3}
-              exit="closed"
-            >Action Has Been Called!
+          <Button
+            onClick={() => setIsModalOpen(false)}
+            variants={textVariants}
+            key={3}
+          >Action Has Been Called!
               </Button>
-          </ModalCard>
-        </ModalContainer>
+        </ModalCard>
       }
-    </AnimatePresence>
+    </ModalContainer>
   )
 }
 
@@ -134,7 +131,7 @@ const Button = styled(motion.button)`
   border: 1px solid #aaa;
   border-radius: 10px;
   font-weight: bold;
-  background: linear-gradient(#C9D6FF, #E2E2E2);
+  background: linear-gradient(#64B5F6, #42A5F5);
   box-shadow: 1px 1px 5px rgba(0,0,0,0.4);
-
+  
   `;

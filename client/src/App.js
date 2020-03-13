@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion'
 import Navigation from './Components/Navigation';
 import Main from './Components/Main';
 import About from './Components/About';
@@ -13,18 +14,22 @@ function App() {
     <Router>
       <div className="App">
         <Navigation setIsModalOpen={setIsModalOpen} />
-        <Modal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
-        <Switch>
-          <Route path='/portfolio'>
-            <Portfolio />
-          </Route>
-          <Route path='/about' >
-            <About />
-          </Route>
-          <Route exact path='/' >
-            <Main />
-          </Route>
-        </Switch>
+        <AnimatePresence>
+          <Modal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+        </AnimatePresence>
+        <AnimatePresence>
+          <Switch>
+            <Route path='/portfolio'>
+              <Portfolio />
+            </Route>
+            <Route path='/about' >
+              <About />
+            </Route>
+            <Route exact path='/' >
+              <Main />
+            </Route>
+          </Switch>
+        </AnimatePresence>
       </div>
     </Router>
   );
