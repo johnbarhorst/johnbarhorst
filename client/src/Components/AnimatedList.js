@@ -56,6 +56,7 @@ const Ul = styled(motion.ul)`
 `;
 
 const Li = styled(motion.li)`
+  font-size: 2em;
   padding: 0 5px;
   margin: 0;
 `;
