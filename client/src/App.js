@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion'
 import Navigation from './Components/Navigation';
 import Main from './Components/Main';
@@ -10,29 +10,32 @@ import './App.css';
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const location = useLocation();
+  console.log(location);
   return (
-    <Router>
-      <div className="App">
-        <Navigation setIsModalOpen={setIsModalOpen} />
-        <AnimatePresence>
-          <Modal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
-        </AnimatePresence>
-        <AnimatePresence>
-          <Switch>
-            <Route path='/portfolio'>
-              <Portfolio />
-            </Route>
-            <Route path='/about' >
-              <About />
-            </Route>
-            <Route exact path='/' >
-              <Main />
-            </Route>
-          </Switch>
-        </AnimatePresence>
-      </div>
-    </Router>
+    <div className="App">
+      <Navigation setIsModalOpen={setIsModalOpen} />
+      <AnimatePresence>
+        <Modal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} key={'modal'} />
+      </AnimatePresence>
+      <AnimatePresence exitBeforeEnter>
+        <Switch key={location.pathname} >
+          <Route exact path='/' component={Main} />
+          <Route exact path='/portfolio' component={Portfolio} />
+          <Route exact path='/about' component={About} />
+        </Switch>
+      </AnimatePresence>
+    </div>
   );
 }
 
-export default App;
+const AppWrapper = () => {
+  return (
+    <Router>
+      <App />
+    </Router>
+  )
+}
+
+
+export default AppWrapper;
