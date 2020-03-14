@@ -11,7 +11,6 @@ import './App.css';
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const location = useLocation();
-  console.log(location);
   return (
     <div className="App">
       <Navigation setIsModalOpen={setIsModalOpen} />
@@ -20,9 +19,9 @@ function App() {
       </AnimatePresence>
       <AnimatePresence exitBeforeEnter>
         <Switch key={location.pathname} >
-          <Route exact path='/' component={Main} />
           <Route exact path='/portfolio' component={Portfolio} />
           <Route exact path='/about' component={About} />
+          <Route exact path='/' component={Main} />
         </Switch>
       </AnimatePresence>
     </div>
