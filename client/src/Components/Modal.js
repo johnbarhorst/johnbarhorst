@@ -12,9 +12,7 @@ const containerVariants = {
   },
   closed: {
     opacity: 0,
-    scale: 0.5,
     zIndex: -1,
-    overflow: 'hidden',
     transition: {
       duration: .5,
       staggerChildren: 0.2,
@@ -117,7 +115,6 @@ const ModalContainer = styled(motion.div)`
 
 const ModalCard = styled(motion.div)`
   text-align: center;
-  position: relative;
   height: 80%;
   width: 60%;
   background: #fff;
