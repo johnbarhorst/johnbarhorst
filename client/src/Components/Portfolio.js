@@ -5,6 +5,7 @@ import AnimatedList from './AnimatedList';
 import SwipeToDismiss from './SwipeToDismiss';
 import SquareShuffle from './SquareShuffle';
 import FramerCarousel from './FramerCarousel';
+import DestinySearchDemo from './DestinySearchDemo';
 import { Card } from '../Elements';
 
 const colors = [
@@ -40,6 +41,11 @@ const Portfolio = () => {
       <Content>
         <Card>
           <FramerCarousel slidesArray={colors} />
+        </Card>
+      </Content>
+      <Content>
+        <Card>
+          <DestinySearchDemo />
         </Card>
       </Content>
     </Section>
