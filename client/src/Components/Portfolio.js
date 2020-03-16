@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { motion, useMotionValue, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 import AnimatedList from './AnimatedList';
 import SwipeToDismiss from './SwipeToDismiss';
 import SquareShuffle from './SquareShuffle';
 import FramerCarousel from './FramerCarousel';
-import Menu from './Menu';
 import { Card } from '../Elements';
 
 const colors = [
