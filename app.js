@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const port = 3001;
+const api = require('./routes/api.js');
 
 const serverListenTime = function () {
   const now = new Date();
@@ -11,6 +12,8 @@ const serverListenTime = function () {
   const time = `${addZero(now.getHours())}:${addZero(now.getMinutes())}:${addZero(now.getSeconds())}`;
   return time;
 }
+
+app.use('/api', api);
 
 app.use(express.static(path.join(__dirname, '/client/build')));
 
