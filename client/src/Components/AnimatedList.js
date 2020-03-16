@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import Menu from './Menu';
 import { motion } from 'framer-motion';
 
 const ulVariants = {
@@ -31,18 +32,22 @@ const liVariants = {
   }
 };
 
-const AnimatedList = ({ isMenuOpen }) => {
+const AnimatedList = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
-    <Ul
-      variants={ulVariants}
-      initial={'closed'}
-      animate={isMenuOpen ? 'open' : 'closed'}
-    >
-      <Li variants={liVariants}>Home</Li>
-      <Li variants={liVariants}>Shop</Li>
-      <Li variants={liVariants}>About</Li>
-      <Li variants={liVariants}>Contact</Li>
-    </Ul>
+    <div>
+      <Menu setIsMenuOpen={setIsMenuOpen} isMenuOpen={isMenuOpen} />
+      <Ul
+        variants={ulVariants}
+        initial={'closed'}
+        animate={isMenuOpen ? 'open' : 'closed'}
+      >
+        <Li variants={liVariants}>Home</Li>
+        <Li variants={liVariants}>Shop</Li>
+        <Li variants={liVariants}>About</Li>
+        <Li variants={liVariants}>Contact</Li>
+      </Ul>
+    </div>
   )
 }
 

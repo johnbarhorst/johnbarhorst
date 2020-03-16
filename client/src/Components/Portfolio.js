@@ -18,7 +18,6 @@ const colors = [
 ]
 
 const Portfolio = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
     <Section
       initial={{ opacity: 0 }}
@@ -28,8 +27,7 @@ const Portfolio = () => {
       <motion.h1>HEADLINES!</motion.h1>
       <Content>
         <Card>
-          <Menu setIsMenuOpen={setIsMenuOpen} isMenuOpen={isMenuOpen} />
-          <AnimatedList isMenuOpen={isMenuOpen} />
+          <AnimatedList />
         </Card>
         <Card>
           <SquareShuffle />
