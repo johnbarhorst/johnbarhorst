@@ -43,6 +43,7 @@ router.use('/search/:displayName', async (req, res, next) => {
   const responseStatus = checkStatus(searchQuery);
   if (responseStatus) {
     const accountList = {
+      status: 200,
       accounts: searchQuery.Response
     };
     res.send(JSON.stringify(accountList));
