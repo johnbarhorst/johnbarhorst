@@ -9,16 +9,19 @@ const About = () => {
     console.log(json);
   }
   return (
-    <motion.div
+    <Container
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
       <h1>About</h1>
       <button onClick={() => handleClick()} >Test</button>
-    </motion.div>
+    </Container>
   )
 }
 
 export default About;
 
+const Container = styled(motion.div)`
+
+`;
