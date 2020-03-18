@@ -41,6 +41,7 @@ const Container = styled(motion.div)`
 const SystemLogo = styled(motion.img)`
   height: 2em;
   margin-right: 15px;
-  background-color: ${props => props.membershipType === 3 ? '#333' : null};
+  /* Check to see if it is the Steam logo, the Steam Logo is transparent */
+  background-color: ${props => props.membershipType === 3 ? '#333' : 'none'};
   border-radius: 50%;
 `;

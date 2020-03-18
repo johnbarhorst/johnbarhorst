@@ -1,7 +1,16 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import DestinyAccountCard from './DestinyAccountCard';
+
+const variants = {
+  animate: {
+    transition: {
+      staggerChildren: .2
+    }
+  }
+}
 
 const DestinySearchDemo = () => {
   const [accounts, setAccounts] = useState([]);
@@ -21,13 +30,17 @@ const DestinySearchDemo = () => {
     <motion.div
       exit={{ opacity: 0 }}
     >
-      <form onSubmit={handleSubmit}>
-        <Input type="text" name="search" id="search" value={searchValue} onChange={e => setSearchValue(e.target.value)} />
-        <button>Submit</button>
-      </form>
-      <Container>
+      <Form onSubmit={handleSubmit}>
+        <input type="text" name="search" id="search" value={searchValue} onChange={e => setSearchValue(e.target.value)} />
+        <button type='submit'>Submit</button>
+      </Form>
+      <Container
+        variants={variants}
+      >
         {accounts.map(account => (
-          <DestinyAccountCard account={account} key={account.membershipId} />
+          <Link to={`/destiny/${account.membershipId}`}>
+            <DestinyAccountCard account={account} key={account.membershipId} />
+          </Link>
         ))}
       </Container>
     </motion.div>
@@ -36,8 +49,20 @@ const DestinySearchDemo = () => {
 
 export default DestinySearchDemo;
 
-const Input = styled.input`
+const Form = styled.form`
+  font-size: 30px;
+  text-align: center;
 
+  input {
+  height: 30px;
+  font-size: 30px;
+  border-radius: 5px;
+  box-shadow: none;
+  border: 1px solid #999;
+  }
+  input:-internal-autofill-selected {
+    background-color: #fff;
+  }
 `;
 
 const Container = styled(motion.div)`
@@ -45,5 +70,9 @@ const Container = styled(motion.div)`
   max-width: 90%;
   gap: 15px;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  justify-content: center;
+  margin: 0 auto;
+  a {
+    text-decoration: none;
+    color: #000;
+  }
 `;
