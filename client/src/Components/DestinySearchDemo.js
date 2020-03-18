@@ -19,6 +19,9 @@ const DestinySearchDemo = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!searchValue) {
+      return
+    }
     const searchResults = await fetch(`/api/search/${searchValue}`);
     const response = await searchResults.json();
     if (response.status === 200) {
@@ -32,14 +35,22 @@ const DestinySearchDemo = () => {
     >
       <Form onSubmit={handleSubmit}>
         <input type="text" name="search" id="search" value={searchValue} onChange={e => setSearchValue(e.target.value)} />
-        <button type='submit'>Submit</button>
+        <AnimatedButton
+          type='submit'
+          whileHover={{
+            scale: 1.05
+          }}
+          whileTap={{
+            scale: .95
+          }}
+        >Submit</AnimatedButton>
       </Form>
       <Container
         variants={variants}
       >
         {accounts.map(account => (
-          <Link to={`/destiny/${account.membershipId}`}>
-            <DestinyAccountCard account={account} key={account.membershipId} />
+          <Link to={`/destiny/${account.membershipId}`} key={account.membershipId}>
+            <DestinyAccountCard account={account} />
           </Link>
         ))}
       </Container>
@@ -50,18 +61,18 @@ const DestinySearchDemo = () => {
 export default DestinySearchDemo;
 
 const Form = styled.form`
+
   font-size: 30px;
   text-align: center;
+  margin-bottom: 30px;
 
   input {
-  height: 30px;
-  font-size: 30px;
+  padding: 5px 10px;
+  font-size: 20px;
   border-radius: 5px;
-  box-shadow: none;
   border: 1px solid #999;
-  }
-  input:-internal-autofill-selected {
-    background-color: #fff;
+  vertical-align: middle;
+  margin: 0 20px;
   }
 `;
 
@@ -75,4 +86,11 @@ const Container = styled(motion.div)`
     text-decoration: none;
     color: #000;
   }
+`;
+
+const AnimatedButton = styled(motion.button)`
+    font-size: 20px;
+    border-radius: 5px;
+    border: 1px solid #999;
+    padding: 5px 20px;
 `;
