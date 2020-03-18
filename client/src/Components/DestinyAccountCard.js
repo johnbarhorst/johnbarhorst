@@ -6,7 +6,7 @@ import { Card } from '../Elements';
 const membershipTypeEnum = ['None', 'Xbox', 'PSN', 'Steam', 'Blizzard', 'Stadia'];
 
 const DestinyAccountCard = ({ account }) => {
-  const { displayName, iconPath, membershipType, membershipId } = account;
+  const { displayName, iconPath, membershipType } = account;
   return (
     <Card
       initial={{
@@ -23,7 +23,6 @@ const DestinyAccountCard = ({ account }) => {
         <SystemLogo
           src={`https://www.bungie.net${iconPath}`}
           alt={`${membershipTypeEnum[membershipType]} logo`}
-          membershipType={membershipType}
         />
         <h3>{displayName}</h3>
       </Container>
@@ -41,7 +40,6 @@ const Container = styled(motion.div)`
 const SystemLogo = styled(motion.img)`
   height: 2em;
   margin-right: 15px;
-  /* Check to see if it is the Steam logo, the Steam Logo is transparent */
-  background-color: ${props => props.membershipType === 3 ? '#333' : 'none'};
+  background-color: #333;
   border-radius: 50%;
 `;
