@@ -52,4 +52,20 @@ router.use('/search/:displayName', async (req, res, next) => {
   }
 });
 
+router.use('/characters/:membershipType/:membershipId', async (req, res, next) => {
+  const accountData = await fetch(
+    `https://www.bungie.net/Platform/Destiny2/${req.params.membershipType}/Profile/${req.params.membershipId}/?components=100,200,205,300,304,305`,
+    { headers }).then(res => res.json());
+  const responseStatus = checkStatus(accountData);
+  if (responseStatus) {
+    const profileInfo = {
+      status: 200,
+      profileData: accountData.Response
+    };
+    res.send(JSON.stringify(profileInfo));
+  } else {
+    res.send(JSON.stringify(accountData.Message));
+  }
+});
+
 module.exports = router;
