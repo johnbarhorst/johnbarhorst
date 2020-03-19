@@ -35,6 +35,12 @@ function checkStatus(res) {
   }
 }
 
+router.use('/manifest', async (req, res, next) => {
+  const paths = await fetch('https://www.bungie.net/Platform/Destiny2/Manifest', { headers }).then(res => res.json());
+  const dbPath = `https://www.bungie.net${paths.Response.mobileWorldContentPaths.en}`;
+  res.redirect(dbPath);
+});
+
 
 router.use('/search/:displayName', async (req, res, next) => {
   const searchQuery = await fetch(
