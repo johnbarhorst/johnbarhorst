@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const fetch = require('node-fetch');
+const db = require('better-sqlite3')('./database.sqlite3', { readonly: true });
 require('dotenv').config();
 const APIKEY = process.env.APIKEY;
 
