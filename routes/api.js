@@ -22,6 +22,18 @@ const convertHash = hash => {
   return x;
 }
 
+const getFromDB = async (hash, table) => {
+  return await new Promise(resolve => {
+    db.get(`SELECT json FROM ${table} WHERE id = ${convertHash(hash)}`, (err, row) => {
+      if (err) {
+        console.log(err);
+        return console.error(err.message);
+      }
+      resolve(JSON.parse(row.json));
+    })
+  })
+}
+
 const headers = {
   "X-API-KEY": APIKEY,
 }
@@ -33,6 +45,10 @@ function checkStatus(res) {
   } else {
     return false;
   }
+}
+
+function getDetails(bungieData) {
+
 }
 
 router.use('/manifest', async (req, res, next) => {
@@ -64,6 +80,7 @@ router.use('/characters/:membershipType/:membershipId', async (req, res, next) =
     { headers }).then(res => res.json());
   const responseStatus = checkStatus(accountData);
   if (responseStatus) {
+
     const profileInfo = {
       status: 200,
       profileData: accountData.Response
