@@ -7,7 +7,7 @@ const colors = [
   'livingCoral',
   'ultraViolet',
   'greenery',
-  'roseQuartz',
+  'chiliPepper',
   'serenity',
   'marsala',
   'radiandOrchid',
