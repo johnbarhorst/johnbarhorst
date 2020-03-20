@@ -56,8 +56,8 @@ const SquareShuffle = () => {
 export default SquareShuffle;
 
 const Square = styled(motion.div)`
-  height: 100px;
-  width: 100px;
+  padding-top: 100%;
+  width: 100%;
   background-color: ${props => props.theme.colors[props.color]};
   box-shadow: 1px 1px 5px rgba(0,0,0,0.4);
 `;
@@ -65,7 +65,8 @@ const Square = styled(motion.div)`
 const Container = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 10px;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 15px;
   align-items: center;
   justify-items: center;
 `;
