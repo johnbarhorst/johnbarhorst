@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Switch, Route, useLocation } from 'react-router-dom';
-import { AnimatePresence } from 'framer-motion'
+import { AnimatePresence } from 'framer-motion';
+import styled, { ThemeProvider, injectGlobal } from 'styled-components';
 import Navigation from './Components/Navigation';
 import Main from './Components/Main';
 import About from './Components/About';
 import Modal from './Components/Modal';
 import Portfolio from './Components/Portfolio';
 import DestinySearchDemo from './Components/DestinySearchDemo';
+import { theme } from './theme';
 import './App.css';
 
 function App() {
@@ -34,7 +36,9 @@ function App() {
 const AppWrapper = () => {
   return (
     <Router>
-      <App />
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
     </Router>
   )
 }

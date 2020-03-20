@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import DestinyAccountCard from './DestinyAccountCard';
+import { AnimatedButton } from '../Elements';
 
 const variants = {
   animate: {
@@ -88,9 +89,3 @@ const Container = styled(motion.div)`
   }
 `;
 
-const AnimatedButton = styled(motion.button)`
-    font-size: 20px;
-    border-radius: 5px;
-    border: 1px solid #999;
-    padding: 5px 20px;
-`;

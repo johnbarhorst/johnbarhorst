@@ -4,15 +4,15 @@ import { motion } from 'framer-motion';
 
 
 const colors = [
-  '#FF6F61',
-  '#6B5B95',
-  '#88B04B',
-  '#F7CAC9',
-  '#92A8D1',
-  '#955251',
-  '#009B77',
-  '#EFC050',
-  '#5B5EA6',
+  'livingCoral',
+  'ultraViolet',
+  'greenery',
+  'roseQuartz',
+  'serenity',
+  'marsala',
+  'radiandOrchid',
+  'emerald',
+  'tangerineTango',
 ]
 
 const SquareShuffle = () => {
@@ -44,7 +44,7 @@ const SquareShuffle = () => {
     <Container onClick={() => setColorList(prev => shuffle(prev.slice()))} >
       {colorList.map(color =>
         <Square
-          bg={color}
+          color={color}
           key={color}
           positionTransition
         />
@@ -58,7 +58,7 @@ export default SquareShuffle;
 const Square = styled(motion.div)`
   height: 100px;
   width: 100px;
-  background-color: ${({ bg }) => bg ? bg : '#333'};
+  background-color: ${props => props.theme.colors[props.color]};
   box-shadow: 1px 1px 5px rgba(0,0,0,0.4);
 `;
 
