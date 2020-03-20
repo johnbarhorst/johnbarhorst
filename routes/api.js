@@ -48,9 +48,30 @@ function checkStatus(res) {
   }
 }
 
-function getDetails(bungieData) {
+const getItemDetails = async (item) => { };
 
-}
+const processCharacters = async (characterData) => {
+  const classTypeRef = ["Titan", "Hunter", "Warlock"];
+  const genderTypeRef = ["Male", "Female"];
+  const raceTypeRef = ["Human", "Awoken", "Exo"];
+  const characterArray = Array.from(Object.values(characterData));
+  console.log(characterArray);
+  const charactersWithDetails = characterArray.map(character => {
+    return {
+      membershipId: character.membershipId,
+      membershipType: character.membershipType,
+      characterId: character.characterId,
+      dateLastPlayed: character.dateLastPlayed,
+      minutesPlayedThisSession: character.minutesPlayedThisSession,
+      minutesPlayedTotal: character.minutesPlayedTotal,
+      light: character.light,
+      race: raceTypeRef[character.raceType],
+      gender: genderTypeRef[character.genderType],
+      class: classTypeRef[character.classType],
+    }
+  })
+  return charactersWithDetails;
+};
 
 router.use('/manifest', async (req, res, next) => {
   const paths = await fetch('https://www.bungie.net/Platform/Destiny2/Manifest', { headers }).then(res => res.json());
@@ -77,14 +98,18 @@ router.use('/search/:displayName', async (req, res, next) => {
 
 router.use('/characters/:membershipType/:membershipId', async (req, res, next) => {
   const accountData = await fetch(
-    `https://www.bungie.net/Platform/Destiny2/${req.params.membershipType}/Profile/${req.params.membershipId}/?components=100,200,205,300,304,305`,
+    `https://www.bungie.net/Platform/Destiny2/${req.params.membershipType}/Profile/${req.params.membershipId}/?components=100,104,200,205,300,304,305,1100`,
     { headers }).then(res => res.json());
   const responseStatus = checkStatus(accountData);
   if (responseStatus) {
-
+    const characterData = accountData.Response.characters.data;
+    const characters = await processCharacters(characterData);
     const profileInfo = {
       status: 200,
-      profileData: accountData.Response
+      profileData: accountData.Response,
+      test: 'test',
+      characters: characters
+
     };
     res.send(JSON.stringify(profileInfo));
   } else {
