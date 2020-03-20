@@ -66,7 +66,13 @@ const Container = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
-  gap: 15px;
+  gap: 5px;
   align-items: center;
   justify-items: center;
+  @media (min-width: 600px) {
+    gap: 10px;
+  }
+  @media (min-width: 900px) {
+    gap: 15px;
+  }
 `;
