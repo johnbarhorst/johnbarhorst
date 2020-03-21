@@ -48,24 +48,60 @@ function checkStatus(res) {
   }
 }
 
-const getItemDetails = async (item) => { };
-
-const getStatsDetails = async stats => {
-  const hashArray = Array.from(Object.keys(stats));
+const getItemStats = async (itemStats) => {
+  const hashArray = Array.from(Object.keys(itemStats));
   const statsDefinitions = await Promise.all(hashArray.map(async hash => {
     const details = await getFromDB(hash, 'DestinyStatDefinition');
-    return details;
+    return {
+      ...details.displayProperties,
+      value: itemStats[hash].value,
+      displayMaximum: itemStats[hash].displayMaximum,
+
+    };
   }));
   return statsDefinitions;
 };
 
-const processCharacters = async (characterData) => {
+
+
+const getGuardianStatDetails = async stats => {
+  const hashArray = Array.from(Object.keys(stats));
+  const statsDefinitions = await Promise.all(hashArray.map(async hash => {
+    const details = await getFromDB(hash, 'DestinyStatDefinition');
+    return {
+      ...details.displayProperties,
+      value: stats[hash]
+    };
+  }));
+  return statsDefinitions;
+};
+
+const processCharacters = async (data) => {
   const classTypeRef = ["Titan", "Hunter", "Warlock"];
   const genderTypeRef = ["Male", "Female"];
   const raceTypeRef = ["Human", "Awoken", "Exo"];
-  const characterArray = Array.from(Object.values(characterData));
+
+  const getGuardianEquipmentDetails = async equipment => {
+    const itemsWithDetails = await Promise.all(equipment.map(async item => {
+      const details = await getFromDB(item.itemHash, 'DestinyInventoryItemDefinition');
+      const instanceDetails = data.itemComponents.instances.data[item.itemInstanceId];
+      return {
+        ...details.displayProperties,
+        screenshot: `https://www.bungie.net${details.screenshot}`,
+        itemTypeDisplayName: details.itemTypeDisplayName,
+        displaySource: details.displaySource,
+        stats: await getItemStats(details.stats.stats),
+        original: { ...item },
+        dbData: { ...details },
+        instanceData: { ...instanceDetails }
+      };
+    }))
+    return itemsWithDetails;
+  }
+
+
+  const characterArray = Array.from(Object.values(data.characters.data));
   const charactersWithDetails = await Promise.all(characterArray.map(async character => {
-    const statsWithDetails = await getStatsDetails(character.stats);
     return {
       membershipId: character.membershipId,
       membershipType: character.membershipType,
@@ -79,7 +115,8 @@ const processCharacters = async (characterData) => {
       class: classTypeRef[character.classType],
       emblemPath: `https://www.bungie.net${character.emblemPath}`,
       titleRecordHash: character.titleRecordHash,
-      statsWithDetails: statsWithDetails
+      stats: await getGuardianStatDetails(character.stats),
+      equipment: await getGuardianEquipmentDetails(data.characterEquipment.data[character.characterId].items),
     }
   }))
   return charactersWithDetails;
@@ -114,8 +151,7 @@ router.use('/characters/:membershipType/:membershipId', async (req, res, next) =
     { headers }).then(res => res.json());
   const responseStatus = checkStatus(accountData);
   if (responseStatus) {
-    const characterData = accountData.Response.characters.data;
-    const characters = await processCharacters(characterData);
+    const characters = await processCharacters(accountData.Response);
     const profileInfo = {
       status: 200,
       profileData: accountData.Response,
