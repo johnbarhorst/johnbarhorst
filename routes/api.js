@@ -25,13 +25,13 @@ const convertHash = hash => {
 
 const getFromDB = async (hash, table) => {
   return await new Promise(resolve => {
-    db.get(`SELECT json FROM ${table} WHERE id = ${convertHash(hash)}`, (err, row) => {
-      if (err) {
-        console.log(err);
-        return console.error(err.message);
-      }
-      resolve(JSON.parse(row.json));
-    })
+    const stmt = db.prepare(`SELECT json FROM ${table} WHERE id = ?`);
+    const result = stmt.get(convertHash(hash));
+    if (result) {
+      resolve(JSON.parse(result.json));
+    } else {
+      resolve({ error: `${hash} not found in ${table}` });
+    }
   })
 }
 
@@ -50,13 +50,22 @@ function checkStatus(res) {
 
 const getItemDetails = async (item) => { };
 
+const getStatsDetails = async stats => {
+  const hashArray = Array.from(Object.keys(stats));
+  const statsDefinitions = await Promise.all(hashArray.map(async hash => {
+    const details = await getFromDB(hash, 'DestinyStatDefinition');
+    return details;
+  }));
+  return statsDefinitions;
+};
+
 const processCharacters = async (characterData) => {
   const classTypeRef = ["Titan", "Hunter", "Warlock"];
   const genderTypeRef = ["Male", "Female"];
   const raceTypeRef = ["Human", "Awoken", "Exo"];
   const characterArray = Array.from(Object.values(characterData));
-  console.log(characterArray);
-  const charactersWithDetails = characterArray.map(character => {
+  const charactersWithDetails = await Promise.all(characterArray.map(async character => {
+    const statsWithDetails = await getStatsDetails(character.stats);
     return {
       membershipId: character.membershipId,
       membershipType: character.membershipType,
@@ -68,8 +77,11 @@ const processCharacters = async (characterData) => {
       race: raceTypeRef[character.raceType],
       gender: genderTypeRef[character.genderType],
       class: classTypeRef[character.classType],
+      emblemPath: `https://www.bungie.net${character.emblemPath}`,
+      titleRecordHash: character.titleRecordHash,
+      statsWithDetails: statsWithDetails
     }
-  })
+  }))
   return charactersWithDetails;
 };
 
