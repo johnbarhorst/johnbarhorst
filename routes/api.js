@@ -4,12 +4,14 @@ const db = require('better-sqlite3')('./database.sqlite3', { readonly: true });
 require('dotenv').config();
 const APIKEY = process.env.APIKEY;
 
+const headers = {
+  "X-API-KEY": APIKEY,
+}
 // Hash converter for sqlite look ups
 const convertHash = hash => {
   let x = parseInt(hash);
   if (x > 0xFFFFFFFF) {
     console.error('Too big, must have a wrong number');
-
   }
   if (x > 0x7FFFFFFF) {
     x = 0x100000000 - x;
@@ -35,10 +37,6 @@ const getFromDB = async (hash, table) => {
   })
 }
 
-const headers = {
-  "X-API-KEY": APIKEY,
-}
-
 function checkStatus(res) {
   // Bungie has a ton of ErrorCode possibilities, 1 = success!
   if (res.ErrorCode === 1) {
@@ -48,31 +46,30 @@ function checkStatus(res) {
   }
 }
 
-const getItemStats = async (itemStats) => {
-  const hashArray = Array.from(Object.keys(itemStats));
-  const statsDefinitions = await Promise.all(hashArray.map(async hash => {
-    const details = await getFromDB(hash, 'DestinyStatDefinition');
-    return {
-      ...details.displayProperties,
-      value: itemStats[hash].value,
-      displayMaximum: itemStats[hash].displayMaximum,
-
-    };
+const getDetailsAll = async (object, table, callback) => {
+  const hashArray = Array.from(Object.keys(object));
+  const objectWithDetails = await Promise.all(hashArray.map(async hash => {
+    const details = await getFromDB(hash, table);
+    if (callback) {
+      return callback(object[hash], details);
+    } else {
+      return {
+        ...object[hash],
+        details
+      };
+    }
   }));
-  return statsDefinitions;
-};
-
-
+  return objectWithDetails;
+}
 
 const getGuardianStatDetails = async stats => {
-  const hashArray = Array.from(Object.keys(stats));
-  const statsDefinitions = await Promise.all(hashArray.map(async hash => {
-    const details = await getFromDB(hash, 'DestinyStatDefinition');
+  const withDetails = await getDetailsAll(stats, 'DestinyStatDefinition');
+  const statsDefinitions = withDetails.map(item => {
     return {
-      ...details.displayProperties,
-      value: stats[hash]
+      ...item.details.displayProperties,
+      value: stats[item.details.hash]
     };
-  }));
+  });
   return statsDefinitions;
 };
 
@@ -82,6 +79,8 @@ const processCharacters = async (data) => {
   const raceTypeRef = ["Human", "Awoken", "Exo"];
 
   const getGuardianEquipmentDetails = async equipment => {
+    const energyTypeEnum = ['none', 'arc', 'solar', 'void'];
+    const damageTypeEnum = ['none', 'kinetic', 'arc', 'solar', 'void', 'raid'];
     const itemsWithDetails = await Promise.all(equipment.map(async item => {
       const details = await getFromDB(item.itemHash, 'DestinyInventoryItemDefinition');
       const instanceDetails = data.itemComponents.instances.data[item.itemInstanceId];
@@ -90,7 +89,14 @@ const processCharacters = async (data) => {
         screenshot: `https://www.bungie.net${details.screenshot}`,
         itemTypeDisplayName: details.itemTypeDisplayName,
         displaySource: details.displaySource,
-        stats: await getItemStats(details.stats.stats),
+        stats: await getDetailsAll(details.stats.stats, 'DestinyStatDefinition', (item, details) => {
+          return {
+            ...details.displayProperties,
+            value: item.value,
+            displayMaximum: item.displayMaximum,
+          };
+        }),
+        damageType: damageTypeEnum[instanceDetails.damageType],
         original: { ...item },
         dbData: { ...details },
         instanceData: { ...instanceDetails }
