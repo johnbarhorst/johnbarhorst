@@ -86,7 +86,7 @@ const processCharacters = async (data) => {
       const instanceDetails = data.itemComponents.instances.data[item.itemInstanceId];
       return {
         ...details.displayProperties,
-        screenshot: `https://www.bungie.net${details.screenshot}`,
+        screenshot: details.screenshot,
         itemTypeDisplayName: details.itemTypeDisplayName,
         displaySource: details.displaySource,
         stats: await getDetailsAll(details.stats.stats, 'DestinyStatDefinition', (item, details) => {
@@ -123,7 +123,7 @@ const processCharacters = async (data) => {
       race: raceTypeRef[character.raceType],
       gender: genderTypeRef[character.genderType],
       class: classTypeRef[character.classType],
-      emblemPath: `https://www.bungie.net${character.emblemPath}`,
+      emblemPath: character.emblemPath,
       title: await getTitle(character),
       stats: await getGuardianStatDetails(character.stats),
       equipment: await getGuardianEquipmentDetails(data.characterEquipment.data[character.characterId].items),
