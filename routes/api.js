@@ -124,7 +124,7 @@ const processCharacters = async (data) => {
       gender: genderTypeRef[character.genderType],
       class: classTypeRef[character.classType],
       emblemPath: `https://www.bungie.net${character.emblemPath}`,
-      titleRecordHash: await getTitle(character),
+      title: await getTitle(character),
       stats: await getGuardianStatDetails(character.stats),
       equipment: await getGuardianEquipmentDetails(data.characterEquipment.data[character.characterId].items),
     }
