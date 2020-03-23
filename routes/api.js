@@ -105,6 +105,10 @@ const processCharacters = async (data) => {
     return itemsWithDetails;
   }
 
+  const getTitle = async character => {
+    return character.titleRecordHash ? await getFromDB(character.titleRecordHash, 'DestinyRecordDefinition') : null
+  }
+
 
   const characterArray = Array.from(Object.values(data.characters.data));
   const charactersWithDetails = await Promise.all(characterArray.map(async character => {
@@ -120,7 +124,7 @@ const processCharacters = async (data) => {
       gender: genderTypeRef[character.genderType],
       class: classTypeRef[character.classType],
       emblemPath: `https://www.bungie.net${character.emblemPath}`,
-      titleRecordHash: character.titleRecordHash,
+      titleRecordHash: await getTitle(character),
       stats: await getGuardianStatDetails(character.stats),
       equipment: await getGuardianEquipmentDetails(data.characterEquipment.data[character.characterId].items),
     }
