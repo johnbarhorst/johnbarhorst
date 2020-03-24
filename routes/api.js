@@ -68,13 +68,26 @@ const processCharacters = async (data) => {
   const raceTypeRef = ["Human", "Awoken", "Exo"];
 
   const getGuardianEquipmentDetails = async equipment => {
-    const energyTypeEnum = ['none', 'arc', 'solar', 'void'];
-    const damageTypeEnum = ['none', 'kinetic', 'arc', 'solar', 'void', 'raid'];
+    const energyTypeEnum = [null, 'arc', 'solar', 'void'];
+    const damageTypeEnum = [null, 'kinetic', 'arc', 'solar', 'void', 'raid'];
 
     const instances = data.itemComponents.instances.data;
     const sockets = data.itemComponents.sockets.data;
     const stats = data.itemComponents.stats.data;
 
+    const getEnergyDetails = async item => {
+      const details = await getFromDB(item.energyTypeHash, 'DestinyEnergyTypeDefinition');
+      const capacityDetails = await getFromDB(details.capacityStatHash, 'DestinyStatDefinition');
+      const costDetails = await getFromDB(details.costStatHash, 'DestinyStatDefinition');
+      return {
+        details,
+        capacityDetails,
+        costDetails,
+        capacity: item.energyCapacity,
+        used: item.energyUsed,
+        unused: item.energyUnused
+      }
+    }
 
     const itemsWithDetails = await Promise.all(equipment.map(async item => {
       const details = await getFromDB(item.itemHash, 'DestinyInventoryItemDefinition');
@@ -101,11 +114,11 @@ const processCharacters = async (data) => {
           };
         }),
         damageType: damageTypeEnum[instanceDetails.damageType],
+        energy: instanceDetails.energy ? await getEnergyDetails(instanceDetails.energy) : {},
         itemCategories: await Promise.all(details.itemCategoryHashes.map(async hash => await getFromDB(hash, 'DestinyItemCategoryDefinition'))),
         original: { ...item },
         dbData: { ...details },
         instanceData: { ...instanceDetails },
-        statData: { ...instancedStats },
         socketData: { ...instancedSockets },
       };
     }))
