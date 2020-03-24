@@ -62,17 +62,6 @@ const getDetailsAll = async (object, table, callback) => {
   return objectWithDetails;
 }
 
-const getGuardianStatDetails = async stats => {
-  const withDetails = await getDetailsAll(stats, 'DestinyStatDefinition');
-  const statsDefinitions = withDetails.map(item => {
-    return {
-      ...item.details.displayProperties,
-      value: stats[item.details.hash]
-    };
-  });
-  return statsDefinitions;
-};
-
 const processCharacters = async (data) => {
   const classTypeRef = ["Titan", "Hunter", "Warlock"];
   const genderTypeRef = ["Male", "Female"];
@@ -81,15 +70,30 @@ const processCharacters = async (data) => {
   const getGuardianEquipmentDetails = async equipment => {
     const energyTypeEnum = ['none', 'arc', 'solar', 'void'];
     const damageTypeEnum = ['none', 'kinetic', 'arc', 'solar', 'void', 'raid'];
+
+    const instances = data.itemComponents.instances.data;
+    const sockets = data.itemComponents.sockets.data;
+    const stats = data.itemComponents.stats.data;
+
+
     const itemsWithDetails = await Promise.all(equipment.map(async item => {
       const details = await getFromDB(item.itemHash, 'DestinyInventoryItemDefinition');
-      const instanceDetails = data.itemComponents.instances.data[item.itemInstanceId];
+      const instanceDetails = instances[item.itemInstanceId];
+      const instancedStats = item.itemInstanceId ? (stats[item.itemInstanceId] || { stats: {} }).stats : {};
+      const instancedSockets = item.itemInstanceId ? (sockets[item.itemInstanceId] || { sockets: [] }).sockets : [];
       return {
         ...details.displayProperties,
         screenshot: details.screenshot,
         itemTypeDisplayName: details.itemTypeDisplayName,
         displaySource: details.displaySource,
-        stats: await getDetailsAll(details.stats.stats, 'DestinyStatDefinition', (item, details) => {
+        staticStats: await getDetailsAll(details.stats.stats, 'DestinyStatDefinition', (item, details) => {
+          return {
+            ...details.displayProperties,
+            value: item.value,
+            displayMaximum: item.displayMaximum,
+          };
+        }),
+        instanceStats: await getDetailsAll(instancedStats, 'DestinyStatDefinition', (item, details) => {
           return {
             ...details.displayProperties,
             value: item.value,
@@ -97,9 +101,12 @@ const processCharacters = async (data) => {
           };
         }),
         damageType: damageTypeEnum[instanceDetails.damageType],
+        itemCategories: await Promise.all(details.itemCategoryHashes.map(async hash => await getFromDB(hash, 'DestinyItemCategoryDefinition'))),
         original: { ...item },
         dbData: { ...details },
-        instanceData: { ...instanceDetails }
+        instanceData: { ...instanceDetails },
+        statData: { ...instancedStats },
+        socketData: { ...instancedSockets },
       };
     }))
     return itemsWithDetails;
@@ -112,6 +119,13 @@ const processCharacters = async (data) => {
 
   const characterArray = Array.from(Object.values(data.characters.data));
   const charactersWithDetails = await Promise.all(characterArray.map(async character => {
+    const historicalStats = await fetch(
+      `https://www.bungie.net/Platform/Destiny2/${character.membershipType}/Account/${character.membershipId}/Character/${character.characterId}/Stats/?groups='Weapons'`,
+      { headers }).then(res => res.json());
+    const historyStatus = checkStatus(historicalStats);
+    const pvpStats = historyStatus ? historicalStats.Response.allPvP.allTime : {};
+    const pveStats = historyStatus ? historicalStats.Response.allPvE.allTime : {};
+
     return {
       membershipId: character.membershipId,
       membershipType: character.membershipType,
@@ -125,8 +139,15 @@ const processCharacters = async (data) => {
       class: classTypeRef[character.classType],
       emblemPath: character.emblemPath,
       title: await getTitle(character),
-      stats: await getGuardianStatDetails(character.stats),
+      stats: await getDetailsAll(character.stats, 'DestinyStatDefinition', (stat, details) => {
+        return {
+          ...details.displayProperties,
+          value: stat.value
+        }
+      }),
       equipment: await getGuardianEquipmentDetails(data.characterEquipment.data[character.characterId].items),
+      pvpStats,
+      pveStats,
     }
   }))
   return charactersWithDetails;
@@ -166,7 +187,8 @@ router.use('/characters/:membershipType/:membershipId', async (req, res, next) =
       status: 200,
       profileData: accountData.Response,
       test: 'test',
-      characters: characters
+      characters: characters,
+      plugs: await getDetailsAll(accountData.Response.profilePlugSets.data.plugs, 'DestinyPlugSetDefinition')
 
     };
     res.send(JSON.stringify(profileInfo));
