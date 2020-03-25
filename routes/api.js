@@ -77,16 +77,26 @@ const processCharacters = async (data) => {
 
     const getEnergyDetails = async item => {
       const details = await getFromDB(item.energyTypeHash, 'DestinyEnergyTypeDefinition');
-      const capacityDetails = await getFromDB(details.capacityStatHash, 'DestinyStatDefinition');
-      const costDetails = await getFromDB(details.costStatHash, 'DestinyStatDefinition');
       return {
-        details,
-        capacityDetails,
-        costDetails,
+        ...details.displayProperties,
+        transparentIconPath: details.transparentIconPath,
         capacity: item.energyCapacity,
         used: item.energyUsed,
         unused: item.energyUnused
       }
+    }
+
+    const getSocketDetails = async sockets => {
+      const values = Array.from(Object.values(sockets));
+      const details = await Promise.all(values.map(async socket => {
+        const data = await getFromDB(socket.plugHash, 'DestinyInventoryItemDefinition');
+        const displayProperties = data.displayProperties ? data.displayProperties : {};
+        return {
+          ...socket,
+          ...displayProperties
+        }
+      }))
+      return details;
     }
 
     const itemsWithDetails = await Promise.all(equipment.map(async item => {
@@ -115,11 +125,7 @@ const processCharacters = async (data) => {
         }),
         damageType: damageTypeEnum[instanceDetails.damageType],
         energy: instanceDetails.energy ? await getEnergyDetails(instanceDetails.energy) : {},
-        itemCategories: await Promise.all(details.itemCategoryHashes.map(async hash => await getFromDB(hash, 'DestinyItemCategoryDefinition'))),
-        original: { ...item },
-        dbData: { ...details },
-        instanceData: { ...instanceDetails },
-        socketData: { ...instancedSockets },
+        sockets: instancedSockets ? await getSocketDetails(instancedSockets) : {},
       };
     }))
     return itemsWithDetails;
@@ -133,7 +139,7 @@ const processCharacters = async (data) => {
   const characterArray = Array.from(Object.values(data.characters.data));
   const charactersWithDetails = await Promise.all(characterArray.map(async character => {
     const historicalStats = await fetch(
-      `https://www.bungie.net/Platform/Destiny2/${character.membershipType}/Account/${character.membershipId}/Character/${character.characterId}/Stats/?groups='Weapons'`,
+      `https://www.bungie.net/Platform/Destiny2/${character.membershipType}/Account/${character.membershipId}/Character/${character.characterId}/Stats/?groups=Weapons`,
       { headers }).then(res => res.json());
     const historyStatus = checkStatus(historicalStats);
     const pvpStats = historyStatus ? historicalStats.Response.allPvP.allTime : {};
@@ -161,6 +167,7 @@ const processCharacters = async (data) => {
       equipment: await getGuardianEquipmentDetails(data.characterEquipment.data[character.characterId].items),
       pvpStats,
       pveStats,
+      historicalStats
     }
   }))
   return charactersWithDetails;
