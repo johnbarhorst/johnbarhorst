@@ -50,7 +50,7 @@ const DestinySearchDemo = () => {
         variants={variants}
       >
         {accounts.map(account => (
-          <Link to={`/destiny/${account.membershipId}`} key={account.membershipId}>
+          <Link to={`/destiny/${account.membershipType}/${account.membershipId}`} key={account.membershipId}>
             <AccountCard account={account} />
           </Link>
         ))}
