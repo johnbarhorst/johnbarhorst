@@ -55,13 +55,13 @@ const Section = styled(motion.section)`
   max-width: 90%;
 `;
 
-const Button = styled.button`
-  width: 100px;
-  height: 50px;
-  border-radius: 5px;
-  background: radial-gradient(#dd1818, #318);
-  border: 1px solid #333;
-`;
+// const Button = styled.button`
+//   width: 100px;
+//   height: 50px;
+//   border-radius: 5px;
+//   background: radial-gradient(#dd1818, #318);
+//   border: 1px solid #333;
+// `;
 
 const Content = styled.article`
   display: grid;

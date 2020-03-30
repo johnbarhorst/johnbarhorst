@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence, useTransform, useMotionValue } from 'framer-motion';
-import styled from 'styled-components';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const SwipeToDismiss = ({ children }) => {
   const [isActive, setIsActive] = useState(true);
-  const x = useMotionValue(0);
-  const opacity = useTransform(x, [-100, 0, 100], [0, 1, 0]);
 
   return (
     <AnimatePresence>

@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Switch, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
-import styled, { ThemeProvider, injectGlobal } from 'styled-components';
+import { ThemeProvider } from 'styled-components';
 import Navigation from './Components/Navigation';
 import Main from './Components/Main';
 import About from './Components/About';
 import Modal from './Components/Modal';
 import Portfolio from './Components/Portfolio';
 import SearchDemo from './Components/Destiny/SearchDemo';
+import CharacterDisplay from './Components/Destiny/CharacterDisplay'
 import { theme } from './theme';
 import './App.css';
 
@@ -22,7 +23,7 @@ function App() {
       </AnimatePresence>
       <AnimatePresence exitBeforeEnter>
         <Switch key={location.pathname} >
-          <Route path='/destiny/:slug' />
+          <Route path='/destiny/:membershipType/:membershipId' component={CharacterDisplay} />
           <Route exact path='/destiny' component={SearchDemo} />
           <Route exact path='/portfolio' component={Portfolio} />
           <Route exact path='/about' component={About} />
