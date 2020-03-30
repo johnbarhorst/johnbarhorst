@@ -15,7 +15,6 @@ const variants = {
 
 const DestinySearchDemo = () => {
   const [accounts, setAccounts] = useState([]);
-  const [characters, setCharacters] = useState([]);
   const [searchValue, setSearchValue] = useState('');
 
   const handleSubmit = async (e) => {

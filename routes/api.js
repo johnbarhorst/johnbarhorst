@@ -202,7 +202,8 @@ const processCharacters = async (data) => {
       light: character.light,
       race: raceTypeRef[character.raceType],
       gender: genderTypeRef[character.genderType],
-      class: classTypeRef[character.classType],
+      classType: classTypeRef[character.classType],
+      emblemBackgroundPath: character.emblemBackgroundPath,
       emblemPath: character.emblemPath,
       title: await getTitleDetails(character),
       stats: await getDetailsAll(character.stats, 'DestinyStatDefinition', (stat, details) => {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import styled from 'styled-components';
-import fetch from 'node-fetch';
+import Character from './Character';
+import EmblemCard from './EmblemCard';
 
 const CharacterListDisplay = () => {
   const [characterData, setCharacterData] = useState([]);
@@ -29,9 +29,7 @@ const CharacterListDisplay = () => {
   return (
     <div>
       {characterData.map(character => (
-        <div>
-          <p>{character.class}</p>
-        </div>
+        <EmblemCard characterData={character} key={character.characterId} />
       ))}
     </div>
   )
