@@ -213,11 +213,11 @@ const processCharacters = async (data) => {
       }),
       equipment: await getGuardianEquipmentDetails(data.characterEquipment.data[character.characterId].items),
 
-      // Uncomment these two lines, AND the API call for stats further up to send stats along with the character data call 
+      // Uncomment these next two lines, AND the API call for stats further up to send stats along with the character data call 
       // pvpStats,
       // pveStats,
 
-      // Uncomment this to get all account stats
+      // Uncomment this to get all account stats along with the API call up above to send kill stats along for the ride
       // historicalStats
     }
   }))
