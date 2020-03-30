@@ -7,7 +7,7 @@ import Main from './Components/Main';
 import About from './Components/About';
 import Modal from './Components/Modal';
 import Portfolio from './Components/Portfolio';
-import DestinySearchDemo from './Components/DestinySearchDemo';
+import SearchDemo from './Components/Destiny/SearchDemo';
 import { theme } from './theme';
 import './App.css';
 
@@ -22,8 +22,8 @@ function App() {
       </AnimatePresence>
       <AnimatePresence exitBeforeEnter>
         <Switch key={location.pathname} >
-
-          <Route exact path='/destiny' component={DestinySearchDemo} />
+          <Route path='/destiny/:slug' />
+          <Route exact path='/destiny' component={SearchDemo} />
           <Route exact path='/portfolio' component={Portfolio} />
           <Route exact path='/about' component={About} />
           <Route exact path='/' component={Main} />

@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import DestinyAccountCard from './DestinyAccountCard';
-import { AnimatedButton } from '../Elements';
+import AccountCard from './AccountCard';
+import { AnimatedButton } from '../../Elements';
 
 const variants = {
   animate: {
@@ -51,7 +51,7 @@ const DestinySearchDemo = () => {
       >
         {accounts.map(account => (
           <Link to={`/destiny/${account.membershipId}`} key={account.membershipId}>
-            <DestinyAccountCard account={account} />
+            <AccountCard account={account} />
           </Link>
         ))}
       </Container>
