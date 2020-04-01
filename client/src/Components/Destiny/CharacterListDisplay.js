@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import Character from './Character';
+import { useParams, useRouteMatch, Switch, Link, Route } from 'react-router-dom';
 import EmblemCard from './EmblemCard';
+import Character from './Character';
 
 const CharacterListDisplay = () => {
   const [characterData, setCharacterData] = useState([]);
   const { membershipType, membershipId } = useParams();
+  const { url, path } = useRouteMatch();
 
   useEffect(() => {
     const getCharacterData = async () => {
@@ -28,9 +29,26 @@ const CharacterListDisplay = () => {
 
   return (
     <div>
-      {characterData.map(character => (
-        <EmblemCard characterData={character} key={character.characterId} />
-      ))}
+      <div>
+        {characterData.map(character => (
+          <Link
+            to={{
+              pathname: `${url}/${character.characterId}`,
+              state: { character }
+            }}
+            key={character.characterId}
+          >
+            <EmblemCard characterData={character} />
+          </Link>
+        ))}
+      </div>
+      <div>
+        <Switch>
+          <Route path={`${path}/:characterId`}
+            render={value => <Character characterData={value.location.state.character} />}
+          />
+        </Switch>
+      </div>
     </div>
   )
 }

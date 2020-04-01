@@ -10,7 +10,6 @@ const Card = styled.div`
   width: 474px;
   height: 96px;
   margin-bottom: 5px;
-
   .class-race {
     margin-left: 96px;
     h3 {
