@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useReducer } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
@@ -13,8 +13,52 @@ const variants = {
   }
 }
 
+const initialState = {
+  searching: false,
+  resultStatus: null,
+  accounts: []
+}
+
+function reducer(state, action) {
+  switch (action.type) {
+    case "searching":
+      return {
+        ...state,
+        searching: true,
+        resultStatus: null,
+        error: false
+      }
+
+    case "no_results":
+      return {
+        ...state,
+        searching: false,
+        resultStatus: false,
+        error: false
+      }
+
+    case "results_found":
+      return {
+        accounts: [...action.payload],
+        searching: false,
+        resultStatus: true,
+        error: false
+      }
+
+    case "error":
+      return {
+        ...state,
+        searching: false,
+        resultStatus: false,
+        error: true
+      }
+    default:
+      break;
+  }
+}
+
 const DestinySearchDemo = () => {
-  const [accounts, setAccounts] = useState([]);
+  const [state, dispatch] = useReducer(reducer, initialState);
   const [searchValue, setSearchValue] = useState('');
 
   const handleSubmit = async (e) => {
@@ -25,7 +69,13 @@ const DestinySearchDemo = () => {
     const searchResults = await fetch(`/api/search/${searchValue}`);
     const response = await searchResults.json();
     if (response.status === 200) {
-      return setAccounts(response.accounts);
+      if (response.accounts.length === 0) {
+        dispatch({ type: "no_results" });
+      } else {
+        dispatch({ type: "results_found", payload: response.accounts });
+      }
+    } else {
+      dispatch({ type: "error" });
     }
   }
 
@@ -48,7 +98,7 @@ const DestinySearchDemo = () => {
       <Container
         variants={variants}
       >
-        {accounts.map(account => (
+        {state.accounts.map(account => (
           <Link to={`/destiny/${account.membershipType}/${account.membershipId}`} key={account.membershipId}>
             <AccountCard account={account} />
           </Link>
