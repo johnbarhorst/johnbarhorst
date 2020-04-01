@@ -6,9 +6,14 @@ const Item = ({ item }) => {
   return (
     <div>
       <h5>{name}</h5>
-      {hasIcon && <img src={`https://www.bungie.net${icon}`} />}
+      {hasIcon && <Img src={`https://www.bungie.net${icon}`} />}
     </div>
   )
 }
 
 export default Item;
+
+const Img = styled.img`
+  height: 96px;
+  width: 96px;
+`
