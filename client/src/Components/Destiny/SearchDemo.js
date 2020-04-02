@@ -16,7 +16,9 @@ const variants = {
 const initialState = {
   searching: false,
   resultStatus: null,
-  accounts: []
+  searchedValue: '',
+  accounts: [],
+  error: false
 }
 
 function reducer(state, action) {
@@ -26,6 +28,7 @@ function reducer(state, action) {
         ...state,
         searching: true,
         resultStatus: null,
+        searchedValue: action.payload,
         error: false
       }
 
@@ -39,6 +42,7 @@ function reducer(state, action) {
 
     case "results_found":
       return {
+        ...state,
         accounts: [...action.payload],
         searching: false,
         resultStatus: true,
@@ -58,7 +62,7 @@ function reducer(state, action) {
 }
 
 const DestinySearchDemo = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [{ accounts, searching, resultStatus, error, searchedValue }, dispatch] = useReducer(reducer, initialState);
   const [searchValue, setSearchValue] = useState('');
 
   const handleSubmit = async (e) => {
@@ -66,6 +70,7 @@ const DestinySearchDemo = () => {
     if (!searchValue) {
       return
     }
+    dispatch({ type: "searching", payload: searchValue });
     const searchResults = await fetch(`/api/search/${searchValue}`);
     const response = await searchResults.json();
     if (response.status === 200) {
@@ -95,15 +100,18 @@ const DestinySearchDemo = () => {
           }}
         >Submit</AnimatedButton>
       </Form>
-      <Container
-        variants={variants}
-      >
-        {state.accounts.map(account => (
-          <Link to={`/destiny/${account.membershipType}/${account.membershipId}`} key={account.membershipId}>
-            <AccountCard account={account} />
-          </Link>
-        ))}
-      </Container>
+      <div>
+        {resultStatus === false && <h2>No accounts found for {searchedValue}</h2>}
+        <Container
+          variants={variants}
+        >
+          {!error && accounts.map(account => (
+            <Link to={`/destiny/${account.membershipType}/${account.membershipId}`} key={account.membershipId}>
+              <AccountCard account={account} />
+            </Link>
+          ))}
+        </Container>
+      </div>
     </motion.div>
   )
 }
