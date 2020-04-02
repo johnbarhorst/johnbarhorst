@@ -1,10 +1,45 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import { useParams, useRouteMatch, Switch, Link, Route } from 'react-router-dom';
 import EmblemCard from './EmblemCard';
 import Character from './Character';
 
+const initialState = {
+  characterData: [],
+  loading: false,
+  failed: false
+}
+
+function reducer(state, action) {
+  switch (action.type) {
+    case "loading":
+      return {
+        characterData: [],
+        loading: true,
+        failed: false
+      }
+
+    case "failed":
+      return {
+        characterData: [],
+        loading: false,
+        failed: true
+      }
+
+    case "success":
+      return {
+        characterData: action.payload,
+        loading: false,
+        failed: false
+      }
+      break;
+
+    default:
+      break;
+  }
+}
+
 const CharacterListDisplay = () => {
-  const [characterData, setCharacterData] = useState([]);
+  const [{ characterData, loading, failed }, dispatch] = useReducer(reducer, initialState)
   const { membershipType, membershipId } = useParams();
   const { url, path } = useRouteMatch();
 
@@ -15,7 +50,7 @@ const CharacterListDisplay = () => {
       const res = await data.json();
       if (res.status === 200) {
         console.log(res);
-        setCharacterData(res.characters);
+        dispatch({ type: "success", payload: [...res.characters] });
         return;
       } else {
         console.log('character data fetch failed')
