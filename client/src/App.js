@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Switch, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import { ThemeProvider } from 'styled-components';
+import { ContextWrapper, useAppContext } from './State';
 import Navigation from './Components/Navigation';
 import Main from './Components/Main';
 import About from './Components/About';
-import Modal from './Components/Modal';
 import Portfolio from './Components/Portfolio';
 import SearchDemo from './Components/Destiny/SearchDemo';
 import CharacterListDisplay from './Components/Destiny/CharacterListDisplay'
@@ -13,14 +13,10 @@ import { theme } from './theme';
 import './App.css';
 
 function App() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const location = useLocation();
   return (
     <div className="App">
-      <Navigation setIsModalOpen={setIsModalOpen} />
-      <AnimatePresence>
-        <Modal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} key={'modal'} />
-      </AnimatePresence>
+      <Navigation />
       <AnimatePresence exitBeforeEnter>
         <Switch key={location.pathname} >
           <Route path='/destiny/:membershipType/:membershipId' component={CharacterListDisplay} />
@@ -37,9 +33,11 @@ function App() {
 const AppWrapper = () => {
   return (
     <Router>
-      <ThemeProvider theme={theme}>
-        <App />
-      </ThemeProvider>
+      <ContextWrapper>
+        <ThemeProvider theme={theme}>
+          <App />
+        </ThemeProvider>
+      </ContextWrapper>
     </Router>
   )
 }
