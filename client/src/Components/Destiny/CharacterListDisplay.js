@@ -13,7 +13,7 @@ function reducer(state, action) {
   switch (action.type) {
     case "loading":
       return {
-        characterData: [],
+        ...state,
         loading: true,
         failed: false
       }
@@ -31,10 +31,7 @@ function reducer(state, action) {
         loading: false,
         failed: false
       }
-      break;
-
-    default:
-      break;
+    default: break
   }
 }
 
@@ -45,7 +42,7 @@ const CharacterListDisplay = () => {
 
   useEffect(() => {
     const getCharacterData = async () => {
-      console.log('fetching data');
+      dispatch({ type: "loading" });
       const data = await fetch(`/api/characters/${membershipType}/${membershipId}`);
       const res = await data.json();
       if (res.status === 200) {
@@ -53,7 +50,8 @@ const CharacterListDisplay = () => {
         dispatch({ type: "success", payload: [...res.characters] });
         return;
       } else {
-        console.log('character data fetch failed')
+        console.log('character data fetch failed');
+        dispatch({ tyoe: "failed" });
         console.log(res);
         return
       }
