@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 
-const Navigation = ({ setIsModalOpen }) => {
+const Navigation = () => {
   return (
     <nav>
       <Ul>
@@ -11,7 +11,6 @@ const Navigation = ({ setIsModalOpen }) => {
         <li><Link to="/about">About Me</Link></li>
         <li><Link to="/portfolio">Portfolio</Link></li>
         <li><Link to="/destiny">Destiny Search Demo</Link></li>
-        <li><button onClick={() => setIsModalOpen(true)}>Modal!</button></li>
       </Ul>
     </nav>
   )
