@@ -24,8 +24,8 @@ function reducer(state, action) {
   }
 }
 
-export const useFetchData = ({ url, options = {} }, initialData) => {
-  const [fetchSettings, setFetchSettings] = useState({ url, options });
+export const useFetchData = (initialData) => {
+  const [fetchSettings, setFetchSettings] = useState({ url: '', options: {} });
   const [state, dispatch] = useReducer(reducer, {
     isLoading: false,
     isError: false,
@@ -33,6 +33,9 @@ export const useFetchData = ({ url, options = {} }, initialData) => {
   });
 
   useEffect(() => {
+    if (fetchSettings.url === '') {
+      return
+    }
     let didCancel = false;
     dispatch({ type: 'FETCH' });
     try {

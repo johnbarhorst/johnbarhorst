@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import AccountCard from './AccountCard';
 import { AnimatedButton } from '../../Elements';
+import { useFetchData } from '../../Hooks';
 
 const variants = {
   animate: {
@@ -13,75 +14,17 @@ const variants = {
   }
 }
 
-const initialState = {
-  searching: false,
-  resultStatus: null,
-  searchedValue: '',
-  accounts: [],
-  error: false
-}
-
-function reducer(state, action) {
-  switch (action.type) {
-    case "searching":
-      return {
-        ...state,
-        searching: true,
-        resultStatus: null,
-        searchedValue: action.payload,
-        error: false
-      }
-
-    case "no_results":
-      return {
-        ...state,
-        searching: false,
-        resultStatus: false,
-        error: false
-      }
-
-    case "results_found":
-      return {
-        ...state,
-        accounts: [...action.payload],
-        searching: false,
-        resultStatus: true,
-        error: false
-      }
-
-    case "error":
-      return {
-        ...state,
-        searching: false,
-        resultStatus: false,
-        error: true
-      }
-    default:
-      break;
-  }
-}
-
 const DestinySearchDemo = () => {
-  const [{ accounts, searching, resultStatus, error, searchedValue }, dispatch] = useReducer(reducer, initialState);
+  const [{ isLoading, isError, data }, getAccounts] = useFetchData({ accounts: [] });
   const [searchValue, setSearchValue] = useState('');
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!searchValue) {
       return
     }
-    dispatch({ type: "searching", payload: searchValue });
-    const searchResults = await fetch(`/api/search/${searchValue}`);
-    const response = await searchResults.json();
-    if (response.status === 200) {
-      if (response.accounts.length === 0) {
-        dispatch({ type: "no_results" });
-      } else {
-        dispatch({ type: "results_found", payload: response.accounts });
-      }
-    } else {
-      dispatch({ type: "error" });
-    }
+    getAccounts(`/api/search/${searchValue}`, {});
   }
 
   return (
@@ -101,11 +44,11 @@ const DestinySearchDemo = () => {
         >Submit</AnimatedButton>
       </Form>
       <div>
-        {resultStatus === false && <h2>No accounts found for {searchedValue}</h2>}
         <Container
           variants={variants}
         >
-          {!error && accounts.map(account => (
+          {isLoading && <h3>Searching...</h3>}
+          {!isError && data.accounts.map(account => (
             <Link to={`/destiny/${account.membershipType}/${account.membershipId}`} key={account.membershipId}>
               <AccountCard account={account} />
             </Link>
