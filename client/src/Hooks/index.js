@@ -1,3 +1,3 @@
 export * from './useHover';
 export * from './useToggle';
-export * from './useAPI';
+export * from './useFetchData';
