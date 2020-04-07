@@ -13,7 +13,7 @@ function reducer(state, action) {
       isError: false,
       data: action.payload
     }
-    case 'FAIL': return {
+    case 'ERROR': return {
       ...state,
       isLoading: false,
       isError: true
