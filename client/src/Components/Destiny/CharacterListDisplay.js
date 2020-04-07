@@ -63,6 +63,8 @@ const CharacterListDisplay = () => {
   return (
     <div>
       <div>
+        {loading && <h3>Loading...</h3>}
+        {failed && <p>Sorry, something went wrong while gathering data.</p>}
         {characterData.map(character => (
           <Link
             to={{
