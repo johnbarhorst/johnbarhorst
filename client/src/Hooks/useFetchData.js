@@ -33,9 +33,11 @@ export const useFetchData = (initialData) => {
   });
 
   useEffect(() => {
+    // This is to stop initial component load fetching. Feels bad, should find a better way
     if (fetchSettings.url === '') {
       return
     }
+    // This will cancel a state update in case of an unmounted component. It will not cancel the actual browser/network request
     let didCancel = false;
     dispatch({ type: 'FETCH' });
     try {
