@@ -145,6 +145,7 @@ const processCharacters = async (data) => {
 
       // Take all the processed data to return only what we want to display.
       return {
+        itemHash: item.itemHash,
         ...details.displayProperties,
         screenshot: details.screenshot,
         itemTypeDisplayName: details.itemTypeDisplayName,

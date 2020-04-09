@@ -12,7 +12,7 @@ const Equipment = ({ equipment }) => {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
-        {equipment.map(item => <Item item={item} key={item.name} />)}
+        {equipment.map(item => <Item item={item} key={item.itemHash} />)}
       </Wrapper>
     </div>
   )
