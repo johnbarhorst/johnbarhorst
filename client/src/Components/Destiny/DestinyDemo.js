@@ -1,10 +1,10 @@
-import React, { useState, useReducer } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import AccountCard from './AccountCard';
 import { AnimatedButton } from '../../Elements';
-import { useFetchData } from '../../Hooks';
+import { useDestinyContext, DestinyContextWrapper } from '../../State';
 
 const variants = {
   animate: {
@@ -14,11 +14,11 @@ const variants = {
   }
 }
 
-const DestinySearchDemo = () => {
-  const [{ isLoading, isError, data }, getAccounts] = useFetchData({ accounts: [] });
+const DestinyDemo = () => {
+  const { searching, searchError, searchResults, getAccounts } = useDestinyContext();
   const [searchValue, setSearchValue] = useState('');
 
-
+  console.log(useDestinyContext());
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!searchValue) {
@@ -47,8 +47,8 @@ const DestinySearchDemo = () => {
         <Container
           variants={variants}
         >
-          {isLoading && <h3>Searching...</h3>}
-          {!isError && data.accounts.map(account => (
+          {searching && <h3>Searching...</h3>}
+          {!searchError && searchResults.map(account => (
             <Link to={`/destiny/${account.membershipType}/${account.membershipId}`} key={account.membershipId}>
               <AccountCard account={account} />
             </Link>
@@ -59,7 +59,7 @@ const DestinySearchDemo = () => {
   )
 }
 
-export default DestinySearchDemo;
+export default DestinyDemo;
 
 const Form = styled.form`
 

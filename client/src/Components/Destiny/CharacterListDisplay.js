@@ -1,5 +1,6 @@
 import React, { useEffect, useReducer } from 'react';
 import { useParams, useRouteMatch, Switch, Link, Route } from 'react-router-dom';
+import { useFetchData } from '../../Hooks';
 import EmblemCard from './EmblemCard';
 import Character from './Character';
 
@@ -36,36 +37,20 @@ function reducer(state, action) {
 }
 
 const CharacterListDisplay = () => {
-  const [{ characterData, loading, failed }, dispatch] = useReducer(reducer, initialState)
   const { membershipType, membershipId } = useParams();
+  const [{ isLoading, isError, data }, getCharacterData] = useFetchData({ characters: [] });
   const { url, path } = useRouteMatch();
-
   useEffect(() => {
-    const getCharacterData = async () => {
-      dispatch({ type: "loading" });
-      const data = await fetch(`/api/characters/${membershipType}/${membershipId}`);
-      const res = await data.json();
-      if (res.status === 200) {
-        console.log(res);
-        dispatch({ type: "success", payload: [...res.characters] });
-        return;
-      } else {
-        console.log('character data fetch failed');
-        dispatch({ tyoe: "failed" });
-        console.log(res);
-        return
-      }
-    }
-    getCharacterData();
+    getCharacterData(`/api/characters/${membershipType}/${membershipId}`, {});
   }, [membershipId, membershipType])
 
 
   return (
     <div>
       <div>
-        {loading && <h3>Loading...</h3>}
-        {failed && <p>Sorry, something went wrong while gathering data.</p>}
-        {characterData.map(character => (
+        {isLoading && <h3>Loading...</h3>}
+        {isError && <p>Sorry, something went wrong while gathering data.</p>}
+        {!isLoading && data.characters.map(character => (
           <Link
             to={{
               pathname: `${url}/${character.characterId}`,
