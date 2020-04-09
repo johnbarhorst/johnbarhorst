@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import AccountCard from './AccountCard';
 import { AnimatedButton } from '../../Elements';
-import { useDestinyContext, DestinyContextWrapper } from '../../State';
+import { useDestinyContext } from '../../State';
 
 const variants = {
   animate: {
@@ -15,10 +15,8 @@ const variants = {
 }
 
 const DestinyDemo = () => {
-  const { searching, searchError, searchResults, getAccounts } = useDestinyContext();
+  const { searching, searchError, accounts, getAccounts } = useDestinyContext();
   const [searchValue, setSearchValue] = useState('');
-
-  console.log(useDestinyContext());
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!searchValue) {
@@ -48,7 +46,7 @@ const DestinyDemo = () => {
           variants={variants}
         >
           {searching && <h3>Searching...</h3>}
-          {!searchError && searchResults.map(account => (
+          {!searchError && accounts.map(account => (
             <Link to={`/destiny/${account.membershipType}/${account.membershipId}`} key={account.membershipId}>
               <AccountCard account={account} />
             </Link>

@@ -22,7 +22,7 @@ export const DestinyContextWrapper = ({ children }) => {
       value={{
         searching: accountData.isLoading,
         searchError: accountData.isError,
-        searchResults: accountData.data.accounts,
+        accounts: accountData.data.accounts,
         characterLoading: characterData.isLoading,
         characterError: characterData.isError,
         characters: characterData.data.characters,
