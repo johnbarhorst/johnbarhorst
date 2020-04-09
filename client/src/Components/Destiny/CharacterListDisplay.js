@@ -42,7 +42,7 @@ const CharacterListDisplay = () => {
   const { url, path } = useRouteMatch();
   useEffect(() => {
     getCharacterData(`/api/characters/${membershipType}/${membershipId}`, {});
-  }, [membershipId, membershipType])
+  })
 
 
   return (
