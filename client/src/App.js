@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Switch, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import { ThemeProvider } from 'styled-components';
-import { ContextWrapper, useAppContext, DestinyContextWrapper, useDestinyContext } from './State';
+import { ContextWrapper, DestinyContextWrapper } from './State';
 import Navigation from './Components/Navigation';
 import Main from './Components/Main';
 import About from './Components/About';

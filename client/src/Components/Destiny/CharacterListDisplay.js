@@ -1,41 +1,9 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useEffect } from 'react';
 import { useParams, useRouteMatch, Switch, Link, Route } from 'react-router-dom';
 import { useDestinyContext } from '../../State';
-import { useFetchData } from '../../Hooks';
 import EmblemCard from './EmblemCard';
 import Character from './Character';
 
-const initialState = {
-  characterData: [],
-  loading: false,
-  failed: false
-}
-
-function reducer(state, action) {
-  switch (action.type) {
-    case "loading":
-      return {
-        ...state,
-        loading: true,
-        failed: false
-      }
-
-    case "failed":
-      return {
-        characterData: [],
-        loading: false,
-        failed: true
-      }
-
-    case "success":
-      return {
-        characterData: action.payload,
-        loading: false,
-        failed: false
-      }
-    default: break
-  }
-}
 
 const CharacterListDisplay = () => {
   const { membershipType, membershipId } = useParams();
@@ -44,7 +12,6 @@ const CharacterListDisplay = () => {
   useEffect(() => {
     getCharacters(`/api/characters/${membershipType}/${membershipId}`, {});
   })
-
 
   return (
     <div>
