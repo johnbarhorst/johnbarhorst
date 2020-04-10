@@ -48,7 +48,7 @@ const FramerCarousel = ({ slidesArray, autoSlide = true, timer = 5000 }) => {
         clearTimeout(automation);
       }
     };
-  }, [autoSlide, paginate, timer]);
+  });
 
   return (
     <div style={{ position: 'relative', height: 300, overflow: 'hidden' }}>
