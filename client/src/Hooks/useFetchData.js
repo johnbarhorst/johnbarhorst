@@ -34,6 +34,7 @@ export const useFetchData = (initialData) => {
 
   useEffect(() => {
     // This is to stop initial component load fetching. Feels bad, should find a better way
+    console.log('fetching');
     if (fetchSettings.url === '') {
       return
     }

@@ -1,5 +1,6 @@
 import React, { useEffect, useReducer } from 'react';
 import { useParams, useRouteMatch, Switch, Link, Route } from 'react-router-dom';
+import { useDestinyContext } from '../../State';
 import { useFetchData } from '../../Hooks';
 import EmblemCard from './EmblemCard';
 import Character from './Character';
@@ -38,19 +39,19 @@ function reducer(state, action) {
 
 const CharacterListDisplay = () => {
   const { membershipType, membershipId } = useParams();
-  const [{ isLoading, isError, data }, getCharacterData] = useFetchData({ characters: [] });
+  const { characterLoading, characterError, characters, getCharacters } = useDestinyContext();
   const { url, path } = useRouteMatch();
   useEffect(() => {
-    getCharacterData(`/api/characters/${membershipType}/${membershipId}`, {});
+    getCharacters(`/api/characters/${membershipType}/${membershipId}`, {});
   })
 
 
   return (
     <div>
       <div>
-        {isLoading && <h3>Loading...</h3>}
-        {isError && <p>Sorry, something went wrong while gathering data.</p>}
-        {!isLoading && data.characters.map(character => (
+        {characterLoading && <h3>Loading...</h3>}
+        {characterError && <p>Sorry, something went wrong while gathering data.</p>}
+        {!characterLoading && characters.map(character => (
           <Link
             to={{
               pathname: `${url}/${character.characterId}`,
