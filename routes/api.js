@@ -210,7 +210,7 @@ const processCharacters = async (data) => {
       stats: await getDetailsAll(character.stats, 'DestinyStatDefinition', (stat, details) => {
         return {
           ...details.displayProperties,
-          value: stat.value
+          value: stat
         }
       }),
       equipment: await getGuardianEquipmentDetails(data.characterEquipment.data[character.characterId].items),
