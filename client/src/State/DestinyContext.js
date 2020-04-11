@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import { useFetchData } from '../Hooks';
 
 export const DestinyContext = createContext({
@@ -17,9 +17,13 @@ export const useDestinyContext = () => useContext(DestinyContext);
 export const DestinyContextWrapper = ({ children }) => {
   const [accountData, getAccountData] = useFetchData({ accounts: [] });
   const [characterData, getCharacterData] = useFetchData({ characters: [] });
+  const [searchValue, setSearchValue] = useState('');
+
   return (
     <DestinyContext.Provider
       value={{
+        searchValue,
+        setSearchValue,
         searching: accountData.isLoading,
         searchError: accountData.isError,
         accounts: accountData.data.accounts,
