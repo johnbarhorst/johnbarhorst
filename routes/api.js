@@ -276,7 +276,11 @@ router.use('/characters/:membershipType/:membershipId', async (req, res, next) =
     };
     res.send(JSON.stringify(profileInfo));
   } else {
-    res.send(JSON.stringify(accountData.Message));
+    const ErrorResponse = {
+      status: 404,
+      ...accountData
+    }
+    res.send(JSON.stringify(ErrorResponse));
   }
 });
 
