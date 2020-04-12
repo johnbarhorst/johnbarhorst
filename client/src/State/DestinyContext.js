@@ -18,12 +18,15 @@ export const DestinyContextWrapper = ({ children }) => {
   const [accountData, getAccountData] = useFetchData({ accounts: [] });
   const [characterData, getCharacterData] = useFetchData({ characters: [] });
   const [searchValue, setSearchValue] = useState('');
+  const [searchedValue, setSearchedValue] = useState('');
 
   return (
     <DestinyContext.Provider
       value={{
         searchValue,
         setSearchValue,
+        searchedValue,
+        setSearchedValue,
         searching: accountData.isLoading,
         searchError: accountData.isError,
         accounts: accountData.data.accounts,
