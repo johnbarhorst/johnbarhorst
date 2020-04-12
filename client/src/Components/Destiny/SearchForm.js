@@ -4,13 +4,14 @@ import { useDestinyContext } from '../../State';
 import { AnimatedButton } from '../../Elements';
 
 const SearchForm = () => {
-  const { searchValue, setSearchValue, getAccounts } = useDestinyContext();
+  const { searchValue, setSearchValue, getAccounts, setSearchedValue } = useDestinyContext();
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!searchValue) {
       return
     }
-    getAccounts(`/api/search/${searchValue}`, {});
+    setSearchedValue(searchValue);
+    getAccounts(`/api/search/${searchValue}`);
   }
   return (
     <Form onSubmit={handleSubmit}>
