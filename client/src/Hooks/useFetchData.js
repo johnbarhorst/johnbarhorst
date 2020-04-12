@@ -1,4 +1,4 @@
-import { useState, useEffect, useReducer } from 'react';
+import { useReducer } from 'react';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -16,7 +16,8 @@ function reducer(state, action) {
     case 'ERROR': return {
       ...state,
       isLoading: false,
-      isError: true
+      isError: true,
+      data: action.payload
     }
 
     default:
@@ -25,38 +26,27 @@ function reducer(state, action) {
 }
 
 export const useFetchData = (initialData) => {
-  const [fetchSettings, setFetchSettings] = useState({ url: '', options: {} });
   const [state, dispatch] = useReducer(reducer, {
     isLoading: false,
     isError: false,
     data: initialData
   });
 
-  useEffect(() => {
-    // This is to stop initial component load fetching. Feels bad, should find a better way
-    console.log('fetching');
-    if (fetchSettings.url === '') {
-      return
-    }
-    // This will cancel a state update in case of an unmounted component. It will not cancel the actual browser/network request
-    let didCancel = false;
+  const goFetch = async (url, options = {}) => {
     dispatch({ type: 'FETCH' });
     try {
-      const getData = async () => {
-        const req = await fetch(fetchSettings);
-        const json = await req.json();
-        if (!didCancel) {
-          dispatch({ type: 'SUCCESS', payload: json });
-        }
+      const req = await fetch(url, options);
+      const json = await req.json();
+      if (json.status === 200) {
+        dispatch({ type: 'SUCCESS', payload: json });
       }
-      getData();
+      if (json.status === 404) {
+        dispatch({ type: 'ERROR', payload: json });
+      }
     } catch (error) {
       dispatch({ type: 'ERROR' });
     }
-    return () => {
-      didCancel = true;
-    }
-  }, [fetchSettings]);
+  }
 
-  return [state, setFetchSettings];
+  return [state, goFetch];
 }
