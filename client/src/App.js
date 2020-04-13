@@ -8,7 +8,8 @@ import Main from './Components/Main';
 import About from './Components/About';
 import Portfolio from './Components/Portfolio';
 import DestinyDemo from './Components/Destiny/DestinyDemo';
-import CharacterListDisplay from './Components/Destiny/CharacterListDisplay'
+import CharacterListDisplay from './Components/Destiny/CharacterListDisplay';
+import PreferenceRanking from './Components/Ranking/PreferenceRanking';
 import { theme } from './theme';
 import './App.css';
 
@@ -19,6 +20,7 @@ function App() {
       <Navigation />
       <AnimatePresence exitBeforeEnter>
         <Switch key={location.pathname} >
+          <Route path='/preference' component={PreferenceRanking} />
           <Route path='/destiny/:membershipType/:membershipId' component={CharacterListDisplay} />
           <Route exact path='/destiny' component={DestinyDemo} />
           <Route exact path='/portfolio' component={Portfolio} />
