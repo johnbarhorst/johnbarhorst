@@ -9,8 +9,8 @@ export const Card = styled(motion.div)`
 `;
 
 export const AnimatedButton = styled(motion.button)`
-font-size: 20px;
-border-radius: 5px;
-border: 1px solid #999;
-padding: 5px 20px;
+  font-size: 20px;
+  border-radius: 5px;
+  border: 1px solid #999;
+  padding: 5px 20px;
 `;

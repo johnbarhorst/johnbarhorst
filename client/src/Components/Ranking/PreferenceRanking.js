@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
+import { AnimatedButton, Card } from '../../Elements';
 
 const sampleData = [
   'item1',
@@ -39,25 +41,25 @@ const PreferenceRanking = () => {
     return arr;
   }
 
-  const handleSelection = () => {
+  const handleSelection = (value) => {
+    console.log(value);
 
   }
-
+  // Make a list of items to rank
   // Take an array of items
   // Display 2 options from the array
   // Select the preferred option, update list with preferred > other
   // Repeat with 2 new options, until list has been sorted.
   return (
-    <div>
+    <motion.div exit={{ opacity: 0 }}>
       <div>
-        <div>
-          <button>{list[option1]}</button>
-        </div>
-        <div>
-          <button>{list[option2]}</button>
-        </div>
+        <AnimatedButton onClick={() => handleSelection(option1)}>{list[option1]}</AnimatedButton>
+        <AnimatedButton onClick={() => handleSelection(option2)}>{list[option2]}</AnimatedButton>
       </div>
-    </div>
+      <Card>
+        {list.map((item, i) => <Card key={i}><p>{item}</p></Card>)}
+      </Card>
+    </motion.div>
   )
 }
 
