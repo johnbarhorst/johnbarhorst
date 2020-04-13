@@ -43,8 +43,7 @@ const wrapNumber = (min, max, num) => {
 
 const PreferenceRanking = () => {
   const [list, setList] = useState(sampleData);
-  const [option1, setOption1] = useState(0);
-  const [option2, setOption2] = useState(1);
+  const [[option1, option2], setOptions] = useState([0, 1]);
 
   const getRandomItem = () => {
     Math.floor(Math.random() * list.length);
@@ -64,7 +63,6 @@ const PreferenceRanking = () => {
 
   const handleSelection = (value) => {
     console.log(value);
-
   }
   // Make a list of items to rank
   // Take an array of items
