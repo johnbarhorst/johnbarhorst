@@ -18,7 +18,28 @@ const sampleData = [
   'item12',
   'item13',
   'item14',
-  'item15',];
+  'item15',
+  'item16',
+  'item17',
+  'item18',
+  'item19',
+  'item20',
+  'item21',
+  'item22',
+  'item23',
+  'item24',
+  'item25',
+  'item26',
+  'item27',
+  'item28',
+  'item29',
+  'item30',];
+
+
+const wrapNumber = (min, max, num) => {
+  const rangeSize = max - min;
+  return ((((num - min) % rangeSize) + rangeSize) % rangeSize) + min;
+}
 
 const PreferenceRanking = () => {
   const [list, setList] = useState(sampleData);
@@ -52,15 +73,30 @@ const PreferenceRanking = () => {
   // Repeat with 2 new options, until list has been sorted.
   return (
     <motion.div exit={{ opacity: 0 }}>
-      <div>
+      <SelectionDisplay>
         <AnimatedButton onClick={() => handleSelection(option1)}>{list[option1]}</AnimatedButton>
         <AnimatedButton onClick={() => handleSelection(option2)}>{list[option2]}</AnimatedButton>
-      </div>
+      </SelectionDisplay>
       <Card>
-        {list.map((item, i) => <Card key={i}><p>{item}</p></Card>)}
+        {list.map((item, i) => <ListItem key={i} colorIndex={i}><h3>{item}</h3></ListItem>)}
       </Card>
     </motion.div>
   )
 }
 
 export default PreferenceRanking;
+
+const SelectionDisplay = styled(motion.div)`
+  display: flex;
+  justify-content: space-evenly;
+  margin: 50px 0;
+`;
+
+const ListItem = styled(motion.div)`
+  text-align: center;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 1px 1px 5px rgba(0,0,0,0.4);
+  margin-bottom: 10px;
+  background-color: ${props => props.theme.cycledColor(props.colorIndex)};
+`;
