@@ -98,7 +98,7 @@ const PreferenceRanking = () => {
         <AnimatedButton onClick={() => handleSelection(option2)}>{list[option2].text}</AnimatedButton>
       </SelectionDisplay>
       <Card>
-        {list.map(item => <ListItem key={item.number} colorIndex={item.number}><h3>{item.text}</h3></ListItem>)}
+        {list.map(item => <ListItem key={item.number} positionTransition colorIndex={item.number}><h3>{item.text}</h3></ListItem>)}
       </Card>
     </motion.div>
   )
