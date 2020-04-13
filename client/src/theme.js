@@ -1,3 +1,8 @@
+const wrapNumber = (min, max, num) => {
+  const rangeSize = max - min;
+  return ((((num - min) % rangeSize) + rangeSize) % rangeSize) + min;
+}
+
 export const theme = {
   colors: {
     livingCoral: '#FF6F61',
@@ -21,5 +26,28 @@ export const theme = {
     trueRed: '#BC243C',
     fuschiaRose: '#C3447A',
     ceruleanBlue: '#98B4D4',
-  }
+  },
+  colorsArray: [
+    '#FF6F61',
+    '#6B5B95',
+    '#88B04B',
+    '#F7CAC9',
+    '#92A8D1',
+    '#955251',
+    '#B565A7',
+    '#009B77',
+    '#DD4124',
+    '#D65076',
+    '#45B8AC',
+    '#EFC050',
+    '#5B5EA6',
+    '#9B2335',
+    '#DFCFBE',
+    '#55B4B0',
+    '#E15D44',
+    '#7FCDCD',
+    '#BC243C',
+    '#C3447A',
+    '#98B4D4',],
+  cycledColor: function (i) { return this.colorsArray[wrapNumber(0, this.colorsArray.length, i)] },
 }
