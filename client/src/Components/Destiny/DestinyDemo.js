@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Switch, Route } from 'react-router-dom';
 import SearchDisplay from './SearchDisplay';
 import SearchForm from './SearchForm';
 
@@ -9,10 +10,10 @@ const DestinyDemo = () => {
     <motion.div
       exit={{ opacity: 0 }}
     >
-      <div>
-        <SearchForm />
-        <SearchDisplay />
-      </div>
+      <SearchForm />
+      <Switch>
+        <Route exact path='/destiny' component={SearchDisplay} />
+      </Switch>
     </motion.div>
   )
 }
