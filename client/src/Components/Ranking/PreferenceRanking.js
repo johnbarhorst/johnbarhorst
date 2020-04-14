@@ -1,6 +1,6 @@
 import React, { useState, useReducer } from 'react';
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useToggle } from '../../Hooks';
 import { AnimatedButton, Card } from '../../Elements';
 
@@ -63,6 +63,13 @@ function reducer(state, action) {
         ...state,
         list: [...action.payload]
       }
+    case 'BACK_TO_TOP':
+      return {
+        ...state,
+        option1: 0,
+        option2: 1,
+        list: [...action.payload]
+      }
 
     default:
       break;
@@ -110,7 +117,10 @@ const PreferenceRanking = () => {
   const handleSelection = (value) => {
     let tempList = [...list];
     if (value === option2) { [tempList[option1], tempList[option2]] = [tempList[option2], tempList[option1]]; }
-    dispatch({ type: 'VOTE_UP_ITEM', payload: [...tempList] });
+    if (option2 === list.length - 1) {
+      return dispatch({ type: 'BACK_TO_TOP', payload: [...tempList] })
+    }
+    return dispatch({ type: 'VOTE_UP_ITEM', payload: [...tempList] });
   }
   // Make a list of items to rank
   // Take an array of items
@@ -129,19 +139,25 @@ const PreferenceRanking = () => {
         <AnimatedButton onClick={() => handleShuffle()}>Shuffle List</AnimatedButton>
         <AnimatedButton onClick={() => toggle()}>{isToggled ? 'Hide List' : 'Show List'}</AnimatedButton>
       </SelectionDisplay>
-      {isToggled &&
-        <ListDisplay>
-          {list.map(item =>
-            <ListItem
-              key={item.number}
-              positionTransition
-              colorIndex={item.number}
-              onClick={() => handleItemClick(item.number)}
-            >
-              <h3>{item.text}</h3>
-            </ListItem>)}
-        </ListDisplay>
-      }
+      <AnimatePresence>
+        {isToggled &&
+          <ListDisplay
+            exit={{ opacity: 0 }}
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+          >
+            {list.map(item =>
+              <ListItem
+                key={item.number}
+                positionTransition
+                colorIndex={item.number}
+                onClick={() => handleItemClick(item.number)}
+              >
+                <h3>{item.text}</h3>
+              </ListItem>)}
+          </ListDisplay>
+        }
+      </AnimatePresence>
     </motion.div>
   )
 }
