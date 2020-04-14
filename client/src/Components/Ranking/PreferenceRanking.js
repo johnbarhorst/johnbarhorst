@@ -2,7 +2,7 @@ import React, { useState, useReducer } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useToggle } from '../../Hooks';
-import { AnimatedButton, Card } from '../../Elements';
+import { AnimatedButton, Card, Form } from '../../Elements';
 
 const sampleData = [
   { text: 'item1', number: 1 },
@@ -37,6 +37,18 @@ const sampleData = [
   { text: 'item30', number: 30 },
 ];
 
+const shuffle = arr => {
+  let currentIndex = arr.length;
+  let tempValue, randomIndex;
+  while (0 !== currentIndex) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+    tempValue = arr[currentIndex];
+    arr[currentIndex] = arr[randomIndex];
+    arr[randomIndex] = tempValue;
+  }
+  return arr;
+}
 
 const wrapNumber = (min, max, num) => {
   const rangeSize = max - min;
@@ -70,6 +82,18 @@ function reducer(state, action) {
         option2: 1,
         list: [...action.payload]
       }
+    case 'ADD_LIST_ITEM':
+      return {
+        ...state,
+        list: [...state.list, action.payload]
+      }
+    case 'CLEAR_LIST':
+      return {
+        ...state,
+        option1: 0,
+        option2: 1,
+        list: []
+      }
 
     default:
       break;
@@ -77,30 +101,18 @@ function reducer(state, action) {
 }
 
 const PreferenceRanking = () => {
-  const [{ option1, option2, preferred, list }, dispatch] = useReducer(reducer, {
+  const { isToggled, toggle } = useToggle(true);
+  const [inputValue, setInputValue] = useState('');
+  const [{ option1, option2, list }, dispatch] = useReducer(reducer, {
     option1: 0,
     option2: 1,
     preferred: [],
     list: sampleData
   });
-  const { isToggled, toggle } = useToggle(true);
 
   // const getRandomItem = () => {
   //   Math.floor(Math.random() * list.length);
   // }
-
-  const shuffle = arr => {
-    let currentIndex = arr.length;
-    let tempValue, randomIndex;
-    while (0 !== currentIndex) {
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex -= 1;
-      tempValue = arr[currentIndex];
-      arr[currentIndex] = arr[randomIndex];
-      arr[randomIndex] = tempValue;
-    }
-    return arr;
-  }
 
   const handleShuffle = () => {
     const shuffledList = shuffle(list);
@@ -111,7 +123,6 @@ const PreferenceRanking = () => {
     //On click, make this item an active selection in the voting process.
     const index = list.findIndex(el => el.number === itemNumber);
     dispatch({ type: 'SELECT_LIST_ITEM', payload: index });
-    console.log(itemNumber);
   }
 
   const handleSelection = (value) => {
@@ -122,6 +133,19 @@ const PreferenceRanking = () => {
     }
     return dispatch({ type: 'VOTE_UP_ITEM', payload: [...tempList] });
   }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (inputValue.trim().length === 0) {
+      return
+    }
+    const newItem = {
+      text: inputValue,
+      number: list.length + 1
+    }
+    setInputValue('');
+    return dispatch({ type: 'ADD_LIST_ITEM', payload: newItem });
+  }
   // Make a list of items to rank
   // Take an array of items
   // Display 2 options from the array
@@ -129,7 +153,21 @@ const PreferenceRanking = () => {
   // Repeat with 2 new options, until list has been sorted.
   return (
     <motion.div exit={{ opacity: 0 }}>
-      {list.length > 2 &&
+      <SelectionDisplay>
+        <Form onSubmit={handleSubmit}>
+          <input type="text" name="input" id="input" value={inputValue} onChange={e => setInputValue(e.target.value)} />
+          <AnimatedButton
+            type='submit'
+            whileHover={{
+              scale: 1.05
+            }}
+            whileTap={{
+              scale: .95
+            }}
+          >Submit</AnimatedButton>
+        </Form>
+      </SelectionDisplay>
+      {list.length >= 2 &&
         <SelectionDisplay>
           <AnimatedButton onClick={() => handleSelection(option1)}>{list[option1].text}</AnimatedButton>
           <AnimatedButton onClick={() => handleSelection(option2)}>{list[option2].text}</AnimatedButton>
@@ -138,9 +176,10 @@ const PreferenceRanking = () => {
       <SelectionDisplay>
         <AnimatedButton onClick={() => handleShuffle()}>Shuffle List</AnimatedButton>
         <AnimatedButton onClick={() => toggle()}>{isToggled ? 'Hide List' : 'Show List'}</AnimatedButton>
+        <AnimatedButton onClick={() => dispatch({ type: 'CLEAR_LIST' })}>Clear List</AnimatedButton>
       </SelectionDisplay>
       <AnimatePresence>
-        {isToggled &&
+        {isToggled && list.length > 0 ?
           <ListDisplay
             exit={{ opacity: 0 }}
             initial={{ opacity: 0, height: 0 }}
@@ -148,6 +187,8 @@ const PreferenceRanking = () => {
           >
             {list.map(item =>
               <ListItem
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 key={item.number}
                 positionTransition
                 colorIndex={item.number}
@@ -155,7 +196,7 @@ const PreferenceRanking = () => {
               >
                 <h3>{item.text}</h3>
               </ListItem>)}
-          </ListDisplay>
+          </ListDisplay> : null
         }
       </AnimatePresence>
     </motion.div>
@@ -172,13 +213,17 @@ const SelectionDisplay = styled(motion.div)`
 
 const ListItem = styled(motion.div)`
   text-align: center;
-  padding: 10px;
+  padding: 5px;
   border-radius: 15px;
   box-shadow: 1px 1px 5px rgba(0,0,0,0.4);
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
   background-color: ${props => props.theme.cycledColor(props.colorIndex)};
 `;
 
 const ListDisplay = styled(Card)`
   overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
 `;
+
