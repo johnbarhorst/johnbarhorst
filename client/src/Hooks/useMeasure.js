@@ -5,7 +5,7 @@ export const useMeasure = () => {
   const [bounds, setBounds] = useState({ left: 0, top: 0, width: 0, height: 0 });
 
   const [resize0] = useState(() => {
-    new ResizeObserver(([entry]) => setBounds(entry.contentRect));
+    return new ResizeObserver(([entry]) => setBounds(entry.contentRect));
   });
 
   useEffect(() => {
