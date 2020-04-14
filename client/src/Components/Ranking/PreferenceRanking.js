@@ -101,7 +101,7 @@ function reducer(state, action) {
 }
 
 const PreferenceRanking = () => {
-  const { isToggled, toggle } = useToggle(true);
+  const [showList, setToggle, toggle] = useToggle(true, true);
   const [inputValue, setInputValue] = useState('');
   const [{ option1, option2, list }, dispatch] = useReducer(reducer, {
     option1: 0,
@@ -146,6 +146,13 @@ const PreferenceRanking = () => {
     setInputValue('');
     return dispatch({ type: 'ADD_LIST_ITEM', payload: newItem });
   }
+
+  const handleSaveList = () => {
+    localStorage.setItem('prefList', JSON.stringify(list));
+    console.log(window.localStorage);
+  }
+
+
   // Make a list of items to rank
   // Take an array of items
   // Display 2 options from the array
@@ -175,11 +182,12 @@ const PreferenceRanking = () => {
       }
       <SelectionDisplay>
         <AnimatedButton onClick={() => handleShuffle()}>Shuffle List</AnimatedButton>
-        <AnimatedButton onClick={() => toggle()}>{isToggled ? 'Hide List' : 'Show List'}</AnimatedButton>
+        <AnimatedButton onClick={() => toggle()}>{showList ? 'Hide List' : 'Show List'}</AnimatedButton>
         <AnimatedButton onClick={() => dispatch({ type: 'CLEAR_LIST' })}>Clear List</AnimatedButton>
+        <AnimatedButton onClick={() => handleSaveList()}>Save List</AnimatedButton>
       </SelectionDisplay>
       <AnimatePresence>
-        {isToggled && list.length > 0 ?
+        {showList && list.length > 0 ?
           <ListDisplay
             exit={{ opacity: 0 }}
             initial={{ opacity: 0, height: 0 }}
@@ -223,7 +231,7 @@ const ListItem = styled(motion.div)`
 const ListDisplay = styled(Card)`
   overflow: hidden;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 10px;
 `;
 
