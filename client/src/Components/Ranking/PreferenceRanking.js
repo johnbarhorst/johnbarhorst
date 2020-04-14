@@ -1,6 +1,7 @@
 import React, { useState, useReducer } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import { useToggle } from '../../Hooks';
 import { AnimatedButton, Card } from '../../Elements';
 
 const sampleData = [
@@ -57,6 +58,11 @@ function reducer(state, action) {
         option1: action.payload,
         option2: wrapNumber(0, state.list.length, action.payload + 1),
       }
+    case 'SHUFFLE_LIST':
+      return {
+        ...state,
+        list: [...action.payload]
+      }
 
     default:
       break;
@@ -69,7 +75,8 @@ const PreferenceRanking = () => {
     option2: 1,
     preferred: [],
     list: sampleData
-  })
+  });
+  const { isToggled, toggle } = useToggle(true);
 
   // const getRandomItem = () => {
   //   Math.floor(Math.random() * list.length);
@@ -86,6 +93,11 @@ const PreferenceRanking = () => {
       arr[randomIndex] = tempValue;
     }
     return arr;
+  }
+
+  const handleShuffle = () => {
+    const shuffledList = shuffle(list);
+    return dispatch({ type: 'SHUFFLE_LIST', payload: shuffledList });
   }
 
   const handleItemClick = (itemNumber) => {
@@ -107,21 +119,29 @@ const PreferenceRanking = () => {
   // Repeat with 2 new options, until list has been sorted.
   return (
     <motion.div exit={{ opacity: 0 }}>
+      {list.length > 2 &&
+        <SelectionDisplay>
+          <AnimatedButton onClick={() => handleSelection(option1)}>{list[option1].text}</AnimatedButton>
+          <AnimatedButton onClick={() => handleSelection(option2)}>{list[option2].text}</AnimatedButton>
+        </SelectionDisplay>
+      }
       <SelectionDisplay>
-        <AnimatedButton onClick={() => handleSelection(option1)}>{list[option1].text}</AnimatedButton>
-        <AnimatedButton onClick={() => handleSelection(option2)}>{list[option2].text}</AnimatedButton>
+        <AnimatedButton onClick={() => handleShuffle()}>Shuffle List</AnimatedButton>
+        <AnimatedButton onClick={() => toggle()}>{isToggled ? 'Hide List' : 'Show List'}</AnimatedButton>
       </SelectionDisplay>
-      <Card>
-        {list.map(item =>
-          <ListItem
-            key={item.number}
-            positionTransition
-            colorIndex={item.number}
-            onClick={() => handleItemClick(item.number)}
-          >
-            <h3>{item.text}</h3>
-          </ListItem>)}
-      </Card>
+      {isToggled &&
+        <ListDisplay>
+          {list.map(item =>
+            <ListItem
+              key={item.number}
+              positionTransition
+              colorIndex={item.number}
+              onClick={() => handleItemClick(item.number)}
+            >
+              <h3>{item.text}</h3>
+            </ListItem>)}
+        </ListDisplay>
+      }
     </motion.div>
   )
 }
@@ -141,4 +161,8 @@ const ListItem = styled(motion.div)`
   box-shadow: 1px 1px 5px rgba(0,0,0,0.4);
   margin-bottom: 10px;
   background-color: ${props => props.theme.cycledColor(props.colorIndex)};
+`;
+
+const ListDisplay = styled(Card)`
+  overflow: hidden;
 `;
