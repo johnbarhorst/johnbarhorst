@@ -44,12 +44,18 @@ const wrapNumber = (min, max, num) => {
 
 function reducer(state, action) {
   switch (action.type) {
-    case 'SELECT_ITEM':
+    case 'VOTE_UP_ITEM':
       return {
         ...state,
-        option1: state.option1 + 1,
-        option2: state.option2 + 1,
+        option1: wrapNumber(0, state.list.length, state.option1 + 1),
+        option2: wrapNumber(0, state.list.length, state.option2 + 1),
         list: [...action.payload],
+      }
+    case 'SELECT_LIST_ITEM':
+      return {
+        ...state,
+        option1: action.payload,
+        option2: wrapNumber(0, state.list.length, action.payload + 1),
       }
 
     default:
@@ -65,9 +71,10 @@ const PreferenceRanking = () => {
     list: sampleData
   })
 
-  const getRandomItem = () => {
-    Math.floor(Math.random() * list.length);
-  }
+  // const getRandomItem = () => {
+  //   Math.floor(Math.random() * list.length);
+  // }
+
   const shuffle = arr => {
     let currentIndex = arr.length;
     let tempValue, randomIndex;
@@ -81,10 +88,17 @@ const PreferenceRanking = () => {
     return arr;
   }
 
+  const handleItemClick = (itemNumber) => {
+    //On click, make this item an active selection in the voting process.
+    const index = list.findIndex(el => el.number === itemNumber);
+    dispatch({ type: 'SELECT_LIST_ITEM', payload: index });
+    console.log(itemNumber);
+  }
+
   const handleSelection = (value) => {
     let tempList = [...list];
     if (value === option2) { [tempList[option1], tempList[option2]] = [tempList[option2], tempList[option1]]; }
-    dispatch({ type: 'SELECT_ITEM', payload: [...tempList] });
+    dispatch({ type: 'VOTE_UP_ITEM', payload: [...tempList] });
   }
   // Make a list of items to rank
   // Take an array of items
@@ -98,7 +112,15 @@ const PreferenceRanking = () => {
         <AnimatedButton onClick={() => handleSelection(option2)}>{list[option2].text}</AnimatedButton>
       </SelectionDisplay>
       <Card>
-        {list.map(item => <ListItem key={item.number} positionTransition colorIndex={item.number}><h3>{item.text}</h3></ListItem>)}
+        {list.map(item =>
+          <ListItem
+            key={item.number}
+            positionTransition
+            colorIndex={item.number}
+            onClick={() => handleItemClick(item.number)}
+          >
+            <h3>{item.text}</h3>
+          </ListItem>)}
       </Card>
     </motion.div>
   )
@@ -114,7 +136,7 @@ const SelectionDisplay = styled(motion.div)`
 
 const ListItem = styled(motion.div)`
   text-align: center;
-  padding: 20px;
+  padding: 10px;
   border-radius: 15px;
   box-shadow: 1px 1px 5px rgba(0,0,0,0.4);
   margin-bottom: 10px;
