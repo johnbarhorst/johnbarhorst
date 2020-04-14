@@ -7,7 +7,7 @@ const SearchForm = () => {
   const { searchValue, setSearchValue, getAccounts, setSearchedValue } = useDestinyContext();
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!searchValue) {
+    if (!searchValue || searchValue.trim().length === 0) {
       return
     }
     setSearchedValue(searchValue);
