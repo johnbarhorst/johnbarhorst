@@ -1,7 +1,7 @@
 import React, { useState, useReducer } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useToggle } from '../../Hooks';
+import { useToggle, useLocalStorage } from '../../Hooks';
 import { AnimatedButton, Card, Form } from '../../Elements';
 
 const sampleData = [
@@ -94,6 +94,11 @@ function reducer(state, action) {
         option2: 1,
         list: []
       }
+    case 'RETRIEVE_LIST':
+      return {
+        ...state,
+        list: action.payload
+      }
 
     default:
       break;
@@ -109,6 +114,7 @@ const PreferenceRanking = () => {
     preferred: [],
     list: sampleData
   });
+  const [localStorage, setLocalStorage] = useLocalStorage('rankedList', JSON.stringify(list));
 
   // const getRandomItem = () => {
   //   Math.floor(Math.random() * list.length);
@@ -148,8 +154,12 @@ const PreferenceRanking = () => {
   }
 
   const handleSaveList = () => {
-    localStorage.setItem('prefList', JSON.stringify(list));
+    setLocalStorage(JSON.stringify(list));
     console.log(window.localStorage);
+  }
+
+  const handleGetSavedList = () => {
+    dispatch({ type: 'RETRIEVE_LIST', payload: JSON.parse(localStorage) });
   }
 
 
@@ -185,6 +195,7 @@ const PreferenceRanking = () => {
         <AnimatedButton onClick={() => toggle()}>{showList ? 'Hide List' : 'Show List'}</AnimatedButton>
         <AnimatedButton onClick={() => dispatch({ type: 'CLEAR_LIST' })}>Clear List</AnimatedButton>
         <AnimatedButton onClick={() => handleSaveList()}>Save List</AnimatedButton>
+        <AnimatedButton onClick={() => handleGetSavedList()}>Retrieve List</AnimatedButton>
       </SelectionDisplay>
       <AnimatePresence>
         {showList && list.length > 0 ?
