@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import AnimatedList from './AnimatedList';
 import SwipeToDismiss from './SwipeToDismiss';
 import SquareShuffle from './SquareShuffle';
 import FramerCarousel from './FramerCarousel';
@@ -25,9 +24,6 @@ const Portfolio = () => {
     >
       <motion.h1>HEADLINES!</motion.h1>
       <Content>
-        <Card>
-          <AnimatedList />
-        </Card>
         <Card>
           <SquareShuffle />
         </Card>
