@@ -25,15 +25,23 @@ const Main = () => {
         <header>
           <div><h3>Logo Here</h3></div>
           <button aria-label="toggle navigation"><Menu /></button>
-          {isNavOpen &&
-            <nav>
-              <ul>
-                <li>Home</li>
-                <li>My Services</li>
-                <li>About Me</li>
-                <li>Contact</li>
-              </ul>
-            </nav>}
+          <AnimatePresence>
+            {isNavOpen &&
+              <Nav
+                variants={ulVariants}
+                initial={'closed'}
+                animate={isNavOpen ? 'open' : 'closed'}
+                exit={'closed'}
+              >
+                <Ul
+                >
+                  <Li variants={liVariants}>Home</Li>
+                  <Li variants={liVariants}>My Services</Li>
+                  <Li variants={liVariants}>About Me</Li>
+                  <Li variants={liVariants}>Contact</Li>
+                </Ul>
+              </Nav>}
+          </AnimatePresence>
         </header>
         <section>
           <h1>I'm John</h1>
@@ -77,3 +85,45 @@ const ColThree = styled(motion.div)`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
 `;
+
+const Nav = styled(motion.nav)`
+`;
+
+const Ul = styled(motion.ul)`
+  list-style: none;
+`;
+
+const Li = styled(motion.li)`
+  font-size: 2em;
+  padding: 0 5px;
+  margin: 0;
+`;
+
+const ulVariants = {
+  open: {
+    height: 'auto',
+    transition: {
+      staggerChildren: .2,
+      when: "beforeChildren"
+    }
+  },
+  closed: {
+    height: 0,
+    transition: {
+      staggerChildren: .2,
+      when: "afterChildren",
+      staggerDirection: -1
+    }
+  }
+};
+
+const liVariants = {
+  open: {
+    height: 'auto',
+    opacity: 1
+  },
+  closed: {
+    height: 0,
+    opacity: 0
+  }
+};
