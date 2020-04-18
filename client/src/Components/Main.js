@@ -8,7 +8,7 @@ const Main = () => {
   const { isNavOpen } = useAppContext();
   return (
     <AnimatePresence>
-      <Section
+      <Wrapper
         initial={{
           opacity: 0
         }}
@@ -24,7 +24,7 @@ const Main = () => {
       >
         <header>
           <div><h3>Logo Here</h3></div>
-          <MenuButton aria-label="toggle navigation"><Menu /></MenuButton>
+          <Menu />
           <AnimatePresence>
             {isNavOpen &&
               <Nav
@@ -61,20 +61,20 @@ const Main = () => {
               <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsam officiis ab eveniet harum nostrum placeat perspiciatis exercitationem tempore dolores ducimus quod, consectetur est a voluptates omnis. Quasi ex possimus molestiae!</p>
             </div>
             <div>
-              <h3>MongoDB</h3>
+              <h3>Framer Motion</h3>
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum nam voluptate cum architecto deserunt asperiores dicta beatae accusantium veritatis repellat! Reprehenderit non, sed odio iste deleniti ipsa blanditiis enim recusandae!</p>
             </div>
           </ColThree>
           <a href="">Examples</a>
         </section>
-      </Section>
+      </Wrapper>
     </AnimatePresence>
   )
 }
 
 export default Main;
 
-const Section = styled(motion.section)`
+const Wrapper = styled(motion.section)`
   text-align: center;
   height: 100vh;
   display: grid;
@@ -99,12 +99,6 @@ const Li = styled(motion.li)`
   margin: 0;
 `;
 
-const MenuButton = styled(motion.button)`
-  background: none;
-  border: none;
-  cursor: pointer;
-`;
-
 const navVariants = {
   open: {
     height: 'auto',
@@ -116,7 +110,7 @@ const navVariants = {
   closed: {
     height: 0,
     transition: {
-      staggerChildren: .2,
+      staggerChildren: .1,
       when: "afterChildren",
       staggerDirection: -1
     }
