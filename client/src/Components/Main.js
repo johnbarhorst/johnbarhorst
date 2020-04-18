@@ -45,7 +45,7 @@ const Main = () => {
         </header>
         <section>
           <h1>I'm John</h1>
-          <p>I build rad things for the web.</p>
+          <p>I help your business grow on the web.</p>
 
         </section>
 
@@ -110,7 +110,7 @@ const navVariants = {
   closed: {
     height: 0,
     transition: {
-      staggerChildren: .1,
+      staggerChildren: .2,
       when: "afterChildren",
       staggerDirection: -1
     }
@@ -120,10 +120,15 @@ const navVariants = {
 const liVariants = {
   open: {
     height: 'auto',
-    opacity: 1
+    opacity: 1,
+    y: 0
   },
   closed: {
+    y: -30,
     height: 0,
-    opacity: 0
+    opacity: 0,
+    transistion: {
+      duration: .2
+    }
   }
 };
