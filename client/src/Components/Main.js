@@ -24,11 +24,11 @@ const Main = () => {
       >
         <header>
           <div><h3>Logo Here</h3></div>
-          <button aria-label="toggle navigation"><Menu /></button>
+          <MenuButton aria-label="toggle navigation"><Menu /></MenuButton>
           <AnimatePresence>
             {isNavOpen &&
               <Nav
-                variants={ulVariants}
+                variants={navVariants}
                 initial={'closed'}
                 animate={isNavOpen ? 'open' : 'closed'}
                 exit={'closed'}
@@ -78,7 +78,6 @@ const Section = styled(motion.section)`
   text-align: center;
   height: 100vh;
   display: grid;
-
 `;
 
 const ColThree = styled(motion.div)`
@@ -91,6 +90,7 @@ const Nav = styled(motion.nav)`
 
 const Ul = styled(motion.ul)`
   list-style: none;
+  padding: 0;
 `;
 
 const Li = styled(motion.li)`
@@ -99,7 +99,13 @@ const Li = styled(motion.li)`
   margin: 0;
 `;
 
-const ulVariants = {
+const MenuButton = styled(motion.button)`
+  background: none;
+  border: none;
+  cursor: pointer;
+`;
+
+const navVariants = {
   open: {
     height: 'auto',
     transition: {
