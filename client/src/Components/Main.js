@@ -1,8 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
+import Menu from './Menu';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAppContext } from '../State';
 
 const Main = () => {
+  const { isNavOpen } = useAppContext();
   return (
     <AnimatePresence>
       <Section
@@ -19,8 +22,43 @@ const Main = () => {
           damping: 300
         }}
       >
+        <header>
+          <div><h3>Logo Here</h3></div>
+          <button aria-label="toggle navigation"><Menu /></button>
+          {isNavOpen &&
+            <nav>
+              <ul>
+                <li>Home</li>
+                <li>My Services</li>
+                <li>About Me</li>
+                <li>Contact</li>
+              </ul>
+            </nav>}
+        </header>
+        <section>
+          <h1>I'm John</h1>
+          <p>I build rad things for the web.</p>
 
-        <h1>Main</h1>
+        </section>
+
+        <section>
+          <h2>What I Use</h2>
+          <ColThree>
+            <div>
+              <h3>React.js</h3>
+              <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Esse ab quae molestias laboriosam beatae vero ipsa quam vitae quaerat aspernatur porro reprehenderit excepturi est libero natus cupiditate, itaque quidem! Repellat.</p>
+            </div>
+            <div>
+              <h3>Node/Express</h3>
+              <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsam officiis ab eveniet harum nostrum placeat perspiciatis exercitationem tempore dolores ducimus quod, consectetur est a voluptates omnis. Quasi ex possimus molestiae!</p>
+            </div>
+            <div>
+              <h3>MongoDB</h3>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum nam voluptate cum architecto deserunt asperiores dicta beatae accusantium veritatis repellat! Reprehenderit non, sed odio iste deleniti ipsa blanditiis enim recusandae!</p>
+            </div>
+          </ColThree>
+          <a href="">Examples</a>
+        </section>
       </Section>
     </AnimatePresence>
   )
@@ -30,6 +68,12 @@ export default Main;
 
 const Section = styled(motion.section)`
   text-align: center;
-  background: linear-gradient(#005AA7, #FFFDE4);
   height: 100vh;
+  display: grid;
+
+`;
+
+const ColThree = styled(motion.div)`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
 `;
