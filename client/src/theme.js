@@ -1,7 +1,29 @@
+import { css } from 'styled-components';
+
 const wrapNumber = (min, max, num) => {
   const rangeSize = max - min;
   return ((((num - min) % rangeSize) + rangeSize) % rangeSize) + min;
 }
+
+// START OF MIXIN THING THAT I DON'T QUITE LIKE SO MUCH YET
+// this works ok as a mixin, but I find that it's less readable than using breakpoints via theme
+// from within a regularily written media query. Leaving it in for now for something to reference some day
+const breakpoints = {
+  sm: '768px',
+  med: '992px',
+  lg: '1200px'
+};
+
+const media = Object.keys(breakpoints).reduce((acc, label) => {
+  acc[label] = (...args) => css`
+    @media screen and (min-width: ${breakpoints[label]}){
+      ${css(...args)};
+    }
+  `;
+  return acc;
+}, {});
+
+// END OF MIXIN THING THAT I DON'T QUITE LIKE SO MUCH YET.
 
 export const theme = {
   colors: {
@@ -55,5 +77,12 @@ export const theme = {
     fw_Bold: 900,
     fs_h1: '3rem',
     fs_h2: '2.25rem',
-  }
+  },
+  breakpoints: {
+    sm: '768px',
+    med: '992px',
+    lg: '1200px'
+  },
+  media
 }
+
