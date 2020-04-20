@@ -5,12 +5,13 @@ export const AppContext = createContext({
   isNavOpen: false,
 })
 export const ContextWrapper = ({ children }) => {
-  const { isToggled, toggle } = useToggle(false);
+  const { isToggled, toggle, setToggle } = useToggle(false);
   return (
     <AppContext.Provider
       value={{
         isNavOpen: isToggled,
         toggleNav: toggle,
+        closeNav: () => setToggle(false)
       }}
     >
       {children}
