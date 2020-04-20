@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import styled from 'styled-components';
 import Menu from './Menu';
 import { useAppContext } from '../State';
-import { H3 } from '../Elements';
+import { H3, Wrapper } from '../Elements';
 
 
 const Navigation = () => {
@@ -40,10 +40,6 @@ const Navigation = () => {
 }
 
 export default Navigation;
-const Wrapper = styled(motion.section)`
-  max-width: 90%;
-  margin: 0 auto;
-`;
 
 const Header = styled(motion.header)`
     display: flex;
@@ -85,7 +81,7 @@ const navVariants = {
   exit: {
     height: 0,
     overflow: 'hidden',
-    transitiion: {
+    transition: {
       duration: 0
     }
   }
