@@ -50,6 +50,7 @@ export const theme = {
     trueRed: '#BC243C',
     fuschiaRose: '#C3447A',
     ceruleanBlue: '#98B4D4',
+    black: '#333333'
   },
   colorsArray: [
     '#FF6F61',
@@ -75,14 +76,20 @@ export const theme = {
     '#98B4D4',],
   cycledColor: function (i) { return this.colorsArray[wrapNumber(0, this.colorsArray.length, i)] },
   fonts: {
-    fw_Reg: 300,
-    fw_Bold: 900,
+    fw_reg: 300,
+    fw_bold: 900,
     fs_h1: '3rem',
     fs_h2: '2.25rem',
+    fs_h3: '1.25rem',
+    fs_body: '1rem',
+    fs_h1_lg: '4.5rem',
+    fs_h2_lg: '3.75rem',
+    fs_h3_lg: '1.5rem',
+    fs_body_lg: '1.125rem'
   },
   breakpoints: {
     sm: '768px',
-    med: '992px',
+    md: '992px',
     lg: '1200px'
   },
   media
