@@ -48,3 +48,8 @@ vertical-align: middle;
 margin: 0 20px;
 }
 `;
+
+export const Wrapper = styled(motion.section)`
+  max-width: 90%;
+  margin: 0 auto;
+`;
