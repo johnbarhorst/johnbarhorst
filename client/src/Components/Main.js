@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import Menu from './Menu';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAppContext } from '../State';
@@ -36,10 +37,11 @@ const Main = () => {
               >
                 <Ul
                 >
-                  <Li variants={liVariants}>Home</Li>
-                  <Li variants={liVariants}>My Services</Li>
-                  <Li variants={liVariants}>About Me</Li>
-                  <Li variants={liVariants}>Contact</Li>
+                  <Li variants={liVariants}><Link to="/">J B</Link></Li>
+                  <Li variants={liVariants}><Link to="/about">About Me</Link></Li>
+                  <Li variants={liVariants}><Link to="/portfolio">Portfolio</Link></Li>
+                  <Li variants={liVariants}><Link to="/destiny">Destiny Search Demo</Link></Li>
+                  <Li variants={liVariants}><Link to="/preference">Preference Ranking Demo</Link></Li>
                 </Ul>
               </Nav>}
           </AnimatePresence>
@@ -114,6 +116,9 @@ const Li = styled(motion.li)`
   font-size: 2em;
   padding: 0 5px;
   margin: 0;
+  a {
+    color: ${props => props.theme.colors.black};
+  }
 `;
 
 const navVariants = {
