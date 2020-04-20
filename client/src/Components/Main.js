@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { H1, H2, Wrapper } from '../Elements';
 
 const Main = () => {
@@ -18,7 +18,7 @@ const Main = () => {
       }}
     >
       <section>
-        <H1>I'm John</H1>
+        <H1 initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0, transition: {duration: .3, delay: .1} }} >I'm John</H1>
         <p>I build rad stuff for the web.</p>
         <ProfilePic src="./img/meandv.jpg" alt="A bearded, bespectacled man with his dog" />
       </section>

@@ -12,7 +12,7 @@ const Navigation = () => {
   return (
     <Wrapper>
       <Header>
-        <div><Link to="/"><H3>John Barhorst</H3></Link></div>
+        <div><Link to="/"><H3>&lt; John Barhorst &gt;</H3></Link></div>
         <Menu />
       </Header>
       <div>
