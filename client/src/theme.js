@@ -7,14 +7,16 @@ const wrapNumber = (min, max, num) => {
 
 // START OF MIXIN THING THAT I DON'T QUITE LIKE SO MUCH YET
 // this works ok as a mixin, but I find that it's less readable than using breakpoints via theme
-// from within a regularily written media query. Leaving it in for now for something to reference some day
+// from within a regularily written media query. Leaving it in for now for something to reference some day.
+// Could be a little better off just exporting this separately, but I like having everything in the theme,
+// instead of having to import another thing into a component
 const breakpoints = {
   sm: '768px',
   med: '992px',
   lg: '1200px'
 };
 
-const media = Object.keys(breakpoints).reduce((acc, label) => {
+export const media = Object.keys(breakpoints).reduce((acc, label) => {
   acc[label] = (...args) => css`
     @media screen and (min-width: ${breakpoints[label]}){
       ${css(...args)};
