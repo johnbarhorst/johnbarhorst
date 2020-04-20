@@ -10,7 +10,26 @@ html {
 
 body {
    margin: 0;
+   line-height: 1.6;
+   font-family: 'Baloo Paaji 2', cursive;
+   font-size: 1rem;
+   background: #ffffff;
+   color: #303030;
 }
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  line-height: 1.1;
+}
+
 a {
   text-decoration: none;
+  color: #303030;
 }

@@ -50,7 +50,10 @@ export const theme = {
     trueRed: '#BC243C',
     fuschiaRose: '#C3447A',
     ceruleanBlue: '#98B4D4',
-    black: '#333333'
+    black: '#333333',
+    light: '#ffffff',
+    dark: '#303030'
+
   },
   colorsArray: [
     '#FF6F61',
@@ -76,8 +79,8 @@ export const theme = {
     '#98B4D4',],
   cycledColor: function (i) { return this.colorsArray[wrapNumber(0, this.colorsArray.length, i)] },
   fonts: {
-    fw_reg: 300,
-    fw_bold: 900,
+    fw_reg: 400,
+    fw_bold: 700,
     fs_h1: '3rem',
     fs_h2: '2.25rem',
     fs_h3: '1.25rem',
