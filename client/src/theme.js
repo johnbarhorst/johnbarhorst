@@ -50,4 +50,10 @@ export const theme = {
     '#C3447A',
     '#98B4D4',],
   cycledColor: function (i) { return this.colorsArray[wrapNumber(0, this.colorsArray.length, i)] },
+  fonts: {
+    fw_Reg: 300,
+    fw_Bold: 900,
+    fs_h1: '3rem',
+    fs_h2: '2.25rem',
+  }
 }
