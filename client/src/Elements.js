@@ -1,6 +1,13 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
+export const H1 = styled(motion.h1)`
+  font-size: ${props => props.size || props.theme.fonts.fs_h1};
+`;
+export const H2 = styled(motion.h1)`
+  font-size: ${props => props.size || props.theme.fonts.fs_h2};
+`;
+
 export const Card = styled(motion.div)`
   padding: 20px;
   border-radius: 15px;
