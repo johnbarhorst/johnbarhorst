@@ -169,7 +169,7 @@ const PreferenceRanking = () => {
   // Select the preferred option, update list with preferred > other
   // Repeat with 2 new options, until list has been sorted.
   return (
-    <motion.div exit={{ opacity: 0 }}>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <SelectionDisplay>
         <Form onSubmit={handleSubmit}>
           <input type="text" name="input" id="input" value={inputValue} onChange={e => setInputValue(e.target.value)} />
