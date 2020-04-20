@@ -8,7 +8,7 @@ import { H3 } from '../Elements';
 
 
 const Navigation = () => {
-  const { isNavOpen } = useAppContext();
+  const { isNavOpen, closeNav } = useAppContext();
   return (
     <Wrapper>
       <Header>
@@ -22,15 +22,15 @@ const Navigation = () => {
               variants={navVariants}
               initial={'closed'}
               animate={isNavOpen ? 'open' : 'closed'}
-              exit={'closed'}
+              exit={'exit'}
             >
               <Ul
               >
-                <Li variants={liVariants}><Link to="/">Home</Link></Li>
-                <Li variants={liVariants}><Link to="/about">About Me</Link></Li>
-                <Li variants={liVariants}><Link to="/portfolio">Portfolio</Link></Li>
-                <Li variants={liVariants}><Link to="/destiny">Destiny Search Demo</Link></Li>
-                <Li variants={liVariants}><Link to="/preference">Preference Ranking Demo</Link></Li>
+                <Li variants={liVariants}><Link onClick={() => closeNav()} to="/">Home</Link></Li>
+                <Li variants={liVariants}><Link onClick={() => closeNav()} to="/about">About Me</Link></Li>
+                <Li variants={liVariants}><Link onClick={() => closeNav()} to="/portfolio">Portfolio</Link></Li>
+                <Li variants={liVariants}><Link onClick={() => closeNav()} to="/destiny">Destiny Search Demo</Link></Li>
+                <Li variants={liVariants}><Link onClick={() => closeNav()} to="/preference">Preference Ranking Demo</Link></Li>
               </Ul>
             </Nav>}
         </AnimatePresence>
@@ -80,6 +80,13 @@ const navVariants = {
       staggerChildren: .2,
       when: "afterChildren",
       staggerDirection: -1
+    }
+  },
+  exit: {
+    height: 0,
+    overflow: 'hidden',
+    transitiion: {
+      duration: 0
     }
   }
 };
