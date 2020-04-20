@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import Menu from './Menu';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAppContext } from '../State';
-import { H1, H2 } from '../Elements';
+import { H1, H2, H3 } from '../Elements';
 
 const Main = () => {
   const { isNavOpen } = useAppContext();
@@ -24,28 +24,6 @@ const Main = () => {
           damping: 300
         }}
       >
-        <header>
-          <div><h3>Logo Here</h3></div>
-          <Menu />
-          <AnimatePresence>
-            {isNavOpen &&
-              <Nav
-                variants={navVariants}
-                initial={'closed'}
-                animate={isNavOpen ? 'open' : 'closed'}
-                exit={'closed'}
-              >
-                <Ul
-                >
-                  <Li variants={liVariants}><Link to="/">J B</Link></Li>
-                  <Li variants={liVariants}><Link to="/about">About Me</Link></Li>
-                  <Li variants={liVariants}><Link to="/portfolio">Portfolio</Link></Li>
-                  <Li variants={liVariants}><Link to="/destiny">Destiny Search Demo</Link></Li>
-                  <Li variants={liVariants}><Link to="/preference">Preference Ranking Demo</Link></Li>
-                </Ul>
-              </Nav>}
-          </AnimatePresence>
-        </header>
         <section>
           <H1>I'm John</H1>
           <p>I build rad stuff for the web.</p>
@@ -89,12 +67,11 @@ const Main = () => {
 export default Main;
 
 const Wrapper = styled(motion.section)`
-  /* text-align: center; */
-  /* height: 100vh; */
+  max-width: 90%;
+  margin: 0 auto;
 `;
 
 const ProfilePic = styled(motion.img)`
-  width: 300px;
 `;
 
 const ColThree = styled(motion.div)`
@@ -104,53 +81,3 @@ const ColThree = styled(motion.div)`
   }
 `;
 
-const Nav = styled(motion.nav)`
-`;
-
-const Ul = styled(motion.ul)`
-  list-style: none;
-  padding: 0;
-`;
-
-const Li = styled(motion.li)`
-  font-size: 2em;
-  padding: 0 5px;
-  margin: 0;
-  a {
-    color: ${props => props.theme.colors.black};
-  }
-`;
-
-const navVariants = {
-  open: {
-    height: 'auto',
-    transition: {
-      staggerChildren: .2,
-      when: "beforeChildren"
-    }
-  },
-  closed: {
-    height: 0,
-    transition: {
-      staggerChildren: .2,
-      when: "afterChildren",
-      staggerDirection: -1
-    }
-  }
-};
-
-const liVariants = {
-  open: {
-    height: 'auto',
-    opacity: 1,
-    y: 0
-  },
-  closed: {
-    y: -30,
-    height: 0,
-    opacity: 0,
-    transistion: {
-      duration: .2
-    }
-  }
-};
