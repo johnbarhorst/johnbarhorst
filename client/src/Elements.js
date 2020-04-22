@@ -9,6 +9,7 @@ export const H1 = styled(motion.h1)`
 `;
 export const H2 = styled(motion.h2)`
   font-size: ${props => props.size || props.theme.fonts.fs_h2};
+  margin: .75em 0;
   @media screen and (min-width: ${props => props.theme.breakpoints.md}) {
     font-size: ${props => props.size || props.theme.fonts.fs_h2_lg};
   }

@@ -18,13 +18,15 @@ const Main = () => {
       }}
     >
       <section>
-        <H1 initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0, transition: {duration: .3, delay: .1} }} >I'm John</H1>
+        <H1 initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0, transition: { duration: .3, delay: .1 } }} >I'm John</H1>
         <p>I build rad stuff for the web.</p>
-        <ProfilePic src="./img/meandv.jpg" alt="A bearded, bespectacled man with his dog" />
+        <ProfilePicContainer>
+          <ProfilePic src="./img/mapme.jpg" alt="A beautiful, bald, bearded, and bespectacled individual" />
+        </ProfilePicContainer>
       </section>
 
       <section>
-        <H2>What I Use</H2>
+        <H2>What I Build</H2>
         <ColThree>
           <article>
             <h3>React.js</h3>
@@ -59,6 +61,13 @@ const Main = () => {
 export default Main;
 
 const ProfilePic = styled(motion.img)`
+`;
+const ProfilePicContainer = styled(motion.div)`
+border-radius: 50%;
+width: calc(50vw - 10%);
+height: calc(50vw - 10%);
+margin: 0 auto;
+
 `;
 
 const ColThree = styled(motion.div)`
