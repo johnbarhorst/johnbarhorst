@@ -2,9 +2,20 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { H1, H2, Wrapper } from '../Elements';
+import { H1, H2, H3, Wrapper } from '../Elements';
 
 const Main = () => {
+  const intro = 'Hi, thanks for stopping by.'
+  const secondLine = `I'm John, I build rad stuff for the web.`;
+
+  const wrapString = string => string.split('').map(l => `
+    <L
+      variants={typedVariant}
+      >${l}</L>
+  `).join('');
+
+  console.log(wrapString(intro));
+  console.log(wrapString(secondLine));
   return (
     <Wrapper
       initial={{
@@ -17,15 +28,287 @@ const Main = () => {
         opacity: 0
       }}
     >
-      <section>
-        <H1 initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0, transition: { duration: .3, delay: .1 } }} >I'm John</H1>
-        <p>I build rad stuff for the web.</p>
-        <ProfilePicContainer>
-          <ProfilePic src="./img/mapme.jpg" alt="A beautiful, bald, bearded, and bespectacled individual" />
-        </ProfilePicContainer>
-      </section>
+      <TopSection>
+        <TypeWriter
+          variants={typewriterVariants}
+          initial={'initial'}
+          animate={'animate'}>
+          <L
+            variants={typedVariant}
+          >H</L>
+
+          <L
+            variants={typedVariant}
+          >i</L>
+
+          <L
+            variants={typedVariant}
+          >,</L>
+
+          <L
+            variants={typedVariant}
+          > </L>
+
+          <L
+            variants={typedVariant}
+          >t</L>
+
+          <L
+            variants={typedVariant}
+          >h</L>
+
+          <L
+            variants={typedVariant}
+          >a</L>
+
+          <L
+            variants={typedVariant}
+          >n</L>
+
+          <L
+            variants={typedVariant}
+          >k</L>
+
+          <L
+            variants={typedVariant}
+          >s</L>
+
+          <L
+            variants={typedVariant}
+          > </L>
+
+          <L
+            variants={typedVariant}
+          >f</L>
+
+          <L
+            variants={typedVariant}
+          >o</L>
+
+          <L
+            variants={typedVariant}
+          >r</L>
+
+          <L
+            variants={typedVariant}
+          > </L>
+
+          <L
+            variants={typedVariant}
+          >s</L>
+
+          <L
+            variants={typedVariant}
+          >t</L>
+
+          <L
+            variants={typedVariant}
+          >o</L>
+
+          <L
+            variants={typedVariant}
+          >p</L>
+
+          <L
+            variants={typedVariant}
+          >p</L>
+
+          <L
+            variants={typedVariant}
+          >i</L>
+
+          <L
+            variants={typedVariant}
+          >n</L>
+
+          <L
+            variants={typedVariant}
+          >g</L>
+
+          <L
+            variants={typedVariant}
+          > </L>
+
+          <L
+            variants={typedVariant}
+          >b</L>
+
+          <L
+            variants={typedVariant}
+          >y</L>
+
+          <L
+            variants={typedVariant}
+          >.</L>
+        </TypeWriter>
+        <TypeWriter
+          variants={typewriterVariants}
+          initial={'initial'}
+          animate={'animate'}>
+          <L
+            variants={typedVariant}
+          >I</L>
+
+          <L
+            variants={typedVariant}
+          >'</L>
+
+          <L
+            variants={typedVariant}
+          >m</L>
+
+          <L
+            variants={typedVariant}
+          > </L>
+
+          <L
+            variants={typedVariant}
+          >J</L>
+
+          <L
+            variants={typedVariant}
+          >o</L>
+
+          <L
+            variants={typedVariant}
+          >h</L>
+
+          <L
+            variants={typedVariant}
+          >n</L>
+
+          <L
+            variants={typedVariant}
+          >,</L>
+
+          <L
+            variants={typedVariant}
+          > </L>
+
+          <L
+            variants={typedVariant}
+          >I</L>
+
+          <L
+            variants={typedVariant}
+          > </L>
+
+          <L
+            variants={typedVariant}
+          >b</L>
+
+          <L
+            variants={typedVariant}
+          >u</L>
+
+          <L
+            variants={typedVariant}
+          >i</L>
+
+          <L
+            variants={typedVariant}
+          >l</L>
+
+          <L
+            variants={typedVariant}
+          >d</L>
+
+          <L
+            variants={typedVariant}
+          > </L>
+
+          <L
+            variants={typedVariant}
+          >r</L>
+
+          <L
+            variants={typedVariant}
+          >a</L>
+
+          <L
+            variants={typedVariant}
+          >d</L>
+
+          <L
+            variants={typedVariant}
+          > </L>
+
+          <L
+            variants={typedVariant}
+          >s</L>
+
+          <L
+            variants={typedVariant}
+          >t</L>
+
+          <L
+            variants={typedVariant}
+          >u</L>
+
+          <L
+            variants={typedVariant}
+          >f</L>
+
+          <L
+            variants={typedVariant}
+          >f</L>
+
+          <L
+            variants={typedVariant}
+          > </L>
+
+          <L
+            variants={typedVariant}
+          >f</L>
+
+          <L
+            variants={typedVariant}
+          >o</L>
+
+          <L
+            variants={typedVariant}
+          >r</L>
+
+          <L
+            variants={typedVariant}
+          > </L>
+
+          <L
+            variants={typedVariant}
+          >t</L>
+
+          <L
+            variants={typedVariant}
+          >h</L>
+
+          <L
+            variants={typedVariant}
+          >e</L>
+
+          <L
+            variants={typedVariant}
+          > </L>
+
+          <L
+            variants={typedVariant}
+          >w</L>
+
+          <L
+            variants={typedVariant}
+          >e</L>
+
+          <L
+            variants={typedVariant}
+          >b</L>
+
+          <L
+            variants={typedVariant}
+          >.</L>
+        </TypeWriter>
+      </TopSection>
 
       <section>
+        <ProfilePic />
         <H2>What I Build</H2>
         <ColThree>
           <article>
@@ -60,14 +343,17 @@ const Main = () => {
 
 export default Main;
 
-const ProfilePic = styled(motion.img)`
+const TopSection = styled(motion.section)`
+  text-align: center; 
+  margin: 5em 0;
 `;
-const ProfilePicContainer = styled(motion.div)`
-border-radius: 50%;
-width: calc(50vw - 10%);
-height: calc(50vw - 10%);
-margin: 0 auto;
 
+const ProfilePic = styled(motion.div)`
+  background: url("./img/meandv.jpg") #fff left / cover;
+  border-radius: 50%;
+  max-width: calc(50vw - 10%);
+  padding-top: calc(50vw - 10%);
+  margin: 0 auto;
 `;
 
 const ColThree = styled(motion.div)`
@@ -77,3 +363,34 @@ const ColThree = styled(motion.div)`
   }
 `;
 
+const L = styled(motion.span)`
+
+`;
+
+const TypeWriter = styled(motion.p)`
+`;
+
+const typewriterVariants = {
+  initial: {
+    transition: {
+      staggerChildren: .2
+    }
+  },
+  animate: {
+    transition: {
+      staggerChildren: .2
+    }
+  }
+}
+
+const typedVariant = {
+  initial: {
+    opacity: 0
+  },
+  animate: {
+    opacity: 1,
+    transition: {
+      duration: 1
+    }
+  }
+}
