@@ -3,19 +3,20 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { H1, H2, H3, Wrapper } from '../Elements';
+import AnimateTypewriter from './AnimateTypewriter';
 
 const Main = () => {
-  const intro = 'Hi, thanks for stopping by.'
-  const secondLine = `I'm John, I build rad stuff for the web.`;
+  // const intro = 'Hi, thanks for stopping by.'
+  // const secondLine = `I'm John, I build rad stuff for the web.`;
 
-  const wrapString = string => string.split('').map(l => `
-    <L
-      variants={typedVariant}
-      >${l}</L>
-  `).join('');
+  // // const wrapString = string => string.split('').map(l => `
+  // //   <L
+  // //     variants={typedVariant}
+  // //     >${l}</L>
+  // // `).join('');
 
-  console.log(wrapString(intro));
-  console.log(wrapString(secondLine));
+  // console.log(wrapString(intro));
+  // console.log(wrapString(secondLine));
   return (
     <Wrapper
       initial={{
@@ -29,284 +30,14 @@ const Main = () => {
       }}
     >
       <TopSection>
-        <TypeWriter
+        <H2
           variants={typewriterVariants}
           initial={'initial'}
-          animate={'animate'}>
-          <L
-            variants={typedVariant}
-          >H</L>
-
-          <L
-            variants={typedVariant}
-          >i</L>
-
-          <L
-            variants={typedVariant}
-          >,</L>
-
-          <L
-            variants={typedVariant}
-          > </L>
-
-          <L
-            variants={typedVariant}
-          >t</L>
-
-          <L
-            variants={typedVariant}
-          >h</L>
-
-          <L
-            variants={typedVariant}
-          >a</L>
-
-          <L
-            variants={typedVariant}
-          >n</L>
-
-          <L
-            variants={typedVariant}
-          >k</L>
-
-          <L
-            variants={typedVariant}
-          >s</L>
-
-          <L
-            variants={typedVariant}
-          > </L>
-
-          <L
-            variants={typedVariant}
-          >f</L>
-
-          <L
-            variants={typedVariant}
-          >o</L>
-
-          <L
-            variants={typedVariant}
-          >r</L>
-
-          <L
-            variants={typedVariant}
-          > </L>
-
-          <L
-            variants={typedVariant}
-          >s</L>
-
-          <L
-            variants={typedVariant}
-          >t</L>
-
-          <L
-            variants={typedVariant}
-          >o</L>
-
-          <L
-            variants={typedVariant}
-          >p</L>
-
-          <L
-            variants={typedVariant}
-          >p</L>
-
-          <L
-            variants={typedVariant}
-          >i</L>
-
-          <L
-            variants={typedVariant}
-          >n</L>
-
-          <L
-            variants={typedVariant}
-          >g</L>
-
-          <L
-            variants={typedVariant}
-          > </L>
-
-          <L
-            variants={typedVariant}
-          >b</L>
-
-          <L
-            variants={typedVariant}
-          >y</L>
-
-          <L
-            variants={typedVariant}
-          >.</L>
-        </TypeWriter>
-        <TypeWriter
-          variants={typewriterVariants}
-          initial={'initial'}
-          animate={'animate'}>
-          <L
-            variants={typedVariant}
-          >I</L>
-
-          <L
-            variants={typedVariant}
-          >'</L>
-
-          <L
-            variants={typedVariant}
-          >m</L>
-
-          <L
-            variants={typedVariant}
-          > </L>
-
-          <L
-            variants={typedVariant}
-          >J</L>
-
-          <L
-            variants={typedVariant}
-          >o</L>
-
-          <L
-            variants={typedVariant}
-          >h</L>
-
-          <L
-            variants={typedVariant}
-          >n</L>
-
-          <L
-            variants={typedVariant}
-          >,</L>
-
-          <L
-            variants={typedVariant}
-          > </L>
-
-          <L
-            variants={typedVariant}
-          >I</L>
-
-          <L
-            variants={typedVariant}
-          > </L>
-
-          <L
-            variants={typedVariant}
-          >b</L>
-
-          <L
-            variants={typedVariant}
-          >u</L>
-
-          <L
-            variants={typedVariant}
-          >i</L>
-
-          <L
-            variants={typedVariant}
-          >l</L>
-
-          <L
-            variants={typedVariant}
-          >d</L>
-
-          <L
-            variants={typedVariant}
-          > </L>
-
-          <L
-            variants={typedVariant}
-          >r</L>
-
-          <L
-            variants={typedVariant}
-          >a</L>
-
-          <L
-            variants={typedVariant}
-          >d</L>
-
-          <L
-            variants={typedVariant}
-          > </L>
-
-          <L
-            variants={typedVariant}
-          >s</L>
-
-          <L
-            variants={typedVariant}
-          >t</L>
-
-          <L
-            variants={typedVariant}
-          >u</L>
-
-          <L
-            variants={typedVariant}
-          >f</L>
-
-          <L
-            variants={typedVariant}
-          >f</L>
-
-          <L
-            variants={typedVariant}
-          > </L>
-
-          <L
-            variants={typedVariant}
-          >f</L>
-
-          <L
-            variants={typedVariant}
-          >o</L>
-
-          <L
-            variants={typedVariant}
-          >r</L>
-
-          <L
-            variants={typedVariant}
-          > </L>
-
-          <L
-            variants={typedVariant}
-          >t</L>
-
-          <L
-            variants={typedVariant}
-          >h</L>
-
-          <L
-            variants={typedVariant}
-          >e</L>
-
-          <L
-            variants={typedVariant}
-          > </L>
-
-          <L
-            variants={typedVariant}
-          >w</L>
-
-          <L
-            variants={typedVariant}
-          >e</L>
-
-          <L
-            variants={typedVariant}
-          >b</L>
-
-          <L
-            variants={typedVariant}
-          >.</L>
-        </TypeWriter>
+          animate={'animate'}
+        ><AnimateTypewriter string={'Thanks for stopping by.'} /></H2>
       </TopSection>
-
+      <section>
+      </section>
       <section>
         <ProfilePic />
         <H2>What I Build</H2>

@@ -50,7 +50,7 @@ margin: 0 20px;
 }
 `;
 
-export const Wrapper = styled(motion.section)`
+export const Wrapper = styled(motion.div)`
   max-width: 90%;
   margin: 0 auto;
 `;
