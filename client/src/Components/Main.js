@@ -6,17 +6,6 @@ import { H1, H2, H3, Wrapper } from '../Elements';
 import AnimateTypewriter from './AnimateTypewriter';
 
 const Main = () => {
-  // const intro = 'Hi, thanks for stopping by.'
-  // const secondLine = `I'm John, I build rad stuff for the web.`;
-
-  // // const wrapString = string => string.split('').map(l => `
-  // //   <L
-  // //     variants={typedVariant}
-  // //     >${l}</L>
-  // // `).join('');
-
-  // console.log(wrapString(intro));
-  // console.log(wrapString(secondLine));
   return (
     <Wrapper
       initial={{
@@ -29,12 +18,22 @@ const Main = () => {
         opacity: 0
       }}
     >
-      <TopSection>
+      <TopSection
+        variants={typewriterVariants}
+        initial={'initial'}
+        animate={'animate'}
+      >
         <H2
-          variants={typewriterVariants}
-          initial={'initial'}
-          animate={'animate'}
+          typewriter
         ><AnimateTypewriter string={'Thanks for stopping by.'} /></H2>
+        <motion.p
+          // variants={typewriterVariants}
+          // initial={'initial'}
+          // animate={'animate'}
+          style={{
+            fontFamily: `Special Elite`
+          }}
+        ><AnimateTypewriter string={`I'm John, I build rad stuff for the web.`} /></motion.p>
       </TopSection>
       <section>
       </section>
@@ -68,7 +67,7 @@ const Main = () => {
       <footer>
         <a href="mailto:johnbarhorst.dev@gmail.com">John Barhorst</a>
       </footer>
-    </Wrapper>
+    </Wrapper >
   )
 }
 
@@ -94,34 +93,15 @@ const ColThree = styled(motion.div)`
   }
 `;
 
-const L = styled(motion.span)`
-
-`;
-
-const TypeWriter = styled(motion.p)`
-`;
-
 const typewriterVariants = {
   initial: {
     transition: {
-      staggerChildren: .2
+      staggerChildren: .1
     }
   },
   animate: {
     transition: {
-      staggerChildren: .2
-    }
-  }
-}
-
-const typedVariant = {
-  initial: {
-    opacity: 0
-  },
-  animate: {
-    opacity: 1,
-    transition: {
-      duration: 1
+      staggerChildren: .1
     }
   }
 }
