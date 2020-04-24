@@ -23,17 +23,19 @@ const Main = () => {
         initial={'initial'}
         animate={'animate'}
       >
-        <H2
-          typewriter
-        ><AnimateTypewriter string={'Thanks for stopping by.'} /></H2>
-        <motion.p
-          // variants={typewriterVariants}
-          // initial={'initial'}
-          // animate={'animate'}
-          style={{
-            fontFamily: `Special Elite`
-          }}
-        ><AnimateTypewriter string={`I'm John, I build rad stuff for the web.`} /></motion.p>
+        <div>
+          <H2
+            typewriter
+          ><AnimateTypewriter string={'Thanks for stopping by.'} /></H2>
+          <motion.p
+            // variants={typewriterVariants}
+            // initial={'initial'}
+            // animate={'animate'}
+            style={{
+              fontFamily: `Special Elite`
+            }}
+          ><AnimateTypewriter string={`I'm John, I build rad stuff for the web.`} /></motion.p>
+        </div>
       </TopSection>
       <section>
       </section>
@@ -75,7 +77,9 @@ export default Main;
 
 const TopSection = styled(motion.section)`
   text-align: center; 
-  margin: 5em 0;
+  display: grid;
+  align-content: center;
+  height: calc(100vh - 22px);
 `;
 
 const ProfilePic = styled(motion.div)`
