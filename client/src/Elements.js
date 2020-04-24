@@ -13,6 +13,7 @@ export const H2 = styled(motion.h2)`
   @media screen and (min-width: ${props => props.theme.breakpoints.md}) {
     font-size: ${props => props.size || props.theme.fonts.fs_h2_lg};
   }
+  font-family: ${props => props.typewriter ? `'Special Elite', cursive` : 'inherit'};
 `;
 export const H3 = styled(motion.h3)`
   font-size: ${props => props.size || props.theme.fonts.fs_h3};
@@ -54,3 +55,4 @@ export const Wrapper = styled(motion.div)`
   max-width: 90%;
   margin: 0 auto;
 `;
+
