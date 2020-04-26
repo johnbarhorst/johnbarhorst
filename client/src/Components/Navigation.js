@@ -10,11 +10,13 @@ import { H3, Wrapper } from '../Elements';
 const Navigation = () => {
   const { isNavOpen, closeNav } = useAppContext();
   return (
-    <Wrapper>
-      <Header>
-        <div><Link to="/"><H3>John Barhorst</H3></Link></div>
-        <Menu />
-      </Header>
+    <div>
+      <Wrapper>
+        <Header>
+          <div><Link to="/"><H3>John Barhorst</H3></Link></div>
+          <Menu />
+        </Header>
+      </Wrapper>
       <div>
         <Nav
           variants={navVariants}
@@ -61,7 +63,7 @@ const Navigation = () => {
           </Ul>
         </Nav>
       </div>
-    </Wrapper>
+    </div>
   )
 }
 
@@ -75,11 +77,16 @@ const Header = styled(motion.header)`
 `;
 
 const Nav = styled(motion.nav)`
+  overflow: hidden;
+  background: ${props => props.theme.colors.chiliPepper};
+  padding: 0 5%;
 `;
 
 const Ul = styled(motion.ul)`
   list-style: none;
   padding: 0;
+  display: grid;
+  justify-content: end;
   text-align: right;
 `;
 
@@ -94,7 +101,10 @@ const navVariants = {
     height: '100vh',
     transition: {
       staggerChildren: .2,
-      when: "beforeChildren"
+      when: "beforeChildren",
+      height: {
+        duration: .2
+      }
     }
   },
   closed: {
@@ -104,13 +114,6 @@ const navVariants = {
       staggerChildren: .1,
       when: "afterChildren",
       staggerDirection: -1
-    }
-  },
-  exit: {
-    height: 0,
-    overflow: 'hidden',
-    transition: {
-      duration: 0
     }
   }
 };
