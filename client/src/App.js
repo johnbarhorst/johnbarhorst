@@ -5,7 +5,7 @@ import { ThemeProvider } from 'styled-components';
 import { ContextWrapper, DestinyContextWrapper } from './State';
 import Navigation from './Components/Navigation';
 import Main from './Components/Main';
-import About from './Components/About';
+import Contact from './Components/Contact';
 import Portfolio from './Components/Portfolio';
 import DestinyDemo from './Components/Destiny/DestinyDemo';
 import CharacterListDisplay from './Components/Destiny/CharacterListDisplay';
@@ -24,7 +24,7 @@ function App() {
           <Route path='/destiny/:membershipType/:membershipId' component={CharacterListDisplay} />
           <Route exact path='/destiny' component={DestinyDemo} />
           <Route exact path='/portfolio' component={Portfolio} />
-          <Route exact path='/about' component={About} />
+          <Route exact path='/contact' component={Contact} />
           <Route exact path='/' component={Main} />
         </Switch>
       </AnimatePresence>

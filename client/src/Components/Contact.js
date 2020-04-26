@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
-const About = () => {
+const Contact = () => {
   const handleClick = async () => {
     const data = await fetch('/api/search');
     const json = await data.json();
@@ -20,7 +20,7 @@ const About = () => {
   )
 }
 
-export default About;
+export default Contact;
 
 const Container = styled(motion.div)`
 

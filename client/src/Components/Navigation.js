@@ -27,10 +27,10 @@ const Navigation = () => {
               <Ul
               >
                 <Li variants={liVariants}><Link onClick={() => closeNav()} to="/">Home</Link></Li>
-                <Li variants={liVariants}><Link onClick={() => closeNav()} to="/about">About Me</Link></Li>
                 <Li variants={liVariants}><Link onClick={() => closeNav()} to="/portfolio">Portfolio</Link></Li>
                 <Li variants={liVariants}><Link onClick={() => closeNav()} to="/destiny">Destiny Search</Link></Li>
                 <Li variants={liVariants}><Link onClick={() => closeNav()} to="/preference">Preference Ranking</Link></Li>
+                <Li variants={liVariants}><Link onClick={() => closeNav()} to="/contact">Get In Touch</Link></Li>
               </Ul>
             </Nav>}
         </AnimatePresence>

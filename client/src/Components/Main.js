@@ -28,9 +28,6 @@ const Main = () => {
             typewriter
           ><AnimateTypewriter string={'Thanks for stopping by.'} /></H2>
           <motion.p
-            // variants={typewriterVariants}
-            // initial={'initial'}
-            // animate={'animate'}
             style={{
               fontFamily: `Special Elite`
             }}
