@@ -14,8 +14,7 @@ const Contact = () => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      <h1>About</h1>
-      <button onClick={() => handleClick()} >Test</button>
+      <h1>Contact</h1>
     </Container>
   )
 }
