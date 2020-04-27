@@ -10,12 +10,12 @@ import { H3, Wrapper } from '../Elements';
 const Navigation = () => {
   const { isNavOpen, closeNav } = useAppContext();
   return (
-    <div>
+    <header>
       <Wrapper>
-        <Header>
-          <div><Link to="/"><H3>John Barhorst</H3></Link></div>
+        <TopBar>
+          <div><Link onClick={() => closeNav()} to="/"><H3>John Barhorst</H3></Link></div>
           <Menu />
-        </Header>
+        </TopBar>
       </Wrapper>
       <div>
         <Nav
@@ -63,13 +63,13 @@ const Navigation = () => {
           </Ul>
         </Nav>
       </div>
-    </div>
+    </header>
   )
 }
 
 export default Navigation;
 
-const Header = styled(motion.header)`
+const TopBar = styled.div`
     display: flex;
     justify-content: space-between;
     align-content: center;
@@ -88,11 +88,11 @@ const Ul = styled(motion.ul)`
   display: grid;
   justify-content: end;
   text-align: right;
+  gap: 5px;
 `;
 
 const Li = styled(motion.li)`
   font-size: 2em;
-  padding: 0 5px;
   margin: 0;
 `;
 
@@ -101,7 +101,6 @@ const navVariants = {
     height: '100vh',
     transition: {
       staggerChildren: .2,
-      when: "beforeChildren",
       height: {
         duration: .2
       }
@@ -109,7 +108,6 @@ const navVariants = {
   },
   closed: {
     height: 0,
-
     transition: {
       staggerChildren: .1,
       when: "afterChildren",
@@ -120,7 +118,6 @@ const navVariants = {
 
 const liVariants = {
   open: {
-    height: 'auto',
     opacity: 1,
     x: 0,
     transition: {
@@ -130,7 +127,6 @@ const liVariants = {
   },
   closed: {
     x: 300,
-    height: 0,
     opacity: 0,
     transistion: {
       duration: .1,
