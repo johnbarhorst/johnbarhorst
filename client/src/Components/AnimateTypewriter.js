@@ -22,3 +22,16 @@ const typedVariant = {
     }
   }
 }
+
+export const typewriterVariants = {
+  initial: {
+    transition: {
+      staggerChildren: .1
+    }
+  },
+  animate: {
+    transition: {
+      staggerChildren: .1
+    }
+  }
+}
