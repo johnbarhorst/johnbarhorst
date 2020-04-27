@@ -38,7 +38,7 @@ const Navigation = () => {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: .95 }}
             >
-              <Link onClick={() => closeNav()} to="/portfolio">Portfolio</Link>
+              <Link onClick={() => closeNav()} to="/portfolio">Mini Projects</Link>
             </Li>
             <Li
               variants={liVariants}
@@ -83,6 +83,11 @@ const Nav = styled(motion.nav)`
   overflow: hidden;
   background: ${props => props.theme.colors.chiliPepper};
   padding: 0 5%;
+  @media screen and (min-width: ${props => props.theme.breakpoints.md}) {
+    max-width: 40%;
+    margin-left: auto;
+    border-radius: 10px 0px 0px 10px;
+  }
 `;
 
 const Ul = styled(motion.ul)`
