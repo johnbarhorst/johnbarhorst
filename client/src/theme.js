@@ -79,6 +79,8 @@ export const theme = {
     '#98B4D4',],
   cycledColor: function (i) { return this.colorsArray[wrapNumber(0, this.colorsArray.length, i)] },
   fonts: {
+    ff_primary: `'Baloo Paaji 2', cursive`,
+    ff_secondary: `'Special Elite', cursive`,
     fw_reg: 400,
     fw_bold: 700,
     fs_h1: '3rem',
