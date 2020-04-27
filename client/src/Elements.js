@@ -32,7 +32,7 @@ export const Card = styled(motion.div)`
 export const AnimatedButton = styled(motion.button)`
   font-size: 20px;
   border-radius: 5px;
-  border: 1px solid #999;
+  border: 1px solid ${props => props.borderColor ? props.borderColor : '#909090'};;
   padding: 5px 20px;
 `;
 
@@ -52,7 +52,11 @@ margin: 0 20px;
 `;
 
 export const Wrapper = styled(motion.div)`
-  max-width: 90%;
-  margin: 0 auto;
+`;
+
+export const Wrapper90 = styled(motion.div)`
+max-width: 90%;
+margin: 0 auto;
+
 `;
 

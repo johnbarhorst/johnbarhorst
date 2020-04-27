@@ -4,19 +4,20 @@ import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import Menu from './Menu';
 import { useAppContext } from '../State';
-import { H3, Wrapper } from '../Elements';
+import { H3, Wrapper90 } from '../Elements';
 
+// TODO There's a bug where if you use tab and enter, the menu animation will be wonky next time the menu is opened.
 
 const Navigation = () => {
   const { isNavOpen, closeNav } = useAppContext();
   return (
     <header>
-      <Wrapper>
+      <Wrapper90>
         <TopBar>
           <div><Link onClick={() => closeNav()} to="/"><H3>John Barhorst</H3></Link></div>
           <Menu />
         </TopBar>
-      </Wrapper>
+      </Wrapper90>
       <div>
         <Nav
           variants={navVariants}
@@ -68,6 +69,8 @@ const Navigation = () => {
 }
 
 export default Navigation;
+
+
 
 const TopBar = styled.div`
     display: flex;
