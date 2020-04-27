@@ -16,7 +16,7 @@ const SearchForm = () => {
   return (
     <Form onSubmit={handleSubmit}>
       <input type="text" name="search" id="search" value={searchValue} onChange={e => setSearchValue(e.target.value)} />
-      <AnimatedButton
+      <SearchButton
         type='submit'
         whileHover={{
           scale: 1.05
@@ -24,7 +24,7 @@ const SearchForm = () => {
         whileTap={{
           scale: .95
         }}
-      >Submit</AnimatedButton>
+      >Search</SearchButton>
     </Form>
   )
 }
@@ -44,4 +44,10 @@ const Form = styled.form`
   vertical-align: middle;
   margin: 0 20px;
   }
+`;
+
+const SearchButton = styled(AnimatedButton)`
+  background: ${props => props.theme.colors.ceruleanBlue};
+  box-shadow: 1px 1px 5px rgba(0,0,0,0.4);
+  
 `;
