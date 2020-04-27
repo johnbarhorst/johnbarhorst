@@ -13,7 +13,7 @@ export const H2 = styled(motion.h2)`
   @media screen and (min-width: ${props => props.theme.breakpoints.md}) {
     font-size: ${props => props.size || props.theme.fonts.fs_h2_lg};
   }
-  font-family: ${props => props.typewriter ? `'Special Elite', cursive` : 'inherit'};
+  font-family: ${props => props.secondary ? props.theme.fonts.ff_secondary : props.theme.fonts.ff_primary};
 `;
 export const H3 = styled(motion.h3)`
   font-size: ${props => props.size || props.theme.fonts.fs_h3};
