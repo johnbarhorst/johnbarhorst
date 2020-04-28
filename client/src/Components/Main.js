@@ -1,9 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { H1, H2, H3, Wrapper } from '../Elements';
-import AnimateTypewriter from './AnimateTypewriter';
+import { H2, Wrapper } from '../Elements';
+import AnimateTypewriter, { typewriterVariants } from './AnimateTypewriter';
 
 const Main = () => {
   return (
@@ -25,7 +24,7 @@ const Main = () => {
       >
         <div>
           <H2
-            typewriter
+            secondary
           ><AnimateTypewriter string={'Thanks for stopping by.'} /></H2>
           <motion.p
             style={{
@@ -34,35 +33,20 @@ const Main = () => {
           ><AnimateTypewriter string={`I'm John, I build rad stuff for the web.`} /></motion.p>
         </div>
       </TopSection>
-      <section>
-      </section>
-      <section>
+      <MainSection>
         <ProfilePic />
-        <H2>What I Build</H2>
         <ColThree>
           <article>
-            <h3>React.js</h3>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Esse ab quae molestias laboriosam beatae vero ipsa quam vitae quaerat aspernatur porro reprehenderit excepturi est libero natus cupiditate, itaque quidem! Repellat.</p>
+            <p>I write clean, maintainable and reusable code with React and Node.</p>
           </article>
           <article>
-            <h3>Node/Express</h3>
-            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsam officiis ab eveniet harum nostrum placeat perspiciatis exercitationem tempore dolores ducimus quod, consectetur est a voluptates omnis. Quasi ex possimus molestiae!</p>
+            <p>Nearly two decades in the delivery industry taught me a lot about hard work, hustle, and making sure things get done. Now I bring that work ethic into my web projects.</p>
           </article>
           <article>
-            <h3>Framer Motion</h3>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum nam voluptate cum architecto deserunt asperiores dicta beatae accusantium veritatis repellat! Reprehenderit non, sed odio iste deleniti ipsa blanditiis enim recusandae!</p>
+            <p>I do stuff! I swear. Sometimes I run. Sometimes I walk. Sometimes I bike.</p>
           </article>
         </ColThree>
-        <Link to='/portfolio'>Examples</Link>
-      </section>
-      <section>
-        <H2>A little about me...</H2>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus, dignissimos perferendis enim velit modi non quae possimus cupiditate assumenda placeat vero sapiente voluptas id similique, veritatis impedit culpa tempore deserunt!</p>
-        <div>
-          <p></p>
-          <p></p>
-        </div>
-      </section>
+      </MainSection>
       <footer>
         <a href="mailto:johnbarhorst.dev@gmail.com">John Barhorst</a>
       </footer>
@@ -76,7 +60,20 @@ const TopSection = styled(motion.section)`
   text-align: center; 
   display: grid;
   align-content: center;
-  height: calc(100vh - 22px);
+  height: calc(100vh - 38px);
+`;
+
+const MainSection = styled(motion.section)`
+  background: ${props => props.theme.colors.serenity};
+  padding-top: 2em;
+  h2, h3 {
+    text-align: center;
+  }
+  p {
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
 `;
 
 const ProfilePic = styled(motion.div)`
@@ -93,16 +90,3 @@ const ColThree = styled(motion.div)`
     grid-template-columns: 1fr 1fr 1fr;
   }
 `;
-
-const typewriterVariants = {
-  initial: {
-    transition: {
-      staggerChildren: .1
-    }
-  },
-  animate: {
-    transition: {
-      staggerChildren: .1
-    }
-  }
-}
