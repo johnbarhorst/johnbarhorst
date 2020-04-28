@@ -142,7 +142,6 @@ const processCharacters = async (data) => {
       // Match up item sockets with its instanced data, if no instanced data, return an empty array,
       // so that later on a .map() will return nothing instead of throwing an error.
       const instancedSockets = item.itemInstanceId ? (sockets[item.itemInstanceId] || { sockets: [] }).sockets : [];
-
       // Take all the processed data to return only what we want to display.
       return {
         itemHash: item.itemHash,
@@ -150,13 +149,14 @@ const processCharacters = async (data) => {
         screenshot: details.screenshot,
         itemTypeDisplayName: details.itemTypeDisplayName,
         displaySource: details.displaySource,
-        staticStats: await getDetailsAll(details.stats.stats, 'DestinyStatDefinition', (item, details) => {
-          return {
-            ...details.displayProperties,
-            value: item.value,
-            displayMaximum: item.displayMaximum,
-          };
-        }),
+        // TODO This got borked. Don't even think I need it, yet I want to fix it.
+        // staticStats: await getDetailsAll(details.stats.stats, 'DestinyStatDefinition', (item, details) => {
+        //   return {
+        //     ...details.displayProperties,
+        //     value: item.value,
+        //     displayMaximum: item.displayMaximum,
+        //   };
+        // }),
         instanceStats: await getDetailsAll(instancedStats, 'DestinyStatDefinition', (item, details) => {
           return {
             ...details.displayProperties,
@@ -259,6 +259,7 @@ router.use('/characters/:membershipType/:membershipId', async (req, res, next) =
     `https://www.bungie.net/Platform/Destiny2/${req.params.membershipType}/Profile/${req.params.membershipId}/?components=100,104,200,205,300,304,305,1100`,
     { headers }).then(res => res.json());
   const responseStatus = checkStatus(accountData);
+  console.log(accountData);
   if (responseStatus) {
     const characters = await processCharacters(accountData.Response);
     const profileInfo = {
