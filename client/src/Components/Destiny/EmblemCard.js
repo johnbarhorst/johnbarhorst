@@ -2,16 +2,19 @@ import React from 'react';
 import styled from 'styled-components';
 
 
+
 const Card = styled.div`
   display: flex;
   justify-content: space-between;
-  background: #ffffff url(${props => 'https://www.bungie.net' + props.bgPath}) no-repeat;
+  background: #ffffff url(${props => 'https://www.bungie.net' + props.bgPath}) top / cover no-repeat;
   color: #f5f5f5;
-  width: 474px;
-  height: 96px;
   margin-bottom: 5px;
+  @media screen and (min-width: ${props => props.theme.breakpoints.sm}) {
+    max-width: 474px;
+    max-height: 96px;
+  }
   .class-race {
-    margin-left: 96px;
+    margin-left: 70px;
     h3 {
       font-weight: normal;
       font-size: 1.5em;
@@ -21,7 +24,9 @@ const Card = styled.div`
     p {
       margin: 0;
     }
-
+    @media screen and (min-width: ${props => props.theme.breakpoints.sm}) {
+      margin-left: 96px;
+    }
   }
 
   h2 {
