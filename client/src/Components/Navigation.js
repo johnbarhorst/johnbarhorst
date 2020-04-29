@@ -45,7 +45,7 @@ const Navigation = () => {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: .95 }}
             >
-              <Link onClick={() => closeNav()} to="/destiny">Destiny Search</Link>
+              <Link onClick={() => closeNav()} to="/destiny/search">Destiny Search</Link>
             </Li>
             <Li
               variants={liVariants}

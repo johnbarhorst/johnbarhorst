@@ -21,8 +21,7 @@ function App() {
       <AnimatePresence exitBeforeEnter>
         <Switch key={location.pathname} >
           <Route path='/preference' component={PreferenceRanking} />
-          <Route path='/destiny/:membershipType/:membershipId' component={CharacterListDisplay} />
-          <Route exact path='/destiny' component={DestinyDemo} />
+          <Route path='/destiny' component={DestinyDemo} />
           <Route exact path='/portfolio' component={Portfolio} />
           <Route exact path='/contact' component={Contact} />
           <Route exact path='/' component={Main} />

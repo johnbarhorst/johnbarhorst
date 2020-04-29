@@ -10,8 +10,8 @@ const CharacterListDisplay = () => {
   const { characterLoading, characterError, characters, getCharacters } = useDestinyContext();
   const { url, path } = useRouteMatch();
   useEffect(() => {
-    getCharacters(`/api/characters/${membershipType}/${membershipId}`, {});
-  })
+    getCharacters(`/api/characters/${membershipType}/${membershipId}`);
+  }, []);
 
   return (
     <div>
