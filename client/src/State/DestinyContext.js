@@ -33,8 +33,8 @@ export const DestinyContextWrapper = ({ children }) => {
         characterLoading: characterData.isLoading,
         characterError: characterData.isError,
         characters: characterData.data.characters,
-        getAccounts: (arg) => getAccountData(arg),
-        getCharacters: (arg) => getCharacterData(arg),
+        getAccounts: (fetchPath) => getAccountData(fetchPath),
+        getCharacters: (fetchPath) => getCharacterData(fetchPath),
       }}
     >
       {children}
