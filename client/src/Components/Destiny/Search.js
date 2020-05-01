@@ -55,6 +55,11 @@ const Search = () => {
             <H3>We encountered an error while searching for user {searchedValue}</H3>
           </div>
         )}
+        {!searchError && !searching && searchedValue && accounts.length === 0 ? (
+          <div>
+            <H3>No results found for {searchedValue}</H3>
+          </div>
+        ) : null}
         {!searchError && !searching ? accounts.map(account => (
           <Link to={`/destiny/characters/${account.membershipType}/${account.membershipId}`} key={account.membershipId}>
             <AccountCard account={account} />
