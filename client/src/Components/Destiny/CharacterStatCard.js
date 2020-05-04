@@ -4,7 +4,10 @@ import styled from 'styled-components';
 const CharacterStatCard = ({ stats }) => {
   return (
     <div>
-      {stats.map(({ name, icon, value }) => (
+      {stats.sort((a, b) => {
+        const order = ['power', 'mobility', 'resilience', 'intellect', 'strength', 'discipline', 'recovery'];
+        return order.indexOf(a.name.toLowerCase()) - order.indexOf(b.name.toLowerCase())
+      }).map(({ name, icon, value }) => (
         <div key={name}>
           <p>{name}</p>
           <Img src={`https://www.bungie.net${icon}`} alt={name} /><span>{value}</span>
