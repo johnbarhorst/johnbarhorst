@@ -8,7 +8,6 @@ import Main from './Components/Main';
 import Contact from './Components/Contact';
 import Portfolio from './Components/Portfolio';
 import DestinyDemo from './Components/Destiny/DestinyDemo';
-import CharacterListDisplay from './Components/Destiny/CharacterListDisplay';
 import PreferenceRanking from './Components/Ranking/PreferenceRanking';
 import { theme } from './theme';
 import './App.css';

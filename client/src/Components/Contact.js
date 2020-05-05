@@ -3,11 +3,7 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
 const Contact = () => {
-  const handleClick = async () => {
-    const data = await fetch('/api/search');
-    const json = await data.json();
-    console.log(json);
-  }
+
   return (
     <Container
       initial={{ opacity: 0 }}
