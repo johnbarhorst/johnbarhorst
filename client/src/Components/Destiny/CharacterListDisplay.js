@@ -1,41 +1,44 @@
-import React, { useEffect } from 'react';
-import { useParams, useRouteMatch, Switch, Link, Route } from 'react-router-dom';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useParams, Link, } from 'react-router-dom';
 import { useDestinyContext } from '../../State';
 import EmblemCard from './EmblemCard';
 import Character from './Character';
-
+import { H3 } from '../../Elements'
 
 const CharacterListDisplay = () => {
   const { membershipType, membershipId } = useParams();
   const { characterLoading, characterError, characters, getCharacters } = useDestinyContext();
-  const { url, path } = useRouteMatch();
+  const [memoType, memoId] = useMemo(() => [membershipType, membershipId], [membershipType, membershipId]);
+  const [activeCharacter, setActiveCharacter] = useState(null);
+
   useEffect(() => {
-    getCharacters(`/api/characters/${membershipType}/${membershipId}`);
+    getCharacters(`/api/characters/${memoType}/${memoId}`);
   }, []);
+
+  const handleCharacterSelect = (character) => {
+    setActiveCharacter(character);
+  }
 
   return (
     <div>
       <div>
-        {characterLoading && <h3>Loading...</h3>}
-        {characterError && <p>Sorry, something went wrong while gathering data.</p>}
-        {!characterLoading && characters.map(character => (
-          <Link
-            to={{
-              pathname: `${url}/${character.characterId}`,
-              state: { character }
-            }}
-            key={character.characterId}
-          >
-            <EmblemCard characterData={character} />
-          </Link>
-        ))}
+        {characterLoading && (
+          <div style={{ textAlign: 'center', marginTop: '3em' }}>
+            <H3>Loading...</H3>
+          </div>
+        )}
+        {characterError && (
+          <div style={{ textAlign: 'center', marginTop: '3em' }}>
+            <H3>Sorry, something went wrong while gathering data.</H3>
+            <Link to='/destiny/search' >Search again</Link>
+          </div>
+        )}
+        {!characterLoading && !characterError ? characters.map(character => (
+          <EmblemCard characterData={character} clickHandler={handleCharacterSelect} />
+        )) : null}
       </div>
       <div>
-        <Switch>
-          <Route path={`${path}/:characterId`}
-            render={value => <Character characterData={value.location.state.character} />}
-          />
-        </Switch>
+        {activeCharacter ? <Character characterData={activeCharacter} /> : null}
       </div>
     </div>
   )
