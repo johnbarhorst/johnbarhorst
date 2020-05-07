@@ -1,18 +1,18 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, Link, } from 'react-router-dom';
-import { useDestinyContext } from '../../State';
+import { useFetchData } from '../../Hooks';
 import EmblemCard from './EmblemCard';
 import Character from './Character';
 import { H3 } from '../../Elements'
 
 const CharacterListDisplay = () => {
   const { membershipType, membershipId } = useParams();
-  const { characterLoading, characterError, characters, getCharacters } = useDestinyContext();
-  const [memoType, memoId] = useMemo(() => [membershipType, membershipId], [membershipType, membershipId]);
+  const [state, getCharacters] = useFetchData({ characters: [] });
   const [activeCharacter, setActiveCharacter] = useState(null);
+  const { isLoading, isError, data } = state;
 
   useEffect(() => {
-    getCharacters(`/api/characters/${memoType}/${memoId}`);
+    getCharacters(`/api/characters/${membershipType}/${membershipId}`);
   }, []);
 
   const handleCharacterSelect = (character) => {
@@ -22,23 +22,23 @@ const CharacterListDisplay = () => {
   return (
     <div>
       <div>
-        {characterLoading && (
+        {isLoading && (
           <div style={{ textAlign: 'center', marginTop: '3em' }}>
             <H3>Loading...</H3>
           </div>
         )}
-        {characterError && (
+        {isError && (
           <div style={{ textAlign: 'center', marginTop: '3em' }}>
             <H3>Sorry, something went wrong while gathering data.</H3>
             <Link to='/destiny/search' >Search again</Link>
           </div>
         )}
-        {!characterLoading && !characterError ? characters.map(character => (
-          <EmblemCard characterData={character} clickHandler={handleCharacterSelect} />
+        {!isLoading && !isError ? data.characters.map(character => (
+          <EmblemCard characterData={character} clickHandler={handleCharacterSelect} key={character.characterId} />
         )) : null}
       </div>
       <div>
-        {activeCharacter ? <Character characterData={activeCharacter} /> : null}
+        <Character characterData={activeCharacter} />
       </div>
     </div>
   )
