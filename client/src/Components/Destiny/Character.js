@@ -1,14 +1,13 @@
 import React from 'react';
 import Equipment from './Equipment';
 import CharacterStatCard from './CharacterStatCard';
+import EmblemCard from './EmblemCard';
 
 const Character = ({ characterData }) => {
-  const { race, gender, classType, equipment, stats } = characterData;
+  const { equipment, stats } = characterData;
   return (
     <div>
-      <p>{race}</p>
-      <p>{gender}</p>
-      <p>{classType}</p>
+      <EmblemCard characterData={characterData} clickHandler={null} />
       <CharacterStatCard stats={stats} />
       <Equipment equipment={equipment} />
     </div>
