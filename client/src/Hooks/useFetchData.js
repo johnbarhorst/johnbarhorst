@@ -59,15 +59,18 @@ export const useFetchOnLoad = (url, options, initialData) => {
   });
 
   useEffect(() => {
+    let isSubscribed = true;
     const goFetch = async (url, options) => {
-      dispatch({ type: 'FETCH' });
+      if (isSubscribed) {
+        dispatch({ type: 'FETCH' });
+      }
+
       try {
         const req = await fetch(url, options);
         const json = await req.json();
-        if (json.status === 200) {
+        if (json.status === 200 && isSubscribed) {
           dispatch({ type: 'SUCCESS', payload: json });
-        }
-        if (json.status === 404) {
+        } else if (json.status === 404 && isSubscribed) {
           dispatch({ type: 'ERROR', payload: json });
         }
       } catch (error) {
@@ -75,6 +78,7 @@ export const useFetchOnLoad = (url, options, initialData) => {
       }
     }
     goFetch(url, options);
+    return () => isSubscribed = false;
   }, [])
   return [state]
 };
