@@ -38,7 +38,7 @@ const CharacterListDisplay = () => {
         )) : null}
       </div>
       <div>
-        <Character characterData={activeCharacter} />
+        {activeCharacter && <Character characterData={activeCharacter} />}
       </div>
     </div>
   )
