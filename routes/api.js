@@ -259,7 +259,7 @@ router.use('/characters/:membershipType/:membershipId', async (req, res, next) =
     `https://www.bungie.net/Platform/Destiny2/${req.params.membershipType}/Profile/${req.params.membershipId}/?components=100,104,200,205,300,304,305,1100`,
     { headers }).then(res => res.json());
   const responseStatus = checkStatus(accountData);
-  console.log(accountData);
+  // console.log(accountData);
   if (responseStatus) {
     const characters = await processCharacters(accountData.Response);
     const profileInfo = {
