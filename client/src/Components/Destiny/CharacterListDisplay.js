@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, } from 'react-router-dom';
-import { useFetchData } from '../../Hooks';
+import { useFetchOnLoad } from '../../Hooks';
 import EmblemCard from './EmblemCard';
 import Character from './Character';
-import { H3 } from '../../Elements'
+import { H3 } from '../../Elements';
 
 const CharacterListDisplay = () => {
   const { membershipType, membershipId } = useParams();
-  const [state, getCharacters] = useFetchData({ characters: [] });
-  const [activeCharacter, setActiveCharacter] = useState(null);
-  const { isLoading, isError, data } = state;
+  const [{ isLoading, isError, data }] = useFetchOnLoad(
+    `/api/characters/${membershipType}/${membershipId}`, {}, { characters: [] });
 
-  useEffect(() => {
-    getCharacters(`/api/characters/${membershipType}/${membershipId}`);
-  }, []);
+  const [activeCharacter, setActiveCharacter] = useState(null);
+
+
 
   const handleCharacterSelect = (character) => {
     setActiveCharacter(character);
@@ -34,7 +33,11 @@ const CharacterListDisplay = () => {
           </div>
         )}
         {!isLoading && !isError ? data.characters.map(character => (
-          <EmblemCard characterData={character} clickHandler={handleCharacterSelect} key={character.characterId} />
+          <EmblemCard
+            characterData={character}
+            clickHandler={handleCharacterSelect}
+            key={character.characterId}
+          />
         )) : null}
       </div>
       <div>
