@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useHover } from '../../Hooks';
+import { H3 } from '../../Elements';
 
 const ToolTip = ({ children }) => {
   return (
@@ -16,22 +17,46 @@ const CharacterStatCard = ({ stats }) => {
   console.log('test', isHovered);
   console.log('x y', enterX, enterY, exitX, exitY);
   return (
-    <div>
+    <StatContainer>
       {stats.sort((a, b) => {
         const order = ['power', 'mobility', 'resilience', 'recovery', 'discipline', 'intellect', 'strength'];
         return order.indexOf(a.name.toLowerCase()) - order.indexOf(b.name.toLowerCase())
       }).map(({ name, icon, value }) => (
-        <div key={name} {...bind}  >
-          <p>{name}</p>
-          <Img src={`https://www.bungie.net${icon}`} alt={name} /><span>{value}</span>
-        </div>
+        <StatDisplay key={name} {...bind} >
+          <Img src={`https://www.bungie.net${icon}`} alt={name} />
+          <div>
+            <H3>{name}</H3>
+            <H3>{value}</H3>
+          </div>
+        </StatDisplay>
       ))}
-    </div>
+    </StatContainer>
   )
 }
 
 export default CharacterStatCard;
 
+const StatContainer = styled(motion.section)`
+  background: #aaa;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 2em;
+  h3 {
+    color: #fff;
+  }
+`;
+
 const Img = styled.img`
-  background-color: #333;
+  height: 53px;
+  width: 53px;
+`;
+
+const StatDisplay = styled(motion.div)`
+  display: flex;
+  div {
+    p {
+      margin: 0;
+    }
+  }
 `;
