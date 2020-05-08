@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useParams, Link, } from 'react-router-dom';
 import { useFetchOnLoad } from '../../Hooks';
 import EmblemCard from './EmblemCard';
@@ -11,8 +11,6 @@ const CharacterListDisplay = () => {
     `/api/characters/${membershipType}/${membershipId}`, {}, { characters: [] });
 
   const [activeCharacter, setActiveCharacter] = useState(null);
-
-
 
   const handleCharacterSelect = (character) => {
     setActiveCharacter(character);

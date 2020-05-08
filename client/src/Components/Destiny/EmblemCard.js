@@ -39,7 +39,7 @@ const Card = styled.div`
 const EmblemCard = ({ characterData, clickHandler }) => {
   const { race, gender, light, classType, emblemBackgroundPath } = characterData;
   return (
-    <Card bgPath={emblemBackgroundPath} onClick={() => clickHandler(characterData)} >
+    <Card bgPath={emblemBackgroundPath} onClick={() => clickHandler && clickHandler(characterData)} >
       <div className='class-race' >
         <h3>{classType}</h3>
         <p>{`${race} ${gender}`}</p>
