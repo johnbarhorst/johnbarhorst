@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import { ThemeProvider } from 'styled-components';
-import { ContextWrapper, DestinyContextWrapper } from './State';
+import { ContextWrapper } from './State';
 import Navigation from './Components/Navigation';
 import Main from './Components/Main';
 import Contact from './Components/Contact';
@@ -33,13 +33,11 @@ function App() {
 const AppWrapper = () => {
   return (
     <Router>
-      <DestinyContextWrapper>
-        <ContextWrapper>
-          <ThemeProvider theme={theme}>
-            <App />
-          </ThemeProvider>
-        </ContextWrapper>
-      </DestinyContextWrapper>
+      <ContextWrapper>
+        <ThemeProvider theme={theme}>
+          <App />
+        </ThemeProvider>
+      </ContextWrapper>
     </Router>
   )
 }
