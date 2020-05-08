@@ -1,22 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { AnimatedButton, H3, Wrapper90 } from '../../Elements';
-import { useDestinyContext } from '../../State';
+import { useFetchData } from '../../Hooks';
 import AccountCard from './AccountCard';
 
 const Search = () => {
-  const {
-    searching,
-    searchError,
-    searchedValue,
-    setSearchedValue,
-    searchValue,
-    setSearchValue,
-    accounts,
-    getAccounts,
-  } = useDestinyContext();
+  const [{ isLoading, isError, data }, getAccounts] = useFetchData({ accounts: [] });
+  const [searchValue, setSearchValue] = useState('');
+  const [searchedValue, setSearchedValue] = useState('');
+  const { accounts } = data;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -49,18 +43,18 @@ const Search = () => {
         >Search</SearchButton>
       </Form>
       <Container variants={variants} >
-        {searching && <H3>Searching...</H3>}
-        {searchError && (
+        {isLoading && <H3>Searching...</H3>}
+        {isError && (
           <div>
             <H3>We encountered an error while searching for user {searchedValue}</H3>
           </div>
         )}
-        {!searchError && !searching && searchedValue && accounts.length === 0 ? (
+        {!isError && !isLoading && searchedValue && accounts.length === 0 ? (
           <div>
             <H3>No results found for {searchedValue}</H3>
           </div>
         ) : null}
-        {!searchError && !searching ? accounts.map(account => (
+        {!isError && !isLoading ? accounts.map(account => (
           <Link to={`/destiny/characters/${account.membershipType}/${account.membershipId}`} key={account.membershipId}>
             <AccountCard account={account} />
           </Link>
