@@ -1,48 +1,122 @@
-import React, { useState } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import { useParams, Link, } from 'react-router-dom';
+import styled from 'styled-components';
+import { motion } from 'framer-motion';
 import { useFetchOnLoad } from '../../Hooks';
 import EmblemCard from './EmblemCard';
 import Character from './Character';
 import { H3 } from '../../Elements';
+
+
+// Trying this out because Kent C Dodds does. Seems handy and looks clean, though just abstraction. Typescript friendly?
+const actionTypes = {
+  select_character: 'SELECT_CHARACTER',
+  success: 'SUCCESS',
+  new_character_select: 'NEW_CHARACTER_SELECTION'
+}
+
+const initialState = {
+  activeCharacter: null,
+  characterList: [],
+  showFullList: true
+}
+
+function reducer(state, action) {
+  switch (action.type) {
+
+    case actionTypes.select_character:
+      return {
+        ...state,
+        activeCharacter: action.payload,
+        showFullList: false
+      }
+
+    case actionTypes.success:
+      return {
+        ...state,
+        characterList: action.payload,
+      }
+
+    case actionTypes.new_character_select:
+      return {
+        ...state,
+        showFullList: true
+      }
+
+      break;
+
+    default:
+      break;
+  }
+}
 
 const CharacterListDisplay = () => {
   const { membershipType, membershipId } = useParams();
   const [{ isLoading, isError, data }] = useFetchOnLoad(
     `/api/characters/${membershipType}/${membershipId}`, {}, { characters: [] });
 
-  const [activeCharacter, setActiveCharacter] = useState(null);
+  const [{ activeCharacter, characterList, showFullList }, dispatch] = useReducer(reducer, initialState);
 
   const handleCharacterSelect = (character) => {
-    setActiveCharacter(character);
+    if (showFullList) {
+      return dispatch({ type: actionTypes.select_character, payload: character })
+    }
+    if (!showFullList) {
+      return dispatch({ type: actionTypes.new_character_select })
+    }
   }
+
+  useEffect(() => {
+    if (!isLoading && !isError) {
+      dispatch({ type: actionTypes.success, payload: data.characters })
+    }
+
+  }, [isLoading, isError])
 
   return (
     <div>
       <div>
         {isLoading && (
-          <div style={{ textAlign: 'center', marginTop: '3em' }}>
+          <StatusDisplay>
             <H3>Loading...</H3>
-          </div>
+          </StatusDisplay>
         )}
         {isError && (
-          <div style={{ textAlign: 'center', marginTop: '3em' }}>
+          <StatusDisplay>
             <H3>Sorry, something went wrong while gathering data.</H3>
+            {data.Message &&
+              <div>
+                <p><strong>Error Message:</strong></p>
+                <p>{data.Message}</p>
+              </div>
+            }
             <Link to='/destiny/search' >Search again</Link>
-          </div>
+          </StatusDisplay>
         )}
-        {!isLoading && !isError ? data.characters.map(character => (
+        {showFullList ? characterList.map(character => (
           <EmblemCard
             characterData={character}
             clickHandler={handleCharacterSelect}
             key={character.characterId}
           />
-        )) : null}
+        )) : (
+            <EmblemCard
+              characterData={activeCharacter}
+              clickHandler={handleCharacterSelect}
+              key={activeCharacter.characterId}
+            />
+          )}
       </div>
-      <div>
-        {activeCharacter && <Character characterData={activeCharacter} />}
-      </div>
+      {activeCharacter && <Character characterData={activeCharacter} />}
+
+
     </div>
   )
 }
 
 export default CharacterListDisplay;
+
+const StatusDisplay = styled(motion.div)`
+  text-align: center;
+  margin-top: 3em; 
+`;
