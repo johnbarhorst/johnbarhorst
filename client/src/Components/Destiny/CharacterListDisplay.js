@@ -1,7 +1,7 @@
 import React, { useReducer, useEffect } from 'react';
 import { useParams, Link, } from 'react-router-dom';
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence, useInvertedScale } from 'framer-motion';
 import { useFetchOnLoad } from '../../Hooks';
 import EmblemCard from './EmblemCard';
 import Character from './Character';
@@ -43,8 +43,6 @@ function reducer(state, action) {
         showFullList: true
       }
 
-      break;
-
     default:
       break;
   }
@@ -56,6 +54,7 @@ const CharacterListDisplay = () => {
     `/api/characters/${membershipType}/${membershipId}`, {}, { characters: [] });
 
   const [{ activeCharacter, characterList, showFullList }, dispatch] = useReducer(reducer, initialState);
+  const { scaleX, scaleY } = useInvertedScale();
 
   const handleCharacterSelect = (character) => {
     if (showFullList) {
@@ -71,18 +70,29 @@ const CharacterListDisplay = () => {
       dispatch({ type: actionTypes.success, payload: data.characters })
     }
 
-  }, [isLoading, isError])
+  }, [isLoading, isError, data.characters])
 
   return (
     <div>
-      <div>
+
+      <motion.div
+        variants={emblemDisplayVariants}
+        layoutTransition={isLoading || isError ? false : true}
+        style={{ marginBottom: '2em' }}
+      >
         {isLoading && (
-          <StatusDisplay>
+          <StatusDisplay
+            exit={{ opacity: 0 }}
+            style={{ scaleX, scaleY }}
+          >
             <H3>Loading...</H3>
           </StatusDisplay>
         )}
         {isError && (
-          <StatusDisplay>
+          <StatusDisplay
+            exit={{ opacity: 0 }}
+            style={{ scaleX, scaleY }}
+          >
             <H3>Sorry, something went wrong while gathering data.</H3>
             {data.Message &&
               <div>
@@ -93,22 +103,26 @@ const CharacterListDisplay = () => {
             <Link to='/destiny/search' >Search again</Link>
           </StatusDisplay>
         )}
-        {showFullList ? characterList.map(character => (
-          <EmblemCard
-            characterData={character}
-            clickHandler={handleCharacterSelect}
-            key={character.characterId}
-          />
-        )) : (
+        <AnimatePresence >
+          {showFullList ? characterList.map(character => (
             <EmblemCard
-              characterData={activeCharacter}
+              characterData={character}
               clickHandler={handleCharacterSelect}
-              key={activeCharacter.characterId}
+              key={character.characterId}
             />
-          )}
-      </div>
-      {activeCharacter && <Character characterData={activeCharacter} />}
 
+          )) : (
+              <EmblemCard
+                characterData={activeCharacter}
+                clickHandler={handleCharacterSelect}
+                key={activeCharacter.characterId}
+              />
+            )}
+        </AnimatePresence>
+      </motion.div>
+      <AnimatePresence>
+        {activeCharacter && <Character characterData={activeCharacter} />}
+      </AnimatePresence>
 
     </div>
   )
@@ -118,5 +132,17 @@ export default CharacterListDisplay;
 
 const StatusDisplay = styled(motion.div)`
   text-align: center;
-  margin-top: 3em; 
+  margin-top: 3em;
 `;
+
+const emblemDisplayVariants = {
+  initial: { opacity: 0 },
+  animate: {
+    opacity: 1,
+    transition: {
+      duration: .1,
+      when: 'beforeChildren'
+    }
+  },
+  exit: { opacity: 0 }
+} 
