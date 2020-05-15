@@ -1,8 +1,34 @@
 import React from 'react';
-import { motion, useInvertedScale } from 'framer-motion';
+import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
 
+const EmblemCard = ({ characterData, clickHandler, variants }) => {
+  const { race, gender, light, classType, emblemBackgroundPath, characterId } = characterData;
+  return (
+    <Card
+      variants={variants}
+      bgPath={emblemBackgroundPath}
+      onClick={() => clickHandler && clickHandler(characterData)}
+      positionTransition={{
+        damping: 1000
+      }}
+      initial={'initial'}
+      animate={'animate'}
+      exit={'exit'}
+      key={characterId}
+    >
+      <div className='class-race' >
+        <h3>{classType}</h3>
+        <p>{`${race} ${gender}`}</p>
+      </div>
+      <div>
+        <h2>{light}</h2>
+      </div>
+    </Card>
+  )
+}
+export default EmblemCard;
 
 const Card = styled(motion.div)`
   display: flex;
@@ -36,37 +62,3 @@ const Card = styled(motion.div)`
     margin-right: 5px;
   }
 `;
-
-const EmblemCard = ({ characterData, clickHandler }) => {
-  const { race, gender, light, classType, emblemBackgroundPath, characterId } = characterData;
-  const { scaleX, scaleY } = useInvertedScale();
-  return (
-    <Card
-      bgPath={emblemBackgroundPath}
-      onClick={() => clickHandler && clickHandler(characterData)}
-      positionTransition={{
-        damping: 1000
-      }}
-      initial={{ opacity: 0 }}
-      animate={{
-        opacity: 1,
-        transition: {
-          delay: .3,
-          stiffness: 1000
-        }
-      }}
-      exit={{ opacity: 0 }}
-      style={{ scaleX, scaleY }}
-      key={characterId}
-    >
-      <div className='class-race' >
-        <h3>{classType}</h3>
-        <p>{`${race} ${gender}`}</p>
-      </div>
-      <div>
-        <h2>{light}</h2>
-      </div>
-    </Card>
-  )
-}
-export default EmblemCard;

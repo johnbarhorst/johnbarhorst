@@ -1,7 +1,7 @@
 import React, { useReducer, useEffect } from 'react';
 import { useParams, Link, } from 'react-router-dom';
 import styled from 'styled-components';
-import { motion, AnimatePresence, useInvertedScale } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useFetchOnLoad } from '../../Hooks';
 import EmblemCard from './EmblemCard';
 import Character from './Character';
@@ -54,7 +54,6 @@ const CharacterListDisplay = () => {
     `/api/characters/${membershipType}/${membershipId}`, {}, { characters: [] });
 
   const [{ activeCharacter, characterList, showFullList }, dispatch] = useReducer(reducer, initialState);
-  const { scaleX, scaleY } = useInvertedScale();
 
   const handleCharacterSelect = (character) => {
     if (showFullList) {
@@ -73,26 +72,21 @@ const CharacterListDisplay = () => {
   }, [isLoading, isError, data.characters])
 
   return (
-    <div>
-
+    <motion.div>
       <motion.div
         variants={emblemDisplayVariants}
-        layoutTransition={isLoading || isError ? false : true}
-        style={{ marginBottom: '2em' }}
+        initial={false}
+        animate={'animate'}
+        exit={'exit'}
+        style={{ marginBottom: '1em' }}
       >
         {isLoading && (
-          <StatusDisplay
-            exit={{ opacity: 0 }}
-            style={{ scaleX, scaleY }}
-          >
+          <StatusDisplay>
             <H3>Loading...</H3>
           </StatusDisplay>
         )}
         {isError && (
-          <StatusDisplay
-            exit={{ opacity: 0 }}
-            style={{ scaleX, scaleY }}
-          >
+          <StatusDisplay>
             <H3>Sorry, something went wrong while gathering data.</H3>
             {data.Message &&
               <div>
@@ -106,6 +100,7 @@ const CharacterListDisplay = () => {
         <AnimatePresence >
           {showFullList ? characterList.map(character => (
             <EmblemCard
+              variants={emblemVariants}
               characterData={character}
               clickHandler={handleCharacterSelect}
               key={character.characterId}
@@ -124,7 +119,7 @@ const CharacterListDisplay = () => {
         {activeCharacter && <Character characterData={activeCharacter} />}
       </AnimatePresence>
 
-    </div>
+    </motion.div>
   )
 }
 
@@ -136,13 +131,31 @@ const StatusDisplay = styled(motion.div)`
 `;
 
 const emblemDisplayVariants = {
-  initial: { opacity: 0 },
+  initial: {
+    opacity: 0,
+    height: 'auto'
+  },
   animate: {
     opacity: 1,
+    height: 'auto',
     transition: {
       duration: .1,
       when: 'beforeChildren'
     }
   },
   exit: { opacity: 0 }
-} 
+}
+
+const emblemVariants = {
+  initial: {
+    opacity: 0
+  },
+  animate: {
+    opacity: 1,
+    transition: {
+      delay: .3,
+      stiffness: 1000
+    }
+  },
+  exit: { opacity: 0 }
+}
