@@ -194,21 +194,37 @@ const processCharacters = async (data) => {
     // const pvpStats = historyStatus ? historicalStats.Response.allPvP.allTime : {};
     // const pveStats = historyStatus ? historicalStats.Response.allPvE.allTime : {};
 
+    const {
+      membershipId,
+      membershipType,
+      characterId,
+      dateLastPlayed,
+      minutesPlayedThisSession,
+      minutesPlayedTotal,
+      light,
+      raceType,
+      genderType,
+      classType,
+      emblemBackgroundPath,
+      emblemPath,
+      stats
+    } = character;
+
     return {
-      membershipId: character.membershipId,
-      membershipType: character.membershipType,
-      characterId: character.characterId,
-      dateLastPlayed: character.dateLastPlayed,
-      minutesPlayedThisSession: character.minutesPlayedThisSession,
-      minutesPlayedTotal: character.minutesPlayedTotal,
-      light: character.light,
-      race: raceTypeRef[character.raceType],
-      gender: genderTypeRef[character.genderType],
-      classType: classTypeRef[character.classType],
-      emblemBackgroundPath: character.emblemBackgroundPath,
-      emblemPath: character.emblemPath,
+      membershipId,
+      membershipType,
+      characterId,
+      dateLastPlayed,
+      minutesPlayedThisSession,
+      minutesPlayedTotal,
+      light,
+      race: raceTypeRef[raceType],
+      gender: genderTypeRef[genderType],
+      classType: classTypeRef[classType],
+      emblemBackgroundPath,
+      emblemPath,
       title: await getTitleDetails(character),
-      stats: await getDetailsAll(character.stats, 'DestinyStatDefinition', (stat, details) => {
+      stats: await getDetailsAll(stats, 'DestinyStatDefinition', (stat, details) => {
         return {
           ...details.displayProperties,
           value: stat
