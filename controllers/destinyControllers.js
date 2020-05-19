@@ -138,11 +138,11 @@ const processCharacters = async (data) => {
 
       // Match up item stats with its instanced data, if no instanced data, return an empty object
       // so that later on there aren't errors. Allows for easier processing of all the data.
-      const instancedStats = item.itemInstanceId ? (stats[item.itemInstanceId] || { stats: {} }).stats : {};
+      const instancedStats = (stats[item.itemInstanceId] || { stats: {} }).stats;
 
       // Match up item sockets with its instanced data, if no instanced data, return an empty array,
       // so that later on a .map() will return nothing instead of throwing an error.
-      const instancedSockets = item.itemInstanceId ? (sockets[item.itemInstanceId] || { sockets: [] }).sockets : [];
+      const instancedSockets = (sockets[item.itemInstanceId] || { sockets: [] }).sockets;
       // Take all the processed data to return only what we want to display.
       return {
         itemHash: item.itemHash,
