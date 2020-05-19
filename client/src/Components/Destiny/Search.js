@@ -22,7 +22,7 @@ const Search = () => {
   }
 
   return (
-    <Wrapper90
+    <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -60,7 +60,7 @@ const Search = () => {
           </Link>
         )) : null}
       </Container>
-    </Wrapper90>
+    </motion.div>
   )
 }
 
