@@ -3,6 +3,9 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import Item from './Item';
 
+// Based on itemType enum from Bungie API docs.
+const itemOrder = [16, 3, 2, 24, 22, 21, 14, 17, 29, 0];
+
 const Equipment = ({ equipment }) => {
   return (
     <div>
@@ -12,7 +15,8 @@ const Equipment = ({ equipment }) => {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
-        {equipment.map(item => <Item item={item} key={item.itemHash} />)}
+        {equipment.sort((a, b) => itemOrder.indexOf(a.itemType) - itemOrder.indexOf(b.itemType))
+          .map(item => <Item item={item} key={item.itemHash} />)}
       </Wrapper>
     </div>
   )
@@ -21,6 +25,5 @@ const Equipment = ({ equipment }) => {
 export default Equipment;
 
 const Wrapper = styled(motion.div)`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+
 `;

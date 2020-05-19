@@ -168,12 +168,15 @@ const processCharacters = async (data) => {
         damageType: damageTypeEnum[instanceDetails.damageType],
         energy: instanceDetails.energy ? await getEnergyDetails(instanceDetails.energy) : {},
         sockets: instancedSockets ? await getSocketDetails(instancedSockets) : {},
-
+        itemType: details.itemType,
+        itemCategoryHashes: await Promise.all(details.itemCategoryHashes.map(async hash => await getFromDB(hash, 'DestinyItemCategoryDefinition'))),
+        masterwork: item.state === 4 || item.state === 5 ? true : false,
         // Uncomment these to see all the original data, in case you want to dig and find other things to display
         // originalData: { ...item },
         // originalInstance: { ...instanceDetails },
         // originalInstanceStats: { ...instancedStats },
         // originalSockets: { ...instancedSockets },
+        // originalDetails: { ...details },
       };
     }))
     return itemsWithDetails;
