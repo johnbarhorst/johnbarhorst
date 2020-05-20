@@ -143,6 +143,15 @@ const processCharacters = async (data) => {
       // Match up item sockets with its instanced data, if no instanced data, return an empty array,
       // so that later on a .map() will return nothing instead of throwing an error.
       const instancedSockets = (sockets[item.itemInstanceId] || { sockets: [] }).sockets;
+
+      const getPrimaryStatDetails = async stat => {
+        const details = await getFromDB(stat.statHash, 'DestinyStatDefinition');
+        return {
+          ...details.displayProperties,
+          value: stat.value,
+        }
+      }
+
       // Take all the processed data to return only what we want to display.
       return {
         itemHash: item.itemHash,
@@ -171,12 +180,13 @@ const processCharacters = async (data) => {
         itemType: details.itemType,
         itemCategoryHashes: await Promise.all(details.itemCategoryHashes.map(async hash => await getFromDB(hash, 'DestinyItemCategoryDefinition'))),
         masterwork: item.state === 4 || item.state === 5 ? true : false,
+        primaryStat: instanceDetails.primaryStat ? await getPrimaryStatDetails(instanceDetails.primaryStat) : null,
         // Uncomment these to see all the original data, in case you want to dig and find other things to display
-        // originalData: { ...item },
-        // originalInstance: { ...instanceDetails },
+        originalData: { ...item },
+        originalInstance: { ...instanceDetails },
         // originalInstanceStats: { ...instancedStats },
         // originalSockets: { ...instancedSockets },
-        // originalDetails: { ...details },
+        originalDetails: { ...details },
       };
     }))
     return itemsWithDetails;
