@@ -37,10 +37,10 @@ export const useFetchData = (initialData) => {
     try {
       const req = await fetch(url, options);
       const json = await req.json();
-      if (json.status === 200) {
+      console.log(req.status);
+      if (req.status === 200) {
         dispatch({ type: 'SUCCESS', payload: json });
-      }
-      if (json.status === 404) {
+      } else {
         dispatch({ type: 'ERROR', payload: json });
       }
     } catch (error) {

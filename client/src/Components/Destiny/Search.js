@@ -10,7 +10,7 @@ const Search = () => {
   const [{ isLoading, isError, data }, getAccounts] = useFetchData({ accounts: [] });
   const [searchValue, setSearchValue] = useState('');
   const [searchedValue, setSearchedValue] = useState('');
-  const { accounts } = data;
+  const { accounts, errorMessage } = data;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -47,6 +47,7 @@ const Search = () => {
         {isError && (
           <div>
             <H3>We encountered an error while searching for user {searchedValue}</H3>
+            <p>{errorMessage}</p>
           </div>
         )}
         {!isError && !isLoading && searchedValue && accounts.length === 0 ? (

@@ -4,6 +4,8 @@ exports.catchErrors = fn => {
   };
 };
 
+
+// Catch pages that aren't found
 exports.notFound = (req, res, next) => {
   const err = new Error('Not Found');
   err.status = 404;
@@ -14,19 +16,14 @@ exports.notFound = (req, res, next) => {
 // Dev error handling. Highlight stack traces for readability.
 exports.developmentErrors = (err, req, res, next) => {
   err.stack = err.stack || '';
+  console.log('Stack stuff:', err.stack);
   const errorDetails = {
     message: err.message,
     status: err.status,
     stackHighlighted: err.stack.replace(/[a-z_-\d]+.js:\d+:\d+/gi, '<mark>$&</mark>')
   };
   res.status(err.status || 500);
-  res.format({
-    // Based on the `Accept` http header
-    'text/html': () => {
-      res.render('error', errorDetails);
-    }, // Form Submit, Reload the page
-    'application/json': () => res.json(errorDetails) // Ajax call, send JSON back
-  });
+  res.json(errorDetails);
 };
 
 

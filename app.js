@@ -1,8 +1,9 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-const port = 3001;
 const api = require('./routes/api.js');
+const { developmentErrors } = require('./controllers/errorHandlers')
+require('dotenv').config({ path: '.env' });
 
 const serverListenTime = function () {
   const now = new Date();
@@ -13,12 +14,25 @@ const serverListenTime = function () {
   return time;
 }
 
-app.use('/api', api);
+
+// Routes
 
 app.use(express.static(path.join(__dirname, '/client/build')));
+app.use('/api', api);
 
 app.get('/', (req, res, next) => {
   res.sendFile(path.join(__dirname, '/client/build/index.html'));
 });
 
-app.listen(port, console.log(`Listening on port: ${port} at ${serverListenTime()}`));
+// Otherwise this was a really bad error we didn't expect! Shoot eh
+if (app.get('env') === 'development') {
+  /* Development Error Handler - Prints stack trace */
+  app.use(developmentErrors);
+}
+
+// production error handler
+// app.use(productionErrors);
+
+app.set('port', process.env.PORT || 3001);
+
+app.listen(app.get('port'), () => console.log(`Listening on port: ${app.get('port')} at ${serverListenTime()}`));

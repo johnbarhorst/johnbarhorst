@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const destinyControllers = require('../controllers/destinyControllers');
+const { catchErrors } = require('../controllers/errorHandlers');
 
 // ROUTES:
 
@@ -11,6 +12,6 @@ router.get('/manifest', destinyControllers.getCurrentManifest);
 router.get('/search/:displayName', destinyControllers.searchAccounts);
 
 // Get data for all characters on a selected account
-router.get('/characters/:membershipType/:membershipId', destinyControllers.getCharacterInfo);
+router.get('/characters/:membershipType/:membershipId', catchErrors(destinyControllers.getCharacterInfo));
 
 module.exports = router;
