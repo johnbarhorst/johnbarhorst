@@ -4,8 +4,18 @@ import styled from 'styled-components';
 
 const hasEnergy = obj => Object.keys(obj).length === 0 ? false : true;
 
-const Item = ({ item }) => {
-  const { name, hasIcon, icon, itemTypeDisplayName, damageType, energy, masterwork, primaryStat } = item;
+const Item = ({ name, hasIcon, icon, itemTypeDisplayName, damageType, energy, masterwork, primaryStat, errorMessage }) => {
+
+  if (errorMessage) {
+    return (
+      <ItemWrapper>
+        <div>
+          <p>Missing</p>
+        </div>
+        <p>{errorMessage}</p>
+      </ItemWrapper>
+    )
+  }
   return (
     <ItemWrapper>
       {hasIcon && <Img src={`https://www.bungie.net${icon}`} isMasterworked={masterwork} />}

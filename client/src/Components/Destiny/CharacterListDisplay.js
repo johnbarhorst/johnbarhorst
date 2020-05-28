@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useFetchOnLoad } from '../../Hooks';
 import EmblemCard from './EmblemCard';
 import Character from './Character';
+import ErrorDisplay from '../ErrorDisplay';
 import { H3 } from '../../Elements';
 
 
@@ -87,13 +88,7 @@ const CharacterListDisplay = () => {
         )}
         {isError && (
           <StatusDisplay>
-            <H3>Sorry, something went wrong while gathering data.</H3>
-            {data.Message &&
-              <div>
-                <p><strong>Error Message:</strong></p>
-                <p>{data.Message}</p>
-              </div>
-            }
+            <ErrorDisplay {...data} />
             <Link to='/destiny/search' >Search again</Link>
           </StatusDisplay>
         )}

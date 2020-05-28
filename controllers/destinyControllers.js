@@ -64,14 +64,21 @@ function checkStatus(res) {
 const getDetailsAll = async (object, table, callback) => {
   const hashArray = Array.from(Object.keys(object));
   const objectWithDetails = await Promise.all(hashArray.map(async hash => {
-    const details = await getFromDB(hash, table);
-    if (callback) {
-      return callback(object[hash], details);
-    } else {
+    try {
+      const details = await getFromDB(hash, table);
+      if (callback) {
+        return callback(object[hash], details);
+      } else {
+        return {
+          ...object[hash],
+          details
+        };
+      }
+    } catch {
       return {
         ...object[hash],
-        details
-      };
+        error: 'Item not found'
+      }
     }
   }));
   return objectWithDetails;
@@ -129,65 +136,71 @@ const processCharacters = async (data) => {
   // The big congregation of data for an individual character.
   const getGuardianEquipmentDetails = async equipment => {
     const itemsWithDetails = await Promise.all(equipment.map(async item => {
+      try {
+        // Take each item and get static details from the database
+        const details = await getFromDB(item.itemHash, 'DestinyInventoryItemDefinition');
 
-      // Take each item and get static details from the database
-      const details = await getFromDB(item.itemHash, 'DestinyInventoryItemDefinition');
+        // Match up the item with its instanced data
+        const instanceDetails = instances[item.itemInstanceId];
 
-      // Match up the item with its instanced data
-      const instanceDetails = instances[item.itemInstanceId];
+        // Match up item stats with its instanced data, if no instanced data, return an empty object
+        // so that later on there aren't errors. Allows for easier processing of all the data.
+        const instancedStats = (stats[item.itemInstanceId] || { stats: {} }).stats;
 
-      // Match up item stats with its instanced data, if no instanced data, return an empty object
-      // so that later on there aren't errors. Allows for easier processing of all the data.
-      const instancedStats = (stats[item.itemInstanceId] || { stats: {} }).stats;
+        // Match up item sockets with its instanced data, if no instanced data, return an empty array,
+        // so that later on a .map() will return nothing instead of throwing an error.
+        const instancedSockets = (sockets[item.itemInstanceId] || { sockets: [] }).sockets;
 
-      // Match up item sockets with its instanced data, if no instanced data, return an empty array,
-      // so that later on a .map() will return nothing instead of throwing an error.
-      const instancedSockets = (sockets[item.itemInstanceId] || { sockets: [] }).sockets;
-
-      const getPrimaryStatDetails = async stat => {
-        const details = await getFromDB(stat.statHash, 'DestinyStatDefinition');
-        return {
-          ...details.displayProperties,
-          value: stat.value,
-        }
-      }
-
-      // Take all the processed data to return only what we want to display.
-      return {
-        itemHash: item.itemHash,
-        ...details.displayProperties,
-        screenshot: details.screenshot,
-        itemTypeDisplayName: details.itemTypeDisplayName,
-        displaySource: details.displaySource,
-        // TODO This got borked. Don't even think I need it, yet I want to fix it.
-        // staticStats: await getDetailsAll(details.stats.stats, 'DestinyStatDefinition', (item, details) => {
-        //   return {
-        //     ...details.displayProperties,
-        //     value: item.value,
-        //     displayMaximum: item.displayMaximum,
-        //   };
-        // }),
-        instanceStats: await getDetailsAll(instancedStats, 'DestinyStatDefinition', (item, details) => {
+        const getPrimaryStatDetails = async stat => {
+          const details = await getFromDB(stat.statHash, 'DestinyStatDefinition');
           return {
             ...details.displayProperties,
-            value: item.value,
-            displayMaximum: item.displayMaximum,
-          };
-        }),
-        damageType: damageTypeEnum[instanceDetails.damageType],
-        energy: instanceDetails.energy ? await getEnergyDetails(instanceDetails.energy) : {},
-        sockets: instancedSockets ? await getSocketDetails(instancedSockets) : {},
-        itemType: details.itemType,
-        itemCategoryHashes: await Promise.all(details.itemCategoryHashes.map(async hash => await getFromDB(hash, 'DestinyItemCategoryDefinition'))),
-        masterwork: item.state === 4 || item.state === 5 ? true : false,
-        primaryStat: instanceDetails.primaryStat ? await getPrimaryStatDetails(instanceDetails.primaryStat) : null,
-        // Uncomment these to see all the original data, in case you want to dig and find other things to display
-        // originalData: { ...item },
-        // originalInstance: { ...instanceDetails },
-        // originalInstanceStats: { ...instancedStats },
-        // originalSockets: { ...instancedSockets },
-        // originalDetails: { ...details },
-      };
+            value: stat.value,
+          }
+        }
+
+        // Take all the processed data to return only what we want to display.
+        return {
+          itemHash: item.itemHash,
+          ...details.displayProperties,
+          screenshot: details.screenshot,
+          itemTypeDisplayName: details.itemTypeDisplayName,
+          displaySource: details.displaySource,
+          // TODO This got borked. Don't even think I need it, yet I want to fix it.
+          // staticStats: await getDetailsAll(details.stats.stats, 'DestinyStatDefinition', (item, details) => {
+          //   return {
+          //     ...details.displayProperties,
+          //     value: item.value,
+          //     displayMaximum: item.displayMaximum,
+          //   };
+          // }),
+          instanceStats: await getDetailsAll(instancedStats, 'DestinyStatDefinition', (item, details) => {
+            return {
+              ...details.displayProperties,
+              value: item.value,
+              displayMaximum: item.displayMaximum,
+            };
+          }),
+          damageType: damageTypeEnum[instanceDetails.damageType],
+          energy: instanceDetails.energy ? await getEnergyDetails(instanceDetails.energy) : {},
+          sockets: instancedSockets ? await getSocketDetails(instancedSockets) : {},
+          itemType: details.itemType,
+          itemCategoryHashes: await Promise.all(details.itemCategoryHashes.map(async hash => await getFromDB(hash, 'DestinyItemCategoryDefinition'))),
+          masterwork: item.state === 4 || item.state === 5 ? true : false,
+          primaryStat: instanceDetails.primaryStat ? await getPrimaryStatDetails(instanceDetails.primaryStat) : null,
+          // Uncomment these to see all the original data, in case you want to dig and find other things to display
+          // originalData: { ...item },
+          // originalInstance: { ...instanceDetails },
+          // originalInstanceStats: { ...instancedStats },
+          // originalSockets: { ...instancedSockets },
+          // originalDetails: { ...details },
+        };
+      } catch {
+        return {
+          ...item,
+          errorMessage: 'Probably need to update the database'
+        }
+      }
     }))
     return itemsWithDetails;
   }
