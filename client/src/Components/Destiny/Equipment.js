@@ -16,7 +16,7 @@ const Equipment = ({ equipment }) => {
         exit={{ opacity: 0 }}
       >
         {equipment.sort((a, b) => itemOrder.indexOf(a.itemType) - itemOrder.indexOf(b.itemType))
-          .map(item => <Item item={item} key={item.itemHash} />)}
+          .map(item => <Item {...item} key={item.itemHash} />)}
       </Wrapper>
     </div>
   )
