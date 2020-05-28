@@ -29,7 +29,8 @@ export const useFetchData = (initialData) => {
   const [state, dispatch] = useReducer(reducer, {
     isLoading: false,
     isError: false,
-    data: initialData
+    data: initialData,
+    errorStatus: null
   });
 
   const goFetch = async (url, options = {}) => {
@@ -41,7 +42,7 @@ export const useFetchData = (initialData) => {
       if (req.status === 200) {
         dispatch({ type: 'SUCCESS', payload: json });
       } else {
-        dispatch({ type: 'ERROR', payload: json });
+        dispatch({ type: 'ERROR', payload: { ...json, errorStatus: req.status } });
       }
     } catch (error) {
       dispatch({ type: 'ERROR' });
@@ -55,7 +56,8 @@ export const useFetchOnLoad = (url, options, initialData) => {
   const [state, dispatch] = useReducer(reducer, {
     isLoading: false,
     isError: false,
-    data: initialData
+    data: initialData,
+    errorStatus: null
   });
 
   useEffect(() => {
@@ -68,10 +70,10 @@ export const useFetchOnLoad = (url, options, initialData) => {
       try {
         const req = await fetch(url, options);
         const json = await req.json();
-        if (json.status === 200 && isSubscribed) {
+        if (req.status === 200 && isSubscribed) {
           dispatch({ type: 'SUCCESS', payload: json });
-        } else if (json.status === 404 && isSubscribed) {
-          dispatch({ type: 'ERROR', payload: json });
+        } else if (req.status !== 200 && isSubscribed) {
+          dispatch({ type: 'ERROR', payload: { ...json, errorStatus: req.status } });
         }
       } catch (error) {
         dispatch({ type: 'ERROR' });
