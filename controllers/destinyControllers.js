@@ -277,13 +277,13 @@ exports.getCharacterInfo = async (req, res) => {
       // plugs: await getDetailsAll(accountData.Response.profilePlugSets.data.plugs, 'DestinyPlugSetDefinition'),
 
     };
-    res.send(JSON.stringify(profileInfo));
+    res.json(profileInfo);
   } else {
     const ErrorResponse = {
       status: 404,
       ...accountData
     }
-    res.send(JSON.stringify(ErrorResponse));
+    res.json(ErrorResponse);
   }
 }
 
@@ -305,6 +305,10 @@ exports.searchAccounts = async (req, res) => {
     };
     res.send(JSON.stringify(accountList));
   } else {
-    res.send(JSON.stringify(searchQuery.Message));
+    const errorStatus = {
+      status: 401,
+      errorMessage: searchQuery.Message
+    }
+    res.json(errorStatus);
   }
 }
