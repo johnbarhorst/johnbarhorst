@@ -1,4 +1,7 @@
+const https = require('https');
 const fetch = require('node-fetch');
+const fs = require('fs');
+const unzip = require('unzipper');
 const db = require('better-sqlite3')('./database.sqlite3', { readonly: true });
 require('dotenv').config();
 const APIKEY = process.env.APIKEY;
@@ -301,9 +304,24 @@ exports.getCharacterInfo = async (req, res) => {
 }
 
 exports.getCurrentManifest = async (req, res) => {
-  const paths = await fetch('https://www.bungie.net/Platform/Destiny2/Manifest', { headers }).then(res => res.json());
+  // Get path to current D2 database
+  const paths = await fetch('https://www.bungie.net/Platform/Destiny2/Manifest', { headers }).then(result => result.json());
+  // Append to base path
   const dbPath = `https://www.bungie.net${paths.Response.mobileWorldContentPaths.en}`;
-  res.redirect(dbPath);
+  // The last section of the path is the file name after unzipping. We need to remove the rest of the url
+  const fileName = dbPath.split('').slice(dbPath.lastIndexOf('/') + 1, dbPath.length).join('');
+
+  // TODO: Automate this as a cron job, instead of manually hitting the api.
+  // Save the file name, if it matches the path, then we are up to date and can cancel out of this.
+
+  // Download the file, then extract it. Then rename the updated DB so it works with the rest of our code.
+  https.get(dbPath, response => response.pipe(fs.createWriteStream('./db.zip'))).on('close', () =>
+    fs.createReadStream('./db.zip').pipe(unzip.Extract({
+      path: './'
+    }))).on('close', () => fs.rename(`${fileName}`, 'database.sqlite3'));
+
+  // Just sending something here to finish the browser call to the server. This shouldn't be necessary once I make it a cron job.
+  res.send('Check data');
 }
 
 exports.searchAccounts = async (req, res) => {
