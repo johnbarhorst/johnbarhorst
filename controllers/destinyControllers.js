@@ -318,7 +318,11 @@ exports.getCurrentManifest = async (req, res) => {
   https.get(dbPath, response => response.pipe(fs.createWriteStream('./db.zip'))).on('close', () =>
     fs.createReadStream('./db.zip').pipe(unzip.Extract({
       path: './'
-    }))).on('close', () => fs.rename(`${fileName}`, 'database.sqlite3'));
+    })).on('close', () => {
+      fs.renameSync(`${fileName}`, 'database.sqlite3');
+      fs.unlinkSync('db.zip');
+    }
+    ));
 
   // Just sending something here to finish the browser call to the server. This shouldn't be necessary once I make it a cron job.
   res.send('Check data');
