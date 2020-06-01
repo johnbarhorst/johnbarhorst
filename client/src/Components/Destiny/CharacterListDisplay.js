@@ -2,7 +2,7 @@ import React, { useReducer, useEffect } from 'react';
 import { useParams, Link, } from 'react-router-dom';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useFetchOnLoad } from '../../Hooks';
+import { useFetchOnLoad, useAutoHeightAnimation } from '../../Hooks';
 import EmblemCard from './EmblemCard';
 import Character from './Character';
 import ErrorDisplay from '../ErrorDisplay';
@@ -53,8 +53,9 @@ const CharacterListDisplay = () => {
   const { membershipType, membershipId } = useParams();
   const [{ isLoading, isError, data }] = useFetchOnLoad(
     `/api/characters/${membershipType}/${membershipId}`, {}, { characters: [] });
-
   const [{ activeCharacter, characterList, showFullList }, dispatch] = useReducer(reducer, initialState);
+  const [controls, ref] = useAutoHeightAnimation([isLoading, isError, showFullList, activeCharacter]);
+
 
   const handleCharacterSelect = (character) => {
     if (showFullList) {
@@ -73,7 +74,7 @@ const CharacterListDisplay = () => {
   }, [isLoading, isError, data.characters])
 
   return (
-    <motion.div>
+    <motion.div ref={ref} controls={controls}>
       <motion.div
         variants={emblemDisplayVariants}
         initial={false}
