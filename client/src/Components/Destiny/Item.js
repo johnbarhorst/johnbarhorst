@@ -1,9 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-
-const hasEnergy = obj => Object.keys(obj).length === 0 ? false : true;
-
 const Item = ({ name, hasIcon, icon, itemTypeDisplayName, damageType, energy, masterwork, primaryStat, errorMessage }) => {
 
   if (errorMessage) {
@@ -23,7 +20,7 @@ const Item = ({ name, hasIcon, icon, itemTypeDisplayName, damageType, energy, ma
         <p><strong>{name}</strong></p>
         <p>{itemTypeDisplayName}</p>
         {damageType && <p>Damage Type: {damageType}</p>}
-        {hasEnergy(energy) && <p>Energy: {energy.used}/{energy.capacity}</p>}
+        {energy && <p>Energy: {energy.used}/{energy.capacity}</p>}
       </div>
       <div>
         {primaryStat &&
