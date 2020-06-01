@@ -22,11 +22,11 @@ const Item = ({ name, hasIcon, icon, itemTypeDisplayName, damageType, energy, ma
         {damageType && <p>Damage Type: {damageType}</p>}
         {energy && <p>Energy: {energy.used}/{energy.capacity}</p>}
       </div>
-      <div>
+      <div style={{ textAlign: 'end' }}>
         {primaryStat &&
           <>
-            <p>{primaryStat.value}</p>
             <p>{primaryStat.name}</p>
+            <p>{primaryStat.value}</p>
           </>
         }
       </div>
