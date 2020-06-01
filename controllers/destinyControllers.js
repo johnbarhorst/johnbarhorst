@@ -285,9 +285,9 @@ const processCharacters = async (data) => {
 exports.getCharacterInfo = async (req, res) => {
   const accountData = await fetch(
     `https://www.bungie.net/Platform/Destiny2/${req.params.membershipType}/Profile/${req.params.membershipId}/?components=100,104,200,205,300,304,305,1100`,
-    { headers }).then(res => res.status === 200 ? res.json() : new Error(res));
+    { headers }).then(result => result.json());
   const responseStatus = checkStatus(accountData);
-  // console.log(accountData);
+  console.log(accountData);
   if (responseStatus) {
     const characters = await processCharacters(accountData.Response);
     const profileInfo = {
@@ -302,13 +302,13 @@ exports.getCharacterInfo = async (req, res) => {
       // plugs: await getDetailsAll(accountData.Response.profilePlugSets.data.plugs, 'DestinyPlugSetDefinition'),
 
     };
-    res.status = 200;
+    res.status(200);
     res.json(profileInfo);
   } else {
     const ErrorResponse = {
-      ...accountData
+      errorMessage: accountData.Message
     }
-    res.status = 404;
+    res.status(404);
     res.json(ErrorResponse);
   }
 }
@@ -335,7 +335,7 @@ exports.getCurrentManifest = async (req, res) => {
     ));
 
   // Just sending something here to finish the browser call to the server. This shouldn't be necessary once I make it a cron job.
-  res.status = 200;
+  res.status(200);
   res.send('Check data');
 }
 
@@ -345,13 +345,13 @@ exports.searchAccounts = async (req, res) => {
     { headers }).then(res => res.json());
   const responseStatus = checkStatus(searchQuery);
   if (responseStatus) {
-    res.status = 200;
+    res.status(200);
     const accountList = {
       accounts: searchQuery.Response
     };
     res.send(JSON.stringify(accountList));
   } else {
-    res.status = 401;
+    res.status(401);
     const errorStatus = {
       errorMessage: searchQuery.Message
     }
