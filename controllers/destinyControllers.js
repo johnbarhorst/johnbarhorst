@@ -306,7 +306,7 @@ exports.getCharacterInfo = async (req, res) => {
     res.json(profileInfo);
   } else {
     const ErrorResponse = {
-      errorMessage: accountData.Message
+      message: accountData.Message
     }
     res.status(404);
     res.json(ErrorResponse);
@@ -353,7 +353,7 @@ exports.searchAccounts = async (req, res) => {
   } else {
     res.status(401);
     const errorStatus = {
-      errorMessage: searchQuery.Message
+      message: searchQuery.Message
     }
     res.json(errorStatus);
   }
