@@ -31,6 +31,7 @@ const EmblemCard = ({ characterData, clickHandler, variants }) => {
 export default EmblemCard;
 
 const Card = styled(motion.div)`
+  cursor: pointer;
   display: flex;
   justify-content: space-between;
   background: #ffffff url(${props => 'https://www.bungie.net' + props.bgPath}) top / cover no-repeat;
