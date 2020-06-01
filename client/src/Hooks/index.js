@@ -5,3 +5,4 @@ export * from './useToggle';
 export * from './useWindowWidth';
 export * from './useMeasure';
 export * from './useLocalStorage';
+export * from './useAutoAnimateHeight';
