@@ -2,7 +2,7 @@
 import { useEffect, useRef } from "react";
 import { useAnimation } from "framer-motion";
 
-export function useAutoHeightAnimation() {
+export function useAutoHeightAnimation(deps) {
   const controls = useAnimation();
   const ref = useRef(null);
   const height = useRef(null);
@@ -17,7 +17,7 @@ export function useAutoHeightAnimation() {
     }
 
     height.current = newHeight;
-  }, [ref, controls]);
+  }, [controls, ref, ...deps]);
 
   return [controls, ref];
 }
