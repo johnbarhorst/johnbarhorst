@@ -44,9 +44,9 @@ const Img = styled.img`
 
 const ItemWrapper = styled.div`
   display: grid;
-  gap: .5em;
+  gap: 0 .25em;
   grid-template-columns: 1fr 2fr 1fr;
-  margin-bottom: .5em;
+  margin: .5em;
   p {
     margin: 0;
     text-transform: capitalize;

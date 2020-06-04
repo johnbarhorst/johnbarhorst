@@ -42,8 +42,12 @@ const StatContainer = styled(motion.section)`
   grid-template-columns: 1fr 1fr;
   gap: 10px;
   margin-bottom: 2em;
+  padding: .5em;
   h3 {
     color: #fff;
+  }
+  div:first-child {
+    grid-column: 1 / span 2;
   }
 `;
 

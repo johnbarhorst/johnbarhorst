@@ -9,7 +9,7 @@ const itemOrder = [16, 3, 2, 24, 22, 21, 14, 17, 29, 0];
 const Equipment = ({ equipment }) => {
   return (
     <div>
-      <h3>Equipment</h3>
+      <H3>Equipment</H3>
       <Wrapper
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -23,6 +23,11 @@ const Equipment = ({ equipment }) => {
 }
 
 export default Equipment;
+
+const H3 = styled.h3`
+  text-align: center;
+  margin-bottom: 1.5em;
+`;
 
 const Wrapper = styled(motion.div)`
 

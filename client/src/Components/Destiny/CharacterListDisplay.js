@@ -93,7 +93,7 @@ const CharacterListDisplay = () => {
             <Link to='/destiny/search' >Search again</Link>
           </StatusDisplay>
         )}
-        <AnimatePresence >
+        <AnimatePresence>
           {showFullList ? characterList.map(character => (
             <EmblemCard
               variants={emblemVariants}
