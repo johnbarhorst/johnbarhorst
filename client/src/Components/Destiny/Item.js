@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+import Sockets from './Sockets';
 
-const Item = ({ name, hasIcon, icon, itemTypeDisplayName, damageType, energy, masterwork, primaryStat, errorMessage }) => {
+const Item = ({ name, hasIcon, icon, itemTypeDisplayName, damageType, energy, masterwork, primaryStat, errorMessage, sockets, instanceStats }) => {
 
   if (errorMessage) {
     return (
@@ -30,6 +31,14 @@ const Item = ({ name, hasIcon, icon, itemTypeDisplayName, damageType, energy, ma
           </>
         }
       </div>
+      {instanceStats && instanceStats.length > 0 ? (
+        <div className={'full-span'}>
+          {instanceStats.map((stat, i) => <p key={i}>{stat.name}: {stat.value}</p>)}
+        </div>
+      ) : null}
+      {sockets && sockets.length > 0 ? (
+        <Sockets sockets={sockets} />
+      ) : null}
     </ItemWrapper>
   )
 }
@@ -50,5 +59,8 @@ const ItemWrapper = styled.div`
   p {
     margin: 0;
     text-transform: capitalize;
+  }
+  .full-span {
+    grid-column: 1 / -1;
   }
 `;
