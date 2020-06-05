@@ -287,7 +287,7 @@ exports.getCharacterInfo = async (req, res) => {
     `https://www.bungie.net/Platform/Destiny2/${req.params.membershipType}/Profile/${req.params.membershipId}/?components=100,104,200,205,300,304,305,1100`,
     { headers }).then(result => result.json());
   const responseStatus = checkStatus(accountData);
-  console.log(accountData);
+
   if (responseStatus) {
     const characters = await processCharacters(accountData.Response);
     const profileInfo = {
