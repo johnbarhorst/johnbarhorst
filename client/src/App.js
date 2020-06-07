@@ -9,8 +9,9 @@ import Contact from './Components/Contact';
 import Portfolio from './Components/Portfolio';
 import DestinyDemo from './Components/Destiny/DestinyDemo';
 import PreferenceRanking from './Components/Ranking/PreferenceRanking';
+import { GlobalStyles } from './GlobalStyles';
 import { theme } from './theme';
-import './App.css';
+
 
 function App() {
   const location = useLocation();
@@ -35,6 +36,7 @@ const AppWrapper = () => {
     <Router>
       <ContextWrapper>
         <ThemeProvider theme={theme}>
+          <GlobalStyles />
           <App />
         </ThemeProvider>
       </ContextWrapper>

@@ -1,3 +1,6 @@
+import { createGlobalStyle } from 'styled-components';
+
+export const GlobalStyles = createGlobalStyle`
 html {
    box-sizing: border-box;
 }
@@ -13,8 +16,8 @@ body {
    line-height: 1.6;
    font-family: 'Baloo Paaji 2', cursive;
    font-size: 1rem;
-   background: #ffffff;
-   color: #303030;
+   background: ${props => props.theme.colors.light};
+   color: ${props => props.theme.colors.dark};
 }
 
 img {
@@ -31,5 +34,6 @@ h3 {
 
 a {
   text-decoration: none;
-  color: #303030;
+  color: ${props => props.theme.colors.dark};
 }
+`;
