@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { AnimatedButton, H3, Wrapper90 } from '../../Elements';
+import { AnimatedButton, H3 } from '../../Elements';
 import { useFetchData } from '../../Hooks';
 import AccountCard from './AccountCard';
 
