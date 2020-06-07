@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Sockets from './Sockets';
 
 const Item = ({ name, hasIcon, icon, itemTypeDisplayName, damageType, energy, masterwork, primaryStat, errorMessage, sockets, instanceStats }) => {
-
+  const weaponStatOrder = ['impact', 'range', 'stability', 'handling', 'reload', 'rounds', 'magazine'];
   if (errorMessage) {
     return (
       <ItemWrapper>
