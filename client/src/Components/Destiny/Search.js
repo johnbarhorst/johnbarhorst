@@ -78,10 +78,6 @@ const Container = styled(motion.div)`
   gap: 15px;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   margin: 0 auto;
-  a {
-    text-decoration: none;
-    color: #000;
-  }
 `;
 
 const Form = styled.form`
@@ -102,7 +98,6 @@ const Form = styled.form`
 const SearchButton = styled(AnimatedButton)`
   background: ${props => props.theme.colors.ceruleanBlue};
   box-shadow: 1px 1px 5px rgba(0,0,0,0.4);
-  
 `;
 const variants = {
   animate: {

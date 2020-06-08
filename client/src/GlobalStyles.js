@@ -16,8 +16,9 @@ body {
    line-height: 1.6;
    font-family: 'Baloo Paaji 2', cursive;
    font-size: 1rem;
-   background: ${props => props.theme.colors.light};
-   color: ${props => props.theme.colors.dark};
+   background: ${props => props.theme.background};
+   color: ${props => props.theme.color};
+   transition: all .5s linear;
 }
 
 img {
@@ -34,6 +35,6 @@ h3 {
 
 a {
   text-decoration: none;
-  color: ${props => props.theme.colors.dark};
+  color: ${props => props.theme.color};
 }
 `;

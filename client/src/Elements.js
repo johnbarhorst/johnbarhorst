@@ -23,6 +23,7 @@ export const H3 = styled(motion.h3)`
 `;
 
 export const Card = styled(motion.div)`
+  background: ${props => props.theme.background};
   padding: 20px;
   border-radius: 15px;
   box-shadow: 1px 1px 15px rgba(0,0,0,0.4);
@@ -54,9 +55,4 @@ margin: 0 20px;
 export const Wrapper = styled(motion.div)`
 `;
 
-export const Wrapper90 = styled(motion.div)`
-max-width: 90%;
-margin: 0 auto;
-
-`;
 
