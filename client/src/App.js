@@ -16,7 +16,7 @@ import { lightTheme, darkTheme } from './theme';
 function App() {
   const location = useLocation();
   const { isLightTheme } = useAppContext();
-  console.log(isLightTheme);
+
   return (
     <ThemeProvider theme={isLightTheme ? lightTheme : darkTheme}>
       <GlobalStyles />
