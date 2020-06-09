@@ -1,5 +1,7 @@
 import { css } from 'styled-components';
 
+
+
 const wrapNumber = (min, max, num) => {
   const rangeSize = max - min;
   return ((((num - min) % rangeSize) + rangeSize) % rangeSize) + min;
@@ -21,11 +23,14 @@ export const media = Object.keys(breakpoints).reduce((acc, label) => {
     @media screen and (min-width: ${breakpoints[label]}){
       ${css(...args)};
     }
-  `;
+    `;
   return acc;
 }, {});
 
 // END OF MIXIN THING THAT I DON'T QUITE LIKE SO MUCH YET.
+
+const mw_gradient = `linear-gradient(125deg, #DFBD38 30%, #FFECB9 50%, #DFBD38 70%);`;
+
 
 const colors = {
   livingCoral: '#FF6F61',
@@ -51,7 +56,7 @@ const colors = {
   ceruleanBlue: '#98B4D4',
   black: '#333333',
   light: '#ffffff',
-  dark: '#303030'
+  dark: '#363537'
 };
 
 const colorsArray = [
@@ -97,6 +102,7 @@ const fonts = {
 export const lightTheme = {
   background: colors.light,
   color: colors.dark,
+  mw_gradient,
   colors,
   colorsArray,
   cycledColor,
@@ -108,6 +114,7 @@ export const lightTheme = {
 export const darkTheme = {
   background: colors.dark,
   color: colors.light,
+  mw_gradient,
   colors,
   colorsArray,
   cycledColor,
@@ -115,3 +122,5 @@ export const darkTheme = {
   breakpoints,
   media
 }
+
+

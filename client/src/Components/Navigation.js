@@ -81,7 +81,6 @@ const TopBar = styled.div`
 
 const Nav = styled(motion.nav)`
   overflow: hidden;
-  background: ${props => props.theme.background};
   padding: 0 5%;
   @media screen and (min-width: ${props => props.theme.breakpoints.md}) {
     max-width: 40%;
