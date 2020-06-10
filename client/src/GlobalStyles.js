@@ -16,7 +16,7 @@ body {
    line-height: 1.6;
    font-family: 'Baloo Paaji 2', cursive;
    font-size: 1rem;
-   background: ${props => props.theme.background};
+   background: ${props => props.theme.body};
    color: ${props => props.theme.color};
    transition: all .5s linear;
 }
