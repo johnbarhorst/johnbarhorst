@@ -54,9 +54,11 @@ const colors = {
   trueRed: '#BC243C',
   fuschiaRose: '#C3447A',
   ceruleanBlue: '#98B4D4',
+  slateGray: '#708090',
   black: '#333333',
   light: '#ffffff',
-  dark: '#363537'
+  dark: '#121212',
+  lightBg: '#ffffff22',
 };
 
 const colorsArray = [
@@ -80,7 +82,8 @@ const colorsArray = [
   '#7FCDCD',
   '#BC243C',
   '#C3447A',
-  '#98B4D4',];
+  '#98B4D4',
+  '#708090',];
 
 const cycledColor = function (i) { return colorsArray[wrapNumber(0, colorsArray.length, i)] };
 
@@ -100,8 +103,13 @@ const fonts = {
 };
 
 export const lightTheme = {
+  mode: 'light',
+  body: colors.light,
   background: colors.light,
   color: colors.dark,
+  btn: {
+    bg: colors.fuschiaRose,
+  },
   mw_gradient,
   colors,
   colorsArray,
@@ -112,8 +120,13 @@ export const lightTheme = {
 };
 
 export const darkTheme = {
-  background: colors.dark,
+  mode: 'dark',
+  body: colors.dark,
+  background: colors.lightBg,
   color: colors.light,
+  btn: {
+    bg: colors.fuschiaRose,
+  },
   mw_gradient,
   colors,
   colorsArray,
