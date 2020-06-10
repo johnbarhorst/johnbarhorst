@@ -6,12 +6,17 @@ export const AppContext = createContext({
 })
 export const ContextWrapper = ({ children }) => {
   const { isToggled, toggle, setToggle } = useToggle(false);
+  const [isLightTheme, setTheme, toggleTheme] = useToggle(true, true);
   return (
     <AppContext.Provider
       value={{
         isNavOpen: isToggled,
         toggleNav: toggle,
-        closeNav: () => setToggle(false)
+        closeNav: () => setToggle(false),
+        isLightTheme: isLightTheme,
+        toggleTheme: () => toggleTheme(),
+        setThemeDark: () => setTheme(false),
+        setThemeLight: () => setTheme(true)
       }}
     >
       {children}

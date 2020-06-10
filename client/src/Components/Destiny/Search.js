@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { AnimatedButton, H3 } from '../../Elements';
+import { AnimatedButton, H3, Form } from '../../Elements';
 import { useFetchData } from '../../Hooks';
 import AccountCard from './AccountCard';
 
@@ -32,7 +32,7 @@ const Search = () => {
       </TopBar>
       <Form onSubmit={handleSubmit}>
         <input type="text" name="search" id="search" value={searchValue} onChange={e => setSearchValue(e.target.value)} />
-        <SearchButton
+        <AnimatedButton
           type='submit'
           whileHover={{
             scale: 1.05
@@ -40,7 +40,7 @@ const Search = () => {
           whileTap={{
             scale: .95
           }}
-        >Search</SearchButton>
+        >Search</AnimatedButton>
       </Form>
       <Container variants={variants} >
         {isLoading && <H3>Searching...</H3>}
@@ -78,32 +78,8 @@ const Container = styled(motion.div)`
   gap: 15px;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   margin: 0 auto;
-  a {
-    text-decoration: none;
-    color: #000;
-  }
 `;
 
-const Form = styled.form`
-  font-size: 30px;
-  text-align: center;
-  margin-bottom: 30px;
-
-  input {
-  padding: 5px 10px;
-  font-size: 20px;
-  border-radius: 5px;
-  border: 1px solid #999;
-  vertical-align: middle;
-  margin: 0 20px;
-  }
-`;
-
-const SearchButton = styled(AnimatedButton)`
-  background: ${props => props.theme.colors.ceruleanBlue};
-  box-shadow: 1px 1px 5px rgba(0,0,0,0.4);
-  
-`;
 const variants = {
   animate: {
     transition: {

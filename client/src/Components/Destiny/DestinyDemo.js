@@ -1,12 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { useAppContext } from '../../State';
 import Search from './Search';
 import CharacterListDisplay from './CharacterListDisplay';
-import { motion } from 'framer-motion';
 
 const DestinyDemo = () => {
   const { url } = useRouteMatch();
+  const { isLightTheme, setThemeLight, setThemeDark } = useAppContext();
+  useEffect(() => {
+    isLightTheme && setThemeDark();
 
+  })
   return (
     <motion.div
       initial={{ opacity: 0 }}

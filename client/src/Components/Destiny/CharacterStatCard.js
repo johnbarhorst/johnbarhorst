@@ -25,8 +25,7 @@ const CharacterStatCard = ({ stats }) => {
         <StatDisplay key={name} {...bind} >
           <Img src={`https://www.bungie.net${icon}`} alt={name} />
           <div>
-            <H3>{name}</H3>
-            <H3>{value}</H3>
+            <p>{name}: {value}</p>
           </div>
         </StatDisplay>
       ))}
@@ -37,9 +36,6 @@ const CharacterStatCard = ({ stats }) => {
 export default CharacterStatCard;
 
 const StatContainer = styled(motion.section)`
-  background: #aaa;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
   gap: 10px;
   margin-bottom: 2em;
   padding: .5em;
@@ -52,13 +48,15 @@ const StatContainer = styled(motion.section)`
 `;
 
 const Img = styled.img`
-  height: 53px;
-  width: 53px;
+  height: 40px;
+  width: 40px;
 `;
 
 const StatDisplay = styled(motion.div)`
   display: flex;
   div {
+    display: flex;
+    align-items: center;
     p {
       margin: 0;
     }
