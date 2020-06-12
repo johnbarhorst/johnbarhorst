@@ -21,30 +21,27 @@ const CharacterStatCard = ({ stats }) => {
       {stats.sort((a, b) => {
         const order = ['power', 'mobility', 'resilience', 'recovery', 'discipline', 'intellect', 'strength'];
         return order.indexOf(a.name.toLowerCase()) - order.indexOf(b.name.toLowerCase())
-      }).map(({ name, icon, value }) => (
+      }).map(({ name, icon, value }, i) => (
         <StatDisplay key={name} {...bind} >
           <Img src={`https://www.bungie.net${icon}`} alt={name} />
           <div>
-            <p>{name}: {value}</p>
+            <p>{name}: <span>{value}</span></p>
           </div>
         </StatDisplay>
-      ))}
+      )
+      )}
     </StatContainer>
+
   )
 }
 
 export default CharacterStatCard;
 
 const StatContainer = styled(motion.section)`
+  background: ${props => props.theme.background};
   gap: 10px;
   margin-bottom: 2em;
   padding: .5em;
-  h3 {
-    color: #fff;
-  }
-  div:first-child {
-    grid-column: 1 / span 2;
-  }
 `;
 
 const Img = styled.img`
@@ -53,12 +50,22 @@ const Img = styled.img`
 `;
 
 const StatDisplay = styled(motion.div)`
-  display: flex;
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 1rem;
+  align-items: center;
+  width: 90%;
+  margin: 0 auto;
   div {
     display: flex;
     align-items: center;
+    h3,
     p {
-      margin: 0;
+      display: flex;
+      width: 100%;
+      span {
+        margin-left: auto;
+      }
     }
   }
 `;
