@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import Sockets from './Sockets';
 import InstanceStatsCard from './InstanceStatsCard';
+import { ItemIcon, ItemWrapper } from '../../Elements';
+import { SubClass } from './ItemTypes';
 
 
 // per bungie docs.
@@ -19,7 +21,7 @@ const itemTypeEnum = {
   13: 'questStepComplete',
   14: 'emblem',
   15: 'quest',
-  16: 'subClass',
+  16: SubClass,
   17: 'clanBanner',
   18: 'aura',
   19: 'mod',
@@ -36,7 +38,7 @@ const itemTypeEnum = {
 }
 
 
-const Item = ({ name, hasIcon, icon, itemTypeDisplayName, damageType, energy, masterwork, primaryStat, errorMessage, sockets, instanceStats, itemType }) => {
+const Item = ({ name, hasIcon, lore, icon, itemTypeDisplayName, damageType, energy, masterwork, primaryStat, errorMessage, sockets, instanceStats, itemType }) => {
   if (errorMessage) {
     return (
       <ItemWrapper>
@@ -48,9 +50,17 @@ const Item = ({ name, hasIcon, icon, itemTypeDisplayName, damageType, energy, ma
     )
   }
 
+  if (itemType === 16) {
+    return (
+      <>
+        {itemTypeEnum[itemType]({ name, lore, icon })}
+      </>
+    )
+  }
+
   return (
     <ItemWrapper>
-      {hasIcon && <Img src={`https://www.bungie.net${icon}`} isMasterworked={masterwork} />}
+      {hasIcon && <ItemIcon src={`https://www.bungie.net${icon}`} isMasterworked={masterwork} />}
       <div>
         <p><strong>{name}</strong></p>
         <p>{itemTypeDisplayName}</p>
@@ -75,22 +85,3 @@ const Item = ({ name, hasIcon, icon, itemTypeDisplayName, damageType, energy, ma
 
 export default Item;
 
-const Img = styled.img`
-  height: 80px;
-  width: 80px;
-  border: 2px solid ${props => props.isMasterworked ? 'gold' : 'white'};
-`;
-
-const ItemWrapper = styled.div`
-  display: grid;
-  gap: 0 .25em;
-  grid-template-columns: 1fr 2fr 1fr;
-  margin: .5em;
-  p {
-    margin: 0;
-    text-transform: capitalize;
-  }
-  .full-span {
-    grid-column: 1 / -1;
-  }
-`;
