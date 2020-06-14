@@ -8,7 +8,7 @@ const InstanceStatsCard = ({ instanceStats }) => {
 
   return (
     <div className={'full-span'}>
-      {instanceStats.sort((a, b) => a.index - b.index).map((stat, i) => <p key={i}>{stat.name}: {stat.value}</p>)}
+      {instanceStats.sort((a, b) => a.index - b.index).map((stat, i) => <p key={stat.statHash}>{stat.name}: {stat.value}</p>)}
     </div>
   )
 }
