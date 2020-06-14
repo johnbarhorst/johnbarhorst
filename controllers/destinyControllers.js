@@ -128,11 +128,12 @@ const processCharacters = async (data) => {
         const instanceStats = await getDetailsAll(instancedStats, 'DestinyStatDefinition', (item, details) => {
           return {
             //uncomment the lines below to send along original item data and/or database details
-            // originalData: {...item},
-            // dbDetails: {...details},
+            originalData: { ...item },
+            dbDetails: { ...details },
             ...details.displayProperties,
             value: item.value,
             displayMaximum: item.displayMaximum,
+            index: details.index
           };
         });
 
@@ -191,12 +192,13 @@ const processCharacters = async (data) => {
           // State: none is 0, locked is 1, masterworked is 4. So locked and master worked is 5
           masterwork: item.state === 4 || item.state === 5 ? true : false,
           primaryStat: instanceDetails.primaryStat ? await getPrimaryStatDetails(instanceDetails.primaryStat) : null,
+          ammoType: details.equippingBlock.ammoType,
           // Uncomment these to see all the original data, in case you want to dig and find other things to display
-          // originalData: { ...item },
-          // originalInstance: { ...instanceDetails },
+          originalData: { ...item },
+          originalInstance: { ...instanceDetails },
           // originalInstanceStats: { ...instancedStats },
           // originalSockets: { ...instancedSockets },
-          // originalDetails: { ...details },
+          originalDetails: { ...details },
         };
 
       } catch {
