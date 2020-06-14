@@ -174,7 +174,6 @@ const processCharacters = async (data) => {
 
         // Take all the processed data to return only what we want to display.
         return {
-          lore: details.loreHash ? (await getFromDB(details.loreHash, 'DestinyLoreDefinition')).displayProperties.description : null,
           itemHash: item.itemHash,
           ...details.displayProperties,
           screenshot: details.screenshot,
@@ -193,6 +192,7 @@ const processCharacters = async (data) => {
           primaryStat: instanceDetails.primaryStat ? await getPrimaryStatDetails(instanceDetails.primaryStat) : null,
           ammoType: details.equippingBlock.ammoType,
           statGroupHash: await getFromDB(details.stats.statGroupHash, 'DestinyStatGroupDefinition'),
+          lore: details.loreHash ? (await getFromDB(details.loreHash, 'DestinyLoreDefinition')).displayProperties.description : null,
           // Uncomment these to see all the original data, in case you want to dig and find other things to display
           originalData: { ...item },
           originalInstance: { ...instanceDetails },
