@@ -125,15 +125,13 @@ const processCharacters = async (data) => {
         const instancedSockets = (sockets[item.itemInstanceId] || { sockets: [] }).sockets;
 
         // Get definitions for instanced stats on the item from the DB, and return the details we want from each.
-        const instanceStats = await getDetailsAll(instancedStats, 'DestinyStatDefinition', (item, details) => {
+        const instanceStats = await getDetailsAll(instancedStats, 'DestinyStatDefinition', async (item, details) => {
           return {
             //uncomment the lines below to send along original item data and/or database details
-            originalData: { ...item },
-            dbDetails: { ...details },
+            ...item,
             ...details.displayProperties,
-            value: item.value,
-            displayMaximum: item.displayMaximum,
-            index: details.index
+            index: details.index,
+            dbDetails: { ...details },
           };
         });
 
@@ -176,6 +174,7 @@ const processCharacters = async (data) => {
 
         // Take all the processed data to return only what we want to display.
         return {
+          lore: details.loreHash ? (await getFromDB(details.loreHash, 'DestinyLoreDefinition')).displayProperties.description : null,
           itemHash: item.itemHash,
           ...details.displayProperties,
           screenshot: details.screenshot,
@@ -193,6 +192,7 @@ const processCharacters = async (data) => {
           masterwork: item.state === 4 || item.state === 5 ? true : false,
           primaryStat: instanceDetails.primaryStat ? await getPrimaryStatDetails(instanceDetails.primaryStat) : null,
           ammoType: details.equippingBlock.ammoType,
+          statGroupHash: await getFromDB(details.stats.statGroupHash, 'DestinyStatGroupDefinition'),
           // Uncomment these to see all the original data, in case you want to dig and find other things to display
           originalData: { ...item },
           originalInstance: { ...instanceDetails },
