@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Sockets from './Sockets';
+import InstanceStatsCard from './InstanceStatsCard';
 
 const Item = ({ name, hasIcon, icon, itemTypeDisplayName, damageType, energy, masterwork, primaryStat, errorMessage, sockets, instanceStats }) => {
   const weaponStatOrder = ['impact', 'range', 'stability', 'handling', 'reload', 'rounds', 'magazine'];
@@ -31,11 +32,7 @@ const Item = ({ name, hasIcon, icon, itemTypeDisplayName, damageType, energy, ma
           </>
         }
       </div>
-      {instanceStats && instanceStats.length > 0 ? (
-        <div className={'full-span'}>
-          {instanceStats.map((stat, i) => <p key={i}>{stat.name}: {stat.value}</p>)}
-        </div>
-      ) : null}
+      {instanceStats && instanceStats.length > 0 ? <InstanceStatsCard instanceStats={instanceStats} /> : null}
       {sockets && sockets.length > 0 ? (
         <Sockets sockets={sockets} />
       ) : null}
