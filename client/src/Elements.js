@@ -59,3 +59,22 @@ export const Wrapper = styled(motion.div)`
 `;
 
 
+export const ItemIcon = styled.img`
+height: 80px;
+width: 80px;
+border: 2px solid ${props => props.isMasterworked ? 'gold' : 'white'};
+`;
+
+export const ItemWrapper = styled.div`
+  display: grid;
+  gap: 0 .25em;
+  grid-template-columns: 1fr 2fr 1fr;
+  margin: .5em;
+  p {
+    margin: 0;
+    text-transform: capitalize;
+  }
+  .full-span {
+    grid-column: 1 / -1;
+  }
+`;
