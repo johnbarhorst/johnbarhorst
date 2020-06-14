@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useHover } from '../../Hooks';
-import { H3 } from '../../Elements';
 
 const ToolTip = ({ children }) => {
   return (
@@ -21,7 +20,7 @@ const CharacterStatCard = ({ stats }) => {
       {stats.sort((a, b) => {
         const order = ['power', 'mobility', 'resilience', 'recovery', 'discipline', 'intellect', 'strength'];
         return order.indexOf(a.name.toLowerCase()) - order.indexOf(b.name.toLowerCase())
-      }).map(({ name, icon, value }, i) => (
+      }).map(({ name, icon, value, description }, i) => (
         <StatDisplay key={name} {...bind} >
           <Img src={`https://www.bungie.net${icon}`} alt={name} />
           <div>
