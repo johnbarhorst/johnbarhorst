@@ -1,7 +1,5 @@
 import React from 'react';
-import Sockets from './Sockets';
-import InstanceStatsCard from './InstanceStatsCard';
-import { ItemIcon, ItemWrapper } from '../../Elements';
+import { ItemWrapper } from '../../Elements';
 import {
   Armor,
   ClanBanner,
