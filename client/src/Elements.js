@@ -63,13 +63,14 @@ export const ItemIcon = styled.img`
 height: 80px;
 width: 80px;
 border: 2px solid ${props => props.isMasterworked ? 'gold' : 'white'};
+margin: ${props => props.centered && '0 auto'};
 `;
 
 export const ItemWrapper = styled.div`
   display: grid;
-  gap: 0 .25em;
+  gap: 0 .25rem;
   grid-template-columns: 1fr 2fr 1fr;
-  margin: .5em;
+  margin: 0 .5rem 3rem;
   p {
     margin: 0;
     text-transform: capitalize;
@@ -77,4 +78,9 @@ export const ItemWrapper = styled.div`
   .full-span {
     grid-column: 1 / -1;
   }
+`;
+
+export const TitleCard = styled(motion.div)`
+  text-align: center;
+  margin: 2rem;
 `;
