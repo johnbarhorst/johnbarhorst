@@ -166,7 +166,8 @@ const processCharacters = async (data) => {
             const displayProperties = data.displayProperties ? data.displayProperties : {};
             return {
               ...socket,
-              ...displayProperties
+              ...displayProperties,
+              // originalDetails: { ...data }
             }
           }))
           return details;
@@ -191,7 +192,7 @@ const processCharacters = async (data) => {
           masterwork: item.state === 4 || item.state === 5 ? true : false,
           primaryStat: instanceDetails.primaryStat ? await getPrimaryStatDetails(instanceDetails.primaryStat) : null,
           ammoType: details.equippingBlock.ammoType,
-          statGroupHash: await getFromDB(details.stats.statGroupHash, 'DestinyStatGroupDefinition'),
+          statGroupHash: details.stats.statGroupHash ? await getFromDB(details.stats.statGroupHash, 'DestinyStatGroupDefinition') : null,
           lore: details.loreHash ? (await getFromDB(details.loreHash, 'DestinyLoreDefinition')).displayProperties.description : null,
           // Uncomment these to see all the original data, in case you want to dig and find other things to display
           originalData: { ...item },

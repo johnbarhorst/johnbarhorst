@@ -6,7 +6,6 @@ import Item from './Item';
 // Numbers based on itemType enum from Bungie API docs.
 const itemOrder = [16, 3, 28, 2, 24, 22, 21, 14, 23, 17, 29, 0];
 
-
 const handleItemTypeNone = (item) => {
   // itemTypeEnum: the enum to check against. This comes from 
   // https://bungie-net.github.io/multi/schema_Destiny-DestinyItemType.html#schema_Destiny-DestinyItemType
@@ -78,8 +77,8 @@ const Equipment = ({ equipment }) => {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
-        {equipment.sort((a, b) =>
-          itemOrder.indexOf((handleItemTypeNone(a)).itemType) - itemOrder.indexOf((handleItemTypeNone(b)).itemType))
+        {equipment.map(item => handleItemTypeNone(item)).sort((a, b) =>
+          itemOrder.indexOf(a.itemType) - itemOrder.indexOf(b.itemType))
           .map(item => <Item {...item} key={item.itemHash} />)}
       </Wrapper>
     </div>
