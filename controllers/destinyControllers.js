@@ -163,11 +163,11 @@ const processCharacters = async (data) => {
           const values = Array.from(Object.values(sockets));
           const details = await Promise.all(values.map(async socket => {
             const data = await getFromDB(socket.plugHash, 'DestinyInventoryItemDefinition');
-            const displayProperties = data.displayProperties ? data.displayProperties : {};
+            const displayProperties = data.displayProperties || {};
             return {
               ...socket,
               ...displayProperties,
-              // originalDetails: { ...data }
+              originalDetails: { ...data }
             }
           }))
           return details;
