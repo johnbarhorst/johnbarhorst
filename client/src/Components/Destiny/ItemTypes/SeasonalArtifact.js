@@ -1,14 +1,22 @@
 import React from 'react';
-import { ItemIcon } from '../../../Elements';
+import styled from 'styled-components';
+import { motion } from 'framer-motion';
+import LoreDisplay from '../LoreDisplay';
+import { ItemIcon, TitleCard } from '../../../Elements';
 
-export const SeasonalArtifact = ({ name, icon, itemTypeDisplayName, primaryStat }) => {
+export const SeasonalArtifact = ({ name, icon, lore, primaryStat }) => {
   return (
-    <div>
-      <ItemIcon src={`https://www.bungie.net${icon}`} />
-      <p><strong>{name}</strong></p>
-      <p>{itemTypeDisplayName}</p>
-      <p>{primaryStat.name}</p>
-      <p>{primaryStat.value}</p>
-    </div>
+    <Wrapper>
+      <TitleCard>
+        <ItemIcon src={`https://www.bungie.net${icon}`} centered />
+        <p><strong>{name}</strong></p>
+        <p>{primaryStat.name}: {primaryStat.value}</p>
+      </TitleCard>
+      <LoreDisplay lore={lore} />
+    </Wrapper>
   )
 }
+
+const Wrapper = styled(motion.section)`
+  margin-bottom: 3rem;
+`;
