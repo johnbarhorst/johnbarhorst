@@ -71,7 +71,6 @@ const handleItemTypeNone = (item) => {
 const Equipment = ({ equipment }) => {
   return (
     <div>
-      <H3>Equipment</H3>
       <Wrapper
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -87,11 +86,7 @@ const Equipment = ({ equipment }) => {
 
 export default Equipment;
 
-const H3 = styled.h3`
-  text-align: center;
-  margin-bottom: 1.5em;
-`;
 
-const Wrapper = styled(motion.div)`
+const Wrapper = styled(motion.section)`
 
 `;

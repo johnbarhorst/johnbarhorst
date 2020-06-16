@@ -39,8 +39,8 @@ export default CharacterStatCard;
 const StatContainer = styled(motion.section)`
   background: ${props => props.theme.background};
   gap: 10px;
-  margin-bottom: 2em;
-  padding: .5em;
+  margin-bottom: 3rem;
+  padding: .5rem;
 `;
 
 const Img = styled.img`
