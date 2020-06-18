@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import LoreDisplay from '../LoreDisplay';
-import { H3, TitleCard } from '../../../Elements';
+import { H3, TitleCard } from '../../../Elements/Elements';
 
 
 export const SubClass = ({ icon, lore, name }) => {

@@ -43,6 +43,7 @@ const Button = styled(motion.button)`
 
 const LoreContainer = styled(motion.article)`
   text-align: left;
+  /* Check on padding down in variants if you're changing this. */
   padding: 1rem;
   background: ${props => props.theme.background};
   p {
@@ -56,19 +57,26 @@ const LoreContainer = styled(motion.article)`
 const variants = {
   open: {
     height: 'auto',
-    padding: null,
+    // TODO: Find out how to get this padding value from the styled component instead of coding it here.
+    padding: '1rem',
     transition: {
       staggerChildren: .3,
       height: {
         duration: .2
+      },
+      padding: {
+        duration: 0
       }
+
     }
   },
   closed: {
     height: 0,
-    padding: 0,
+    padding: '0rem',
     transition: {
-      padding: 0
+      padding: {
+        duration: 0
+      }
     }
   }
 }

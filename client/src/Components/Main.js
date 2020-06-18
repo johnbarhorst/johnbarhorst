@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { H2, Wrapper } from '../Elements';
+import { H2 } from '../Elements';
 import AnimateTypewriter, { typewriterVariants } from './AnimateTypewriter';
 
 const Main = () => {
   return (
-    <Wrapper
+    <motion.div
       initial={{
         opacity: 0
       }}
@@ -50,7 +50,7 @@ const Main = () => {
       <footer>
         <a href="mailto:johnbarhorst.dev@gmail.com">John Barhorst</a>
       </footer>
-    </Wrapper >
+    </motion.div>
   )
 }
 
