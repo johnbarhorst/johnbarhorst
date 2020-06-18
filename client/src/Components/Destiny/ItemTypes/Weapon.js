@@ -1,14 +1,18 @@
 import React from 'react';
+import styled from 'styled-components';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useToggle } from '../../../Hooks';
 import InstanceStatsCard from '../InstanceStatsCard';
 import Sockets from '../Sockets';
 import LoreDisplay from '../LoreDisplay';
-import { ItemWrapper, ItemIcon } from '../../../Elements';
+import { DetailsButton, ItemWrapper, ItemIcon, ItemCard } from '../../../Elements';
 
 
-export const Weapon = ({ hasIcon, name, itemTypeDisplayName, damageType, primaryStat, instanceStats, icon, masterwork, sockets, lore }) => {
+export const Weapon = ({ name, itemTypeDisplayName, damageType, primaryStat, instanceStats, icon, masterwork, sockets, lore }) => {
+  const { isToggled, toggle } = useToggle(false);
   return (
-    <div>
-      <ItemWrapper>
+    <ItemWrapper >
+      <ItemCard onClick={() => toggle()}>
         <ItemIcon src={`https://www.bungie.net${icon}`} isMasterworked={masterwork} />
         <div>
           <p><strong>{name}</strong></p>
@@ -18,13 +22,31 @@ export const Weapon = ({ hasIcon, name, itemTypeDisplayName, damageType, primary
         <div style={{ textAlign: 'end' }}>
           <p>{primaryStat.name}</p>
           <p>{primaryStat.value}</p>
+          <DetailsButton>{isToggled ? <span>&#9660;</span> : <span>&#9650;</span>}</DetailsButton>
         </div>
-        <div className="full-span">
-          {lore && <LoreDisplay lore={lore} />}
-        </div>
-        <InstanceStatsCard instanceStats={instanceStats} />
-        <Sockets sockets={sockets} />
-      </ItemWrapper>
-    </div>
+      </ItemCard>
+      <AnimatePresence>
+        {isToggled &&
+          <DetailsCard
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <InstanceStatsCard instanceStats={instanceStats} />
+            <Sockets sockets={sockets} />
+            <div className="full-span">
+              {lore && <LoreDisplay lore={lore} />}
+            </div>
+          </DetailsCard>}
+      </AnimatePresence>
+    </ItemWrapper>
   )
 }
+
+
+
+
+
+const DetailsCard = styled(motion.div)`
+
+`;
