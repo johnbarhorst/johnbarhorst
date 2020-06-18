@@ -3,5 +3,6 @@ import { motion } from 'framer-motion';
 
 
 export const ItemWrapper = styled(motion.section)`
-  margin-bottom: 3rem;
+  background: ${props => props.background || props.theme.background};
+  margin-bottom: 1rem;
 `;

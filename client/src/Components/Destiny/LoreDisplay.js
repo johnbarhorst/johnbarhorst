@@ -34,7 +34,7 @@ const Button = styled(motion.button)`
   background: ${props => props.theme.background};
   color: ${props => props.theme.color};
   padding: .5rem 2.5rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   border: none;
   border-radius: 28px;
   font-weight: ${props => props.theme.fonts.fw_bold};

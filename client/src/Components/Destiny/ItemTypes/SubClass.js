@@ -7,7 +7,7 @@ import { H3, TitleCard, ItemWrapper } from '../../../Elements';
 export const SubClass = ({ icon, lore, name }) => {
 
   return (
-    <ItemWrapper>
+    <ItemWrapper background={'none'}>
       <TitleCard>
         <Icon src={`https://www.bungie.net${icon}`} />
         <H3>{name}</H3>
