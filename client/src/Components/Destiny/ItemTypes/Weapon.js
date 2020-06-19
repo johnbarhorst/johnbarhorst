@@ -1,11 +1,10 @@
 import React from 'react';
-import styled from 'styled-components';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import { useToggle } from '../../../Hooks';
 import InstanceStatsCard from '../InstanceStatsCard';
 import Sockets from '../Sockets';
 import LoreDisplay from '../LoreDisplay';
-import { DetailsButton, ItemWrapper, ItemIcon, ItemCard } from '../../../Elements';
+import { DetailsButton, ItemWrapper, ItemIcon, ItemCard, DetailsCard } from '../../../Elements';
 
 
 export const Weapon = ({ name, itemTypeDisplayName, damageType, primaryStat, instanceStats, icon, masterwork, sockets, lore }) => {
@@ -34,7 +33,7 @@ export const Weapon = ({ name, itemTypeDisplayName, damageType, primaryStat, ins
           >
             <InstanceStatsCard instanceStats={instanceStats} />
             <Sockets sockets={sockets} />
-            <div className="full-span">
+            <div>
               {lore && <LoreDisplay lore={lore} />}
             </div>
           </DetailsCard>}
@@ -47,6 +46,3 @@ export const Weapon = ({ name, itemTypeDisplayName, damageType, primaryStat, ins
 
 
 
-const DetailsCard = styled(motion.div)`
-
-`;

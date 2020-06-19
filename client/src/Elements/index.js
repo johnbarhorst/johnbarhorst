@@ -1,6 +1,7 @@
 export * from './AnimatedButton';
 export * from './Card';
 export * from './DetailsButton';
+export * from './DetailsCard';
 export * from './Form';
 export * from './Headings';
 export * from './ItemCard';
