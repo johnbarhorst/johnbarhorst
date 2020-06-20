@@ -105,6 +105,7 @@ const processCharacters = async (data) => {
   const instances = data.itemComponents.instances.data;
   const sockets = data.itemComponents.sockets.data;
   const stats = data.itemComponents.stats.data;
+  const characterPlugSets = data.characterPlugSets.data;
 
   // Get details on all equipment items from the DB and match them up with instanced data from Bungie's api:
   const getGuardianEquipmentDetails = async equipment => {
@@ -119,6 +120,9 @@ const processCharacters = async (data) => {
         // Match up item stats with its instanced data, if no instanced data, return an empty object
         // so that later on there aren't errors. Allows for easier processing of all the data.
         const instancedStats = (stats[item.itemInstanceId] || { stats: {} }).stats;
+
+        // Get stat group hash details from DB and sync the display up with each stat.
+        const statGroupHash = details.stats.statGroupHash ? await getFromDB(details.stats.statGroupHash, 'DestinyStatGroupDefinition') : {};
 
         // Match up item sockets with its instanced data, if no instanced data, return an empty array,
         // so that later on a .map() will return nothing instead of throwing an error.
@@ -175,6 +179,8 @@ const processCharacters = async (data) => {
 
         // Take all the processed data to return only what we want to display.
         return {
+          statGroupHash,
+          instancedStats,
           itemHash: item.itemHash,
           ...details.displayProperties,
           screenshot: details.screenshot,
@@ -192,13 +198,12 @@ const processCharacters = async (data) => {
           masterwork: item.state === 4 || item.state === 5 ? true : false,
           primaryStat: instanceDetails.primaryStat ? await getPrimaryStatDetails(instanceDetails.primaryStat) : null,
           ammoType: details.equippingBlock.ammoType,
-          statGroupHash: details.stats.statGroupHash ? await getFromDB(details.stats.statGroupHash, 'DestinyStatGroupDefinition') : null,
           lore: details.loreHash ? (await getFromDB(details.loreHash, 'DestinyLoreDefinition')).displayProperties.description : null,
           // Uncomment these to see all the original data, in case you want to dig and find other things to display
           originalData: { ...item },
           originalInstance: { ...instanceDetails },
           // originalInstanceStats: { ...instancedStats },
-          // originalSockets: { ...instancedSockets },
+          originalSockets: { ...instancedSockets },
           originalDetails: { ...details },
         };
 
@@ -242,7 +247,7 @@ const processCharacters = async (data) => {
     const raceTypeRef = ["Human", "Awoken", "Exo"];
 
     const equipment = await getGuardianEquipmentDetails(data.characterEquipment.data[character.characterId].items);
-
+    const plugSets = characterPlugSets[characterId];
     // Look up character title details
     const getTitleDetails = async character => {
       const details = character.titleRecordHash ? await getFromDB(character.titleRecordHash, 'DestinyRecordDefinition') : null;
@@ -280,6 +285,7 @@ const processCharacters = async (data) => {
         }
       }),
       equipment,
+      plugSets,
     }
   }))
   return charactersWithDetails;
@@ -294,11 +300,10 @@ exports.getCharacterInfo = async (req, res) => {
   if (responseStatus) {
     const characters = await processCharacters(accountData.Response);
     const profileInfo = {
-      test: 'test',
       characters: characters,
 
       // Uncomment this to get all the original API data in case you want to dig in and look for more things to display.
-      // profileData: accountData.Response,
+      originalData: accountData.Response,
 
       // I'm not sure of the use case for plug sets just yet. I think it might be used to show what possible 
       // sockets can be available on a given item.
