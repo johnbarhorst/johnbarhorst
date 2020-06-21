@@ -114,6 +114,7 @@ const processCharacters = async (data) => {
         // Take each item and get static details from the database
         const details = await getFromDB(item.itemHash, 'DestinyInventoryItemDefinition');
 
+
         // Match up the item with its instanced data
         const instanceDetails = instances[item.itemInstanceId];
 
@@ -122,14 +123,14 @@ const processCharacters = async (data) => {
         const instancedStats = (stats[item.itemInstanceId] || { stats: {} }).stats;
 
         // Get stat group hash details from DB and sync the display up with each stat.
-        const statGroupHash = details.stats.statGroupHash ? await getFromDB(details.stats.statGroupHash, 'DestinyStatGroupDefinition') : {};
+        const statGroupHash = details.stats.statGroupHash ? await getFromDB(details.stats.statGroupHash, 'DestinyStatGroupDefinition') : null;
 
         // Match up item sockets with its instanced data, if no instanced data, return an empty array,
         // so that later on a .map() will return nothing instead of throwing an error.
         const instancedSockets = (sockets[item.itemInstanceId] || { sockets: [] }).sockets;
 
         // Get definitions for instanced stats on the item from the DB, and return the details we want from each.
-        const instanceStats = await getDetailsAll(instancedStats, 'DestinyStatDefinition', async (item, details) => {
+        const detailedStats = await getDetailsAll(instancedStats, 'DestinyStatDefinition', async (item, details) => {
           return {
             //uncomment the lines below to send along original item data and/or database details
             ...item,
@@ -139,6 +140,22 @@ const processCharacters = async (data) => {
           };
         });
 
+        let instanceStats;
+
+        if (statGroupHash) {
+          const statDisplayObject = statGroupHash.scaledStats.reduce((obj, stat) => {
+            obj[stat.statHash] = { ...stat }
+            return obj
+          }, {});
+          instanceStats = detailedStats.map(stat => {
+            return {
+              ...stat,
+              ...statDisplayObject[stat.statHash]
+            }
+          });
+        } else {
+          instanceStats = detailedStats;
+        }
         //Gets details for an items primary stats, if there is one. This is usually Attack/Defence and just another name
         // for their light level. Exceptions for sparrows and artifacts.
         const getPrimaryStatDetails = async stat => {
@@ -179,14 +196,12 @@ const processCharacters = async (data) => {
 
         // Take all the processed data to return only what we want to display.
         return {
-          statGroupHash,
-          instancedStats,
           itemHash: item.itemHash,
           ...details.displayProperties,
           screenshot: details.screenshot,
           itemTypeDisplayName: details.itemTypeDisplayName,
           displaySource: details.displaySource,
-          instanceStats: instanceStats,
+          instanceStats,
           itemType: details.itemType,
           damageType: damageTypeEnum[instanceDetails.damageType],
           // Only armor has energy right now.
