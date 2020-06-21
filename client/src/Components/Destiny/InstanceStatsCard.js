@@ -13,9 +13,9 @@ const InstanceStatsCard = ({ instanceStats }) => {
     return a.displayAsNumeric - b.displayAsNumeric
   }
   return (
-    <div className={'full-span'}>
+    <StatDisplayCard>
       {instanceStats.sort((a, b) => sort(a, b)).map(stat => <StatBar key={stat.statHash} {...stat} />)}
-    </div>
+    </StatDisplayCard>
   )
 }
 
@@ -23,16 +23,28 @@ export default InstanceStatsCard;
 
 const StatBar = ({ name, value, displayAsNumeric, maximumValue }) => {
   return (
-    <WeaponStatDisplay>
+    <StatDisplay>
       {displayAsNumeric ?
         (<><p className={'text-right'}>{name}</p><p>{value}</p></>) :
-        (<><p className={'text-right'}>{name}</p> <AnimatedStatBar value={value}><div></div></AnimatedStatBar></>)
+        (<><p className={'text-right'}>{name}</p>
+          <StatBarWrapper>
+            <AnimatedStatBar
+              variants={statBarVariants}
+              initial='initial'
+              animate='animate'
+              custom={value}
+            />
+          </StatBarWrapper></>)
       }
-    </WeaponStatDisplay>
+    </StatDisplay>
   )
 }
 
-const WeaponStatDisplay = styled(motion.div)`
+const StatDisplayCard = styled(motion.div)`
+  margin: 1.5rem 0;
+`;
+
+const StatDisplay = styled(motion.div)`
   display: grid;
   grid-template-columns: 1fr 60%;
   gap: .75rem;
@@ -41,14 +53,27 @@ const WeaponStatDisplay = styled(motion.div)`
   }
 `;
 
-const AnimatedStatBar = styled(motion.div)`
+const StatBarWrapper = styled(motion.div)`
   background: ${props => props.theme.background};
   height: 70%;
   width: 90%;
   align-self: center;
-div {
-  width: ${props => props.value}%;
+`;
+
+const AnimatedStatBar = styled(motion.div)`
   height: 100%;
   background: ${props => props.theme.color};
-}
 `;
+
+const statBarVariants = {
+  initial: {
+    width: 0
+  },
+  animate: w => ({
+    width: `${w}%`,
+    transition: {
+      delay: .2,
+      duration: .5
+    }
+  })
+}
