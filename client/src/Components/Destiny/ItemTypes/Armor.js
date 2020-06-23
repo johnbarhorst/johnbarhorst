@@ -31,7 +31,7 @@ export const Armor = ({ icon, masterwork, name, itemTypeDisplayName, energy, pri
             exit={{ opacity: 0 }}
           >
             <InstanceStatsCard instanceStats={instanceStats} />
-            <Sockets sockets={sockets} />
+            <Sockets sockets={sockets} isToggled={isToggled} />
             <div>
               {lore && <LoreDisplay lore={lore} />}
             </div>
