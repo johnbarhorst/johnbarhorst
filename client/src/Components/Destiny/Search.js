@@ -10,7 +10,7 @@ const Search = () => {
   const [{ isLoading, isError, data }, getAccounts] = useFetchData({ accounts: [] });
   const [searchValue, setSearchValue] = useState('');
   const [searchedValue, setSearchedValue] = useState('');
-  const { accounts, errorMessage } = data;
+  const { accounts, errorMessage, errorStatus } = data;
 
   const handleSubmit = async (e) => {
     e.preventDefault();

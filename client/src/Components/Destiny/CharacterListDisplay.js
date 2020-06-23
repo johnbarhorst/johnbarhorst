@@ -13,7 +13,7 @@ import { H3 } from '../../Elements';
 const actionTypes = {
   select_character: 'SELECT_CHARACTER',
   success: 'SUCCESS',
-  new_character_select: 'NEW_CHARACTER_SELECTION'
+  new_character_select: 'NEW_CHARACTER_SELECTION',
 }
 
 const initialState = {
@@ -29,19 +29,22 @@ function reducer(state, action) {
       return {
         ...state,
         activeCharacter: action.payload,
-        showFullList: false
+        showFullList: false,
+        error: false
       }
 
     case actionTypes.success:
       return {
         ...state,
         characterList: action.payload,
+        error: false
       }
 
     case actionTypes.new_character_select:
       return {
         ...state,
-        showFullList: true
+        showFullList: true,
+        error: false
       }
 
     default:

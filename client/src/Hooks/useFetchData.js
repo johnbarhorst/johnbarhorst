@@ -38,14 +38,13 @@ export const useFetchData = (initialData) => {
     try {
       const req = await fetch(url, options);
       const json = await req.json();
-      console.log(req.status);
       if (req.status === 200) {
         dispatch({ type: 'SUCCESS', payload: json });
       } else {
         dispatch({ type: 'ERROR', payload: { ...json, errorStatus: req.status } });
       }
     } catch (error) {
-      dispatch({ type: 'ERROR' });
+      return dispatch({ type: 'ERROR', payload: { errorStatus: 500, message: 'I think my server is down.' } });
     }
   }
 
@@ -76,7 +75,7 @@ export const useFetchOnLoad = (url, options, initialData) => {
           dispatch({ type: 'ERROR', payload: { ...json, errorStatus: req.status } });
         }
       } catch (error) {
-        dispatch({ type: 'ERROR' });
+        return dispatch({ type: 'ERROR', payload: { errorStatus: 500, message: 'I think my server is down.' } });
       }
     }
     goFetch(url, options);
