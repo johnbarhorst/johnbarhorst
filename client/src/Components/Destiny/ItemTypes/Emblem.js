@@ -1,13 +1,16 @@
 import React from 'react';
+import { ItemIcon, ItemWrapper, ItemCard } from '../../../Elements';
 
-import { ItemIcon } from '../../../Elements';
-
-export const Emblem = (icon, name, itemTypeDisplayName) => {
+export const Emblem = ({ icon, name, itemTypeDisplayName }) => {
   return (
-    <div>
-      <ItemIcon src={`https://www.bungie.net${icon}`} />
-      <p><strong>{name}</strong></p>
-      <p>{itemTypeDisplayName}</p>
-    </div>
+    <ItemWrapper>
+      <ItemCard>
+        <ItemIcon src={`https://www.bungie.net${icon}`} />
+        <div>
+          <p><strong>{name}</strong></p>
+          <p>{itemTypeDisplayName}</p>
+        </div>
+      </ItemCard>
+    </ItemWrapper>
   )
 }
