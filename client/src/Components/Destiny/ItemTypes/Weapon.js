@@ -10,7 +10,7 @@ import { DetailsButton, ItemWrapper, ItemIcon, ItemCard, DetailsCard } from '../
 export const Weapon = ({ name, itemTypeDisplayName, damageType, primaryStat, instanceStats, icon, masterwork, sockets, lore }) => {
   const { isToggled, toggle } = useToggle(false);
   return (
-    <ItemWrapper >
+    <ItemWrapper>
       <ItemCard onClick={() => toggle()}>
         <ItemIcon src={`https://www.bungie.net${icon}`} isMasterworked={masterwork} />
         <div>
@@ -21,18 +21,18 @@ export const Weapon = ({ name, itemTypeDisplayName, damageType, primaryStat, ins
         <div style={{ textAlign: 'end' }}>
           <p>{primaryStat.name}</p>
           <p>{primaryStat.value}</p>
-          <DetailsButton>{isToggled ? <span>&#9660;</span> : <span>&#9650;</span>}</DetailsButton>
+          <DetailsButton>{isToggled ? <span>&#9650;</span> : <span>&#9660;</span>}</DetailsButton>
         </div>
       </ItemCard>
       <AnimatePresence>
         {isToggled &&
           <DetailsCard
-            initial={{ opacity: 0 }}
+            initial={false}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
             <InstanceStatsCard instanceStats={instanceStats} />
-            <Sockets sockets={sockets} />
+            <Sockets sockets={sockets} isToggled={isToggled} />
             <div>
               {lore && <LoreDisplay lore={lore} />}
             </div>
