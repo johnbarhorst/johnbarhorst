@@ -7,4 +7,6 @@ export * from './Headings';
 export * from './ItemCard';
 export * from './ItemIcon';
 export * from './ItemWrapper';
+export * from './SocketThumbnail';
+export * from './SocketThumbnailCard';
 export * from './TitleCard';
