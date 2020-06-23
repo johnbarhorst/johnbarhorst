@@ -1,34 +1,31 @@
 import React from 'react';
 import styled from 'styled-components';
+import { SocketThumbnail } from '../../Elements'
 
-const Sockets = ({ sockets }) => {
+
+const Sockets = ({ sockets, isToggled }) => {
   return (
-    <SocketsWrapper className={'full-span'}>
+    <SocketsWrapper collapsed={!isToggled}>
       {/* Adding index to socket plughash to cut down on duplicate keys. Occasionally sockets appear twice */}
-      {sockets.map((socket, i) => socket.isVisible ? <Socket {...socket} key={socket.plugHash + i} /> : null)}
+      {sockets.map((socket, i) => socket.isVisible ? <Socket {...socket} isToggled={isToggled} key={socket.plugHash + i} /> : null)}
     </SocketsWrapper>
   )
 }
 
 export default Sockets;
 
-const Socket = ({ name, icon, hasIcon }) => {
-
+const Socket = ({ name, icon, isToggled }) => {
   return (
-    <React.Fragment>
-      {hasIcon && <Img src={`https://www.bungie.net${icon}`} />}
-      <p>{name}</p>
-    </React.Fragment>
+    <>
+      <SocketThumbnail background={icon} key={icon} collapsed={isToggled} small={isToggled} positionTransition />
+      {isToggled &&
+        <p>{name}</p>}
+    </>
   )
 }
 
 const SocketsWrapper = styled.section`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-`
-
-const Img = styled.img`
-  background-color: #333;
-  max-height: 68px;
-  max-width: 68px;
-`
+  grid-template-columns: repeat(${props => props.collapsed ? '2' : '4'}, 1fr);
+  ${props => !props.collapsed && `padding-bottom: 1rem;`}
+`;
