@@ -9,7 +9,7 @@ const EmblemCard = ({ characterData, clickHandler, variants }) => {
     <Card
       variants={variants}
       bgPath={emblemBackgroundPath}
-      onClick={() => clickHandler && clickHandler(characterData)}
+      onClick={() => clickHandler(characterData)}
       positionTransition={{
         damping: 1000
       }}
