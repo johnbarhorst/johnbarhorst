@@ -1,7 +1,9 @@
 import React from 'react';
-import Sockets from '../Sockets';
+import { motion } from 'framer-motion';
 import { useToggle } from '../../../Hooks';
+import Sockets from '../Sockets';
 import { ItemIcon, ItemWrapper, ItemCard } from '../../../Elements';
+
 
 export const Vehicle = ({ icon, masterwork, sockets, name, itemTypeDisplayName, screenshot }) => {
   const [isExpanded, toggleExpanded] = useToggle(false, true);
@@ -9,16 +11,16 @@ export const Vehicle = ({ icon, masterwork, sockets, name, itemTypeDisplayName, 
     <ItemWrapper>
       <ItemCard
         onClick={() => toggleExpanded(isExpanded => !isExpanded)}
-        background={isExpanded ? screenshot : null}
+        background={screenshot}
+        className={isExpanded && 'isExpanded'}
       >
-        <ItemIcon src={`https://www.bungie.net${icon}`} isMasterworked={masterwork} />
+        <ItemIcon src={`https://www.bungie.net${icon}`} isMasterworked={masterwork} positionTransition />
         <div>
-          <p><strong>{name}</strong></p>
-          <p>{itemTypeDisplayName}</p>
+          <motion.p positionTransition ><strong>{name}</strong></motion.p>
+          <motion.p positionTransition >{itemTypeDisplayName}</motion.p>
         </div>
-        {!isExpanded && <Sockets sockets={sockets} isExpanded={isExpanded} />}
+        <Sockets sockets={sockets} isExpanded={isExpanded} />
       </ItemCard>
-      {isExpanded && <Sockets sockets={sockets} isExpanded={isExpanded} />}
     </ItemWrapper>
   )
 }

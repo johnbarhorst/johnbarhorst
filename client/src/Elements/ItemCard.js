@@ -12,9 +12,13 @@ export const ItemCard = styled(motion.div)`
   }
 
   &.isExpanded {
+    grid-template-columns: 80px 1fr;
     background-image: ${props => `url('http://www.bungie.net${props.background}')`};
     background-size: contain;
     background-repeat: no-repeat;
+    .full-span {
+      grid-column: 1 / -1;
+    }
   }
 `;
 

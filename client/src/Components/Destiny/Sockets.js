@@ -6,7 +6,7 @@ import { SocketThumbnail } from '../../Elements'
 
 const Sockets = ({ sockets, isExpanded }) => {
   return (
-    <SocketsWrapper className={isExpanded && 'isExpanded'}>
+    <SocketsWrapper className={isExpanded && 'isExpanded full-span'}>
       {/* Adding index to socket plughash to cut down on duplicate keys. Occasionally sockets appear twice */}
       {sockets.map((socket, i) => socket.isVisible ? <Socket {...socket} isExpanded={isExpanded} key={socket.plugHash + i} /> : null)}
     </SocketsWrapper>
