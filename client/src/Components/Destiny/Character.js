@@ -18,3 +18,5 @@ const Character = ({ characterData }) => {
 }
 
 export default Character;
+
+Character.whyDidYouRender = true;

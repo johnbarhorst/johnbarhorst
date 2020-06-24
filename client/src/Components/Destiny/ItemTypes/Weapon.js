@@ -9,6 +9,7 @@ import { DetailsButton, ItemWrapper, ItemIcon, ItemCard, DetailsCard } from '../
 
 export const Weapon = ({ name, itemTypeDisplayName, damageType, primaryStat, instanceStats, icon, masterwork, sockets, lore }) => {
   const { isToggled, toggle } = useToggle(false);
+
   return (
     <ItemWrapper>
       <ItemCard onClick={() => toggle()}>
@@ -42,7 +43,4 @@ export const Weapon = ({ name, itemTypeDisplayName, damageType, primaryStat, ins
   )
 }
 
-
-
-
-
+Weapon.whyDidYouRender = true;

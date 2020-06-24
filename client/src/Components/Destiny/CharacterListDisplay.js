@@ -158,3 +158,5 @@ const emblemVariants = {
   },
   exit: { opacity: 0 }
 }
+
+CharacterListDisplay.whyDidYouRender = true;

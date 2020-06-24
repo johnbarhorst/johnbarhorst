@@ -65,31 +65,8 @@ const Item = (props) => {
       {itemTypeEnum[itemType](props)}
     </>
   )
-
-  // return (
-  //   <ItemWrapper>
-  //     {hasIcon && <ItemIcon src={`https://www.bungie.net${icon}`} isMasterworked={masterwork} />}
-  //     <div>
-  //       <p><strong>{name}</strong></p>
-  //       <p>{itemTypeDisplayName}</p>
-  //       {damageType && <p>Damage Type: {damageType}</p>}
-  //       {energy && <p>Energy: {energy.used}/{energy.capacity}</p>}
-  //     </div>
-  //     <div style={{ textAlign: 'end' }}>
-  //       {primaryStat &&
-  //         <>
-  //           <p>{primaryStat.name}</p>
-  //           <p>{primaryStat.value}</p>
-  //         </>
-  //       }
-  //     </div>
-  //     {instanceStats && instanceStats.length > 0 ? <InstanceStatsCard instanceStats={instanceStats} /> : null}
-  //     {sockets && sockets.length > 0 ? (
-  //       <Sockets sockets={sockets} />
-  //     ) : null}
-  //   </ItemWrapper>
-  // )
 }
 
 export default Item;
 
+Item.whyDidYouRender = true;
