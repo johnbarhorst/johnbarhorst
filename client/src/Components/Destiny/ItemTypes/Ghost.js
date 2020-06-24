@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import Sockets from '../Sockets';
 import { ItemIcon, ItemWrapper, ItemCard } from '../../../Elements';
 import { useToggle } from '../../../Hooks';
@@ -9,16 +10,17 @@ export const Ghost = ({ name, icon, itemTypeDisplayName, sockets, screenshot }) 
     <ItemWrapper>
       <ItemCard
         onClick={() => toggleExpanded(isExpanded => !isExpanded)}
-        background={isExpanded ? screenshot : null}
+        background={screenshot}
+        className={isExpanded && 'isExpanded'}
       >
         <ItemIcon src={`https://www.bungie.net${icon}`} key={icon} positionTransition />
         <div>
-          <p><strong>{name}</strong></p>
-          <p>{itemTypeDisplayName}</p>
+          <motion.p positionTransition key={name}><strong>{name}</strong></motion.p>
+          <motion.p positionTransition key={itemTypeDisplayName}>{itemTypeDisplayName}</motion.p>
         </div>
-        {!isExpanded && <Sockets sockets={sockets} isExpanded={isExpanded} />}
+        <Sockets sockets={sockets} isExpanded={isExpanded} />
       </ItemCard>
-      {isExpanded && <Sockets sockets={sockets} isExpanded={isExpanded} />}
+      {/* {isExpanded && <Sockets sockets={sockets} isExpanded={isExpanded} />} */}
     </ItemWrapper>
   )
 }
