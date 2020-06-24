@@ -7,7 +7,7 @@ const EmblemCard = ({ characterData, clickHandler, variants }) => {
   const { race, gender, light, classType, emblemBackgroundPath, characterId } = characterData;
   return (
     <Card
-      variants={variants}
+      variants={emblemVariants}
       bgPath={emblemBackgroundPath}
       onClick={() => clickHandler(characterData)}
       positionTransition={{
@@ -63,3 +63,17 @@ const Card = styled(motion.div)`
     margin-right: 5px;
   }
 `;
+
+const emblemVariants = {
+  initial: {
+    opacity: 0
+  },
+  animate: {
+    opacity: 1,
+    transition: {
+      delay: .3,
+      stiffness: 1000
+    }
+  },
+  exit: { opacity: 0 }
+}
