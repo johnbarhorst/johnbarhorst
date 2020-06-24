@@ -43,6 +43,7 @@ function reducer(state, action) {
     case actionTypes.new_character_select:
       return {
         ...state,
+        activeCharacter: null,
         showFullList: true,
         error: false
       }
@@ -99,7 +100,6 @@ const CharacterListDisplay = () => {
         <AnimatePresence>
           {showFullList ? characterList.map(character => (
             <EmblemCard
-              variants={emblemVariants}
               characterData={character}
               clickHandler={handleCharacterSelect}
               key={character.characterId}
@@ -114,9 +114,7 @@ const CharacterListDisplay = () => {
             )}
         </AnimatePresence>
       </motion.div>
-      <AnimatePresence>
-        {activeCharacter && <Character characterData={activeCharacter} />}
-      </AnimatePresence>
+      {activeCharacter && <Character characterData={activeCharacter} />}
 
     </motion.div>
   )
