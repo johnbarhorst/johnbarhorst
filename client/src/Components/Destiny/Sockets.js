@@ -4,22 +4,22 @@ import { motion } from 'framer-motion';
 import { SocketThumbnail } from '../../Elements'
 
 
-const Sockets = ({ sockets, isToggled }) => {
+const Sockets = ({ sockets, isExpanded }) => {
   return (
-    <SocketsWrapper collapsed={!isToggled}>
+    <SocketsWrapper isExpanded={isExpanded}>
       {/* Adding index to socket plughash to cut down on duplicate keys. Occasionally sockets appear twice */}
-      {sockets.map((socket, i) => socket.isVisible ? <Socket {...socket} isToggled={isToggled} key={socket.plugHash + i} /> : null)}
+      {sockets.map((socket, i) => socket.isVisible ? <Socket {...socket} isExpanded={isExpanded} key={socket.plugHash + i} /> : null)}
     </SocketsWrapper>
   )
 }
 
 export default Sockets;
 
-const Socket = ({ name, icon, isToggled, plugHash }) => {
+const Socket = ({ name, icon, isExpanded, plugHash }) => {
   return (
     <>
-      <SocketThumbnail background={icon} key={plugHash} collapsed={isToggled} small={isToggled} positionTransition />
-      {isToggled &&
+      <SocketThumbnail background={icon} key={plugHash} isExpanded={isExpanded} small={isExpanded} positionTransition />
+      {isExpanded &&
         <p>{name}</p>}
     </>
   )
@@ -27,6 +27,6 @@ const Socket = ({ name, icon, isToggled, plugHash }) => {
 
 const SocketsWrapper = styled(motion.section)`
   display: grid;
-  grid-template-columns: repeat(${props => props.collapsed ? '2' : '4'}, 1fr);
-  ${props => !props.collapsed && `padding-bottom: 1rem;`}
+  grid-template-columns: repeat(${props => props.isExpanded ? '4' : '2'}, 1fr);
+  ${props => props.isExpanded && `padding-bottom: 1rem;`}
 `;

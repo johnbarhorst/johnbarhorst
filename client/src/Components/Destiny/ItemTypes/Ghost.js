@@ -4,21 +4,21 @@ import { ItemIcon, ItemWrapper, ItemCard } from '../../../Elements';
 import { useToggle } from '../../../Hooks';
 
 export const Ghost = ({ name, icon, itemTypeDisplayName, sockets, screenshot }) => {
-  const { isToggled, toggle } = useToggle(false);
+  const [isExpanded, toggleExpanded] = useToggle(false, true);
   return (
     <ItemWrapper>
       <ItemCard
-        onClick={() => toggle()}
-        background={isToggled ? screenshot : null}
+        onClick={() => toggleExpanded(isExpanded => !isExpanded)}
+        background={isExpanded ? screenshot : null}
       >
         <ItemIcon src={`https://www.bungie.net${icon}`} key={icon} positionTransition />
         <div>
           <p><strong>{name}</strong></p>
           <p>{itemTypeDisplayName}</p>
         </div>
-        {!isToggled && <Sockets sockets={sockets} isToggled={isToggled} />}
+        {!isExpanded && <Sockets sockets={sockets} isExpanded={isExpanded} />}
       </ItemCard>
-      {isToggled && <Sockets sockets={sockets} isToggled={isToggled} />}
+      {isExpanded && <Sockets sockets={sockets} isExpanded={isExpanded} />}
     </ItemWrapper>
   )
 }
