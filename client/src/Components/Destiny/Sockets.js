@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
 import { SocketThumbnail } from '../../Elements'
 
 
@@ -14,17 +15,17 @@ const Sockets = ({ sockets, isToggled }) => {
 
 export default Sockets;
 
-const Socket = ({ name, icon, isToggled }) => {
+const Socket = ({ name, icon, isToggled, plugHash }) => {
   return (
     <>
-      <SocketThumbnail background={icon} key={icon} collapsed={isToggled} small={isToggled} positionTransition />
+      <SocketThumbnail background={icon} key={plugHash} collapsed={isToggled} small={isToggled} positionTransition />
       {isToggled &&
         <p>{name}</p>}
     </>
   )
 }
 
-const SocketsWrapper = styled.section`
+const SocketsWrapper = styled(motion.section)`
   display: grid;
   grid-template-columns: repeat(${props => props.collapsed ? '2' : '4'}, 1fr);
   ${props => !props.collapsed && `padding-bottom: 1rem;`}
