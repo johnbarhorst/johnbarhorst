@@ -381,3 +381,11 @@ exports.searchAccounts = async (req, res) => {
     res.json(errorStatus);
   }
 }
+
+exports.getCommonSettings = async (req, res) => {
+  const response = await fetch(
+    `https://www.bungie.net/Platform/Settings`,
+    { headers }
+  ).then(res => res.json());
+  res.json(response);
+}

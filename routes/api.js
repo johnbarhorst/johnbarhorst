@@ -14,4 +14,6 @@ router.get('/search/:displayName', destinyControllers.searchAccounts);
 // Get data for all characters on a selected account
 router.get('/characters/:membershipType/:membershipId', catchErrors(destinyControllers.getCharacterInfo));
 
+router.get('/settings', destinyControllers.getCommonSettings);
+
 module.exports = router;
