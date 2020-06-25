@@ -203,7 +203,7 @@ const processCharacters = async (data) => {
           displaySource: details.displaySource,
           instanceStats,
           itemType: details.itemType,
-          damageType: damageTypeEnum[instanceDetails.damageType],
+          damageType: instanceDetails.damageType,
           // Only armor has energy right now.
           energy: instanceDetails.energy ? await getEnergyDetails(instanceDetails.energy) : null,
           // Not all items have sockets
