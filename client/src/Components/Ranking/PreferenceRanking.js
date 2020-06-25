@@ -106,7 +106,7 @@ function reducer(state, action) {
 }
 
 const PreferenceRanking = () => {
-  const [showList, setToggle, toggle] = useToggle(true, true);
+  const [showList, setShowList] = useToggle(true, true);
   const [inputValue, setInputValue] = useState('');
   const [{ option1, option2, list }, dispatch] = useReducer(reducer, {
     option1: 0,
@@ -192,7 +192,7 @@ const PreferenceRanking = () => {
       }
       <SelectionDisplay>
         <AnimatedButton onClick={() => handleShuffle()}>Shuffle List</AnimatedButton>
-        <AnimatedButton onClick={() => toggle()}>{showList ? 'Hide List' : 'Show List'}</AnimatedButton>
+        <AnimatedButton onClick={() => setShowList(showList => !showList)}>{showList ? 'Hide List' : 'Show List'}</AnimatedButton>
         <AnimatedButton onClick={() => dispatch({ type: 'CLEAR_LIST' })}>Clear List</AnimatedButton>
         <AnimatedButton onClick={() => handleSaveList()}>Save List</AnimatedButton>
         <AnimatedButton onClick={() => handleGetSavedList()}>Retrieve List</AnimatedButton>

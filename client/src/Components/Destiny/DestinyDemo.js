@@ -7,7 +7,7 @@ import CharacterListDisplay from './CharacterListDisplay';
 
 const DestinyDemo = () => {
   const { url } = useRouteMatch();
-  const { isLightTheme, setThemeLight, setThemeDark } = useAppContext();
+  const { isLightTheme, setThemeDark } = useAppContext();
   useEffect(() => {
     isLightTheme && setThemeDark();
 

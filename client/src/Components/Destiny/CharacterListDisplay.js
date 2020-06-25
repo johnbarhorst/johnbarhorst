@@ -143,18 +143,4 @@ const emblemDisplayVariants = {
   exit: { opacity: 0 }
 }
 
-const emblemVariants = {
-  initial: {
-    opacity: 0
-  },
-  animate: {
-    opacity: 1,
-    transition: {
-      delay: .3,
-      stiffness: 1000
-    }
-  },
-  exit: { opacity: 0 }
-}
-
 CharacterListDisplay.whyDidYouRender = true;

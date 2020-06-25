@@ -3,13 +3,13 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useHover } from '../../Hooks';
 
-const ToolTip = ({ children }) => {
-  return (
-    <motion.div>
-      {children}
-    </motion.div>
-  )
-}
+// const ToolTip = ({ children }) => {
+//   return (
+//     <motion.div>
+//       {children}
+//     </motion.div>
+//   )
+// }
 
 const CharacterStatCard = ({ stats }) => {
   const [isHovered, bind, [enterX, enterY], [exitX, exitY]] = useHover();
