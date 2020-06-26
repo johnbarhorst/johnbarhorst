@@ -104,7 +104,7 @@ const processCharacters = async (data) => {
   // character level. There is a mass of data in this scope, then sort it into each character below.
   const instances = data.itemComponents.instances.data;
   const sockets = data.itemComponents.sockets.data;
-  const stats = data.itemComponents.stats.data;
+  const modifiedStats = data.itemComponents.stats.data;
   const characterPlugSets = data.characterPlugSets.data;
 
   // Get details on all equipment items from the DB and match them up with instanced data from Bungie's api:
@@ -120,10 +120,22 @@ const processCharacters = async (data) => {
 
         // Match up item stats with its instanced data, if no instanced data, return an empty object
         // so that later on there aren't errors. Allows for easier processing of all the data.
-        const instancedStats = (stats[item.itemInstanceId] || { stats: {} }).stats;
+        const instancedStats = (modifiedStats[item.itemInstanceId] || { stats: {} }).stats;
 
         // Get stat group hash details from DB and sync the display up with each stat.
         const statGroupHash = details.stats.statGroupHash ? await getFromDB(details.stats.statGroupHash, 'DestinyStatGroupDefinition') : null;
+
+        // TODO: This is a quick and dirty static stat look up.
+        // TODO: Flesh out item specific lookups. Get rid of all this if thing.prop nonsense
+        let staticStats;
+        staticStats = await getDetailsAll(details.stats.stats, 'DestinyStatDefinition', async (stat, details) => {
+          return {
+            ...stat,
+            ...details.displayProperties,
+            index: details.index,
+            dbDetails: { ...details }
+          }
+        }) || null;
 
         // Match up item sockets with its instanced data, if no instanced data, return an empty array,
         // so that later on a .map() will return nothing instead of throwing an error.
@@ -196,6 +208,7 @@ const processCharacters = async (data) => {
 
         // Take all the processed data to return only what we want to display.
         return {
+          staticStats,
           itemHash: item.itemHash,
           ...details.displayProperties,
           screenshot: details.screenshot,
@@ -261,8 +274,19 @@ const processCharacters = async (data) => {
     const genderTypeRef = ["Male", "Female"];
     const raceTypeRef = ["Human", "Awoken", "Exo"];
 
+
+    // Match characterId to the equipment object, and run it through the monster function above.
     const equipment = await getGuardianEquipmentDetails(data.characterEquipment.data[character.characterId].items);
-    const plugSets = characterPlugSets[characterId];
+
+    // Still working out what exactly plug sets are.
+    // Match characterId to the plugSet object.
+    const plugSets = characterPlugSets[characterId].plugs;
+    const getPlugSetDetails = async plugs => {
+      let detailedPlugs = {}
+      const keyArray = Array.from(Object.keys(plugs));
+
+
+    }
     // Look up character title details
     const getTitleDetails = async character => {
       const details = character.titleRecordHash ? await getFromDB(character.titleRecordHash, 'DestinyRecordDefinition') : null;
