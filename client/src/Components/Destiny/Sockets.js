@@ -15,7 +15,7 @@ const Sockets = ({ sockets, isExpanded }) => {
 
 export default Sockets;
 
-const Socket = ({ name, icon, isExpanded, plugHash }) => {
+const Socket = ({ name, icon, isExpanded, plugHash, description }) => {
   return (
     <>
       <SocketThumbnail
@@ -26,7 +26,11 @@ const Socket = ({ name, icon, isExpanded, plugHash }) => {
         positionTransition
       />
       {isExpanded &&
-        <p>{name}</p>}
+        <div>
+          <p>{name}</p>
+          <p>{description}</p>
+        </div>
+      }
     </>
   )
 }
@@ -36,7 +40,11 @@ const SocketsWrapper = styled(motion.section)`
   grid-template-columns: repeat(2, 1fr);
   
   &.isExpanded {
-    grid-template-columns: repeat(4, 1fr);
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 1rem;
+    font-size: 12px;
+    align-items: center;
     padding-bottom: 1rem;
   }
 `;

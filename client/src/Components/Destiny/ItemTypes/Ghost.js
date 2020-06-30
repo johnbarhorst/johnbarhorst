@@ -7,7 +7,9 @@ import { useToggle } from '../../../Hooks';
 export const Ghost = ({ name, icon, itemTypeDisplayName, sockets, screenshot }) => {
   const [isExpanded, toggleExpanded] = useToggle(false, true);
   return (
-    <ItemWrapper>
+    <ItemWrapper
+      className={isExpanded && 'isExpanded'}
+    >
       <ItemCard
         onClick={() => toggleExpanded(isExpanded => !isExpanded)}
         background={screenshot}
@@ -20,7 +22,6 @@ export const Ghost = ({ name, icon, itemTypeDisplayName, sockets, screenshot }) 
         </div>
         <Sockets sockets={sockets} isExpanded={isExpanded} />
       </ItemCard>
-      {/* {isExpanded && <Sockets sockets={sockets} isExpanded={isExpanded} />} */}
     </ItemWrapper>
   )
 }
