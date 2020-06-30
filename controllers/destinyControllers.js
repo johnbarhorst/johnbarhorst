@@ -193,6 +193,8 @@ const processCharacters = async (data) => {
         // Socket definitions from the DB for instanced items from the API
         // We don't use getDetailsAll here because the values are the hashes for sockets, not the object keys.
         const getSocketDetails = async sockets => {
+
+          // TODO: Some sockets, like current seasonal artifact perks, need the perk definition info to get the description
           const values = Array.from(Object.values(sockets));
           const details = await Promise.all(values.map(async socket => {
             const data = await getFromDB(socket.plugHash, 'DestinyInventoryItemDefinition');
