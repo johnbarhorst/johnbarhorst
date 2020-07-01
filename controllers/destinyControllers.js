@@ -2,46 +2,16 @@ const https = require('https');
 const fetch = require('node-fetch');
 const fs = require('fs');
 const unzip = require('unzipper');
-const db = require('better-sqlite3')('./database.sqlite3', { readonly: true });
+const { getDetailsAll, getFromDB } = require('./dbHandlers');
+
+
+const { handleWeapons } = require('./itemHandlers');
+
 require('dotenv').config();
 const APIKEY = process.env.APIKEY;
 
 const headers = {
   "X-API-KEY": APIKEY,
-}
-
-
-// HELPER FUNCTIONS:
-
-// Hash converter for sqlite look ups
-const convertHash = hash => {
-  let x = parseInt(hash);
-  if (x > 0xFFFFFFFF) {
-    console.error('Too big, must have a wrong number');
-  }
-  if (x > 0x7FFFFFFF) {
-    x = 0x100000000 - x;
-    if (x < 2147483648) {
-      return -x
-    }
-    else {
-      return -2147483648
-    }
-  }
-  return x;
-}
-
-// sqlite db query function
-const getFromDB = async (hash, table) => {
-  return await new Promise(resolve => {
-    const stmt = db.prepare(`SELECT json FROM ${table} WHERE id = ?`);
-    const result = stmt.get(convertHash(hash));
-    if (result) {
-      resolve(JSON.parse(result.json));
-    } else {
-      resolve({ error: `${hash} not found in ${table}` });
-    }
-  })
 }
 
 // Bungie has a ton of ErrorCode possibilities, 1 = success!
@@ -53,45 +23,9 @@ function checkStatus(res) {
   }
 }
 
-// Get all details from an API object, when the object's keys are the hashes.
-// Without a callback, this will return an array of objects, containing the original data,
-// along with the database entries for the object passed in as details.
-// Provieded with a callback, this will return only what is specified in the callback function,
-// with item being the original item, and details being the result of the database query.
-// Ex: (item, details) => {
-//    return {
-//       ...details.displayProperties,
-//       value: item.value,
-//       displayMaximum: item.displayMaximum,
-//     };
-const getDetailsAll = async (object, table, callback) => {
-  const hashArray = Array.from(Object.keys(object));
-  const objectWithDetails = await Promise.all(hashArray.map(async hash => {
-    try {
-      const details = await getFromDB(hash, table);
-      if (callback) {
-        return callback(object[hash], details);
-      } else {
-        return {
-          ...object[hash],
-          details
-        };
-      }
-    } catch {
-      return {
-        ...object[hash],
-        error: 'Item not found'
-      }
-    }
-  }));
-  return objectWithDetails;
-}
-
-
 // A giant mess of a function that returns a whole bunch of character data, processed with live data
 // from the API, as well as static data from the sqlite database.
 const processCharacters = async (data) => {
-
   // Take the character ID numbers for each guardian and put them in an array,
   // We use them down below with a map function to then gather all the details on all the items.
   const characterArray = Array.from(Object.values(data.characters.data));
@@ -313,6 +247,8 @@ const processCharacters = async (data) => {
       }
     }
 
+    console.log(stats);
+
     return {
       membershipId,
       membershipType,
@@ -327,7 +263,7 @@ const processCharacters = async (data) => {
       emblemBackgroundPath,
       emblemPath,
       title: await getTitleDetails(character),
-      stats: await getDetailsAll(stats, 'DestinyStatDefinition', (stat, details) => {
+      stats: await getDetailsAll(stats, 'DestinyStatDefinition', async (stat, details) => {
         return {
           ...details.displayProperties,
           value: stat
