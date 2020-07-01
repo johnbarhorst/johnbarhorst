@@ -197,6 +197,14 @@ const processCharacters = async (data) => {
           // TODO: Some sockets, like current seasonal artifact perks, need the perk definition info to get the description
           const values = Array.from(Object.values(sockets));
           const details = await Promise.all(values.map(async socket => {
+            // There are some sockets in every bunch that are visible: false, enabled: false, and have no hash.
+            // Not much we can do with that, eh?
+            if (!socket.plugHash) {
+              return {
+                ...socket,
+                test: 'test'
+              }
+            }
             const data = await getFromDB(socket.plugHash, 'DestinyInventoryItemDefinition');
             const displayProperties = data.displayProperties || {};
             return {
