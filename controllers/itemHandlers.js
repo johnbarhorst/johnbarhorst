@@ -91,6 +91,14 @@ const handleWeapon = async (details, item, instanceDetails) => {
   const { damageType } = instanceDetails;
   const ammoType = details.equippingBlock.ammoType;
   const primaryStat = await getPrimaryStatDetails(instanceDetails.primaryStat);
+  const staticStats = await getDetailsAll(details.stats.stats, 'DestinyStatDefinition', async (stat, details) => {
+    return {
+      ...stat,
+      ...details.displayProperties,
+      index: details.index,
+      dbDetails: { ...details }
+    }
+  });
 
 
   const statGroupHash = await getFromDB(details.stats.statGroupHash, 'DestinyStatGroupDefinition');
@@ -100,6 +108,7 @@ const handleWeapon = async (details, item, instanceDetails) => {
     damageType,
     primaryStat,
     statGroupHash,
+    staticStats,
   }
 }
 
