@@ -3,9 +3,23 @@ const fetch = require('node-fetch');
 const fs = require('fs');
 const unzip = require('unzipper');
 const { getDetailsAll, getFromDB } = require('./dbHandlers');
+const {
+  getSocketDetails,
+  handleArmor,
+  handleClanBanner,
+  handleEmblem,
+  handleEmote,
+  handleFinisher,
+  handleGhost,
+  handleItemTypeZero,
+  handleSeasonalArtifact,
+  handleShip,
+  handleSubClass,
+  handleVehicle,
+  handleWeapon,
 
+} = require('./itemHandlers');
 
-const { handleWeapons } = require('./itemHandlers');
 
 require('dotenv').config();
 const APIKEY = process.env.APIKEY;
@@ -26,12 +40,10 @@ function checkStatus(res) {
 // A giant mess of a function that returns a whole bunch of character data, processed with live data
 // from the API, as well as static data from the sqlite database.
 const processCharacters = async (data) => {
+
   // Take the character ID numbers for each guardian and put them in an array,
   // We use them down below with a map function to then gather all the details on all the items.
   const characterArray = Array.from(Object.values(data.characters.data));
-
-  const damageTypeEnum = [null, 'kinetic', 'arc', 'solar', 'void', 'raid'];
-  //const energyTypeEnum = [null, 'arc', 'solar', 'void']; // So far looks like armor already has this info in the energy db entry.
 
   // shorthand for parts of the data object from bungie
   // instanced data for the whole account comes in one bunch. Which character currently has it is determined on a
@@ -44,25 +56,61 @@ const processCharacters = async (data) => {
   // Get details on all equipment items from the DB and match them up with instanced data from Bungie's api:
   const getGuardianEquipmentDetails = async equipment => {
     const itemsWithDetails = await Promise.all(equipment.map(async item => {
+
+      // Handle items with unique props through itemHandlers.
+      const handleItemEnum = {
+        0: 'none',
+        1: 'currency',
+        2: handleArmor,
+        3: handleWeapon,
+        7: 'message',
+        8: 'engram',
+        9: 'consumable',
+        10: 'exchangeMaterial',
+        11: 'missionReward',
+        12: 'questStep',
+        13: 'questStepComplete',
+        14: handleEmblem,
+        15: 'quest',
+        16: handleSubClass,
+        17: handleClanBanner,
+        18: 'aura',
+        19: 'mod',
+        20: 'dummy',
+        21: handleShip,
+        22: handleVehicle,
+        23: handleEmote,
+        24: handleGhost,
+        25: 'package',
+        26: 'bounty',
+        27: 'wrapper',
+        28: handleSeasonalArtifact,
+        29: handleFinisher,
+      }
+
       try {
         // Take each item and get static details from the database
         const details = await getFromDB(item.itemHash, 'DestinyInventoryItemDefinition');
+        const { itemCategoryHashes } = details;
 
+        // Right now artifacts come up as itemType: 0, though Bungie has them in the enum as 28.
+        // TODO: Also, Emote Collection. I gotta handle that better.
+        const itemType = details.itemType || handleItemTypeZero(details);
 
         // Match up the item with its instanced data
         const instanceDetails = instances[item.itemInstanceId];
 
         // Match up item stats with its instanced data, if no instanced data, return an empty object
         // so that later on there aren't errors. Allows for easier processing of all the data.
+
         const instancedStats = (modifiedStats[item.itemInstanceId] || { stats: {} }).stats;
+        const detailedItemCategoryHashes = await Promise.all(itemCategoryHashes.map(async hash => await getFromDB(hash, 'DestinyItemCategoryDefinition')));
 
         // Get stat group hash details from DB and sync the display up with each stat.
-        const statGroupHash = details.stats.statGroupHash ? await getFromDB(details.stats.statGroupHash, 'DestinyStatGroupDefinition') : null;
+        const statGroupHash = details.stats.statGroupHash ?
+          await getFromDB(details.stats.statGroupHash, 'DestinyStatGroupDefinition') : null;
 
-        // TODO: This is a quick and dirty static stat look up.
-        // TODO: Flesh out item specific lookups. Get rid of all this if thing.prop nonsense
-        let staticStats;
-        staticStats = await getDetailsAll(details.stats.stats, 'DestinyStatDefinition', async (stat, details) => {
+        const staticStats = await getDetailsAll(details.stats.stats, 'DestinyStatDefinition', async (stat, details) => {
           return {
             ...stat,
             ...details.displayProperties,
@@ -102,74 +150,27 @@ const processCharacters = async (data) => {
         } else {
           instanceStats = detailedStats;
         }
-        //Gets details for an items primary stats, if there is one. This is usually Attack/Defence and just another name
-        // for their light level. Exceptions for sparrows and artifacts.
-        const getPrimaryStatDetails = async stat => {
-          const details = await getFromDB(stat.statHash, 'DestinyStatDefinition');
-          return {
-            ...details.displayProperties,
-            value: stat.value,
-          }
-        }
 
-        // Armor Energy definitions from DB along with the instanced data from API
-        const getEnergyDetails = async item => {
-          const details = await getFromDB(item.energyTypeHash, 'DestinyEnergyTypeDefinition');
-          return {
-            ...details.displayProperties,
-            transparentIconPath: details.transparentIconPath,
-            capacity: item.energyCapacity,
-            used: item.energyUsed,
-            unused: item.energyUnused
-          }
-        }
-
-        // Socket definitions from the DB for instanced items from the API
-        // We don't use getDetailsAll here because the values are the hashes for sockets, not the object keys.
-        const getSocketDetails = async sockets => {
-
-          // TODO: Some sockets, like current seasonal artifact perks, need the perk definition info to get the description
-          const values = Array.from(Object.values(sockets));
-          const details = await Promise.all(values.map(async socket => {
-            // There are some sockets in every bunch that are visible: false, enabled: false, and have no hash.
-            // Not much we can do with that, eh?
-            if (!socket.plugHash) {
-              return {
-                ...socket,
-                test: 'test'
-              }
-            }
-            const data = await getFromDB(socket.plugHash, 'DestinyInventoryItemDefinition');
-            const displayProperties = data.displayProperties || {};
-            return {
-              ...socket,
-              ...displayProperties,
-              originalDetails: { ...data }
-            }
-          }))
-          return details;
-        }
+        // Trying to better organize all the various differences in items. Not sure it's really working out just yet.
+        const itemSpecificProps = await handleItemEnum[itemType](details, item, instanceDetails) || {};
 
         // Take all the processed data to return only what we want to display.
         return {
-          staticStats,
-          itemHash: item.itemHash,
           ...details.displayProperties,
-          screenshot: details.screenshot,
-          itemTypeDisplayName: details.itemTypeDisplayName,
-          displaySource: details.displaySource,
           instanceStats,
-          itemType: details.itemType,
-          damageType: instanceDetails.damageType,
-          // Only armor has energy right now.
-          energy: instanceDetails.energy ? await getEnergyDetails(instanceDetails.energy) : null,
+          itemType,
+          itemTypeDisplayName: details.itemTypeDisplayName,
+          itemHash: item.itemHash,
+          screenshot: details.screenshot,
+          displaySource: details.displaySource,
+          staticStats,
+          detailedItemCategoryHashes,
+          ...itemSpecificProps,
+
           // Not all items have sockets
           sockets: instancedSockets ? await getSocketDetails(instancedSockets) : null,
-          itemCategoryHashes: await Promise.all(details.itemCategoryHashes.map(async hash => await getFromDB(hash, 'DestinyItemCategoryDefinition'))),
           // State: none is 0, locked is 1, masterworked is 4. So locked and master worked is 5
           masterwork: item.state === 4 || item.state === 5 ? true : false,
-          primaryStat: instanceDetails.primaryStat ? await getPrimaryStatDetails(instanceDetails.primaryStat) : null,
-          ammoType: details.equippingBlock.ammoType,
           lore: details.loreHash ? (await getFromDB(details.loreHash, 'DestinyLoreDefinition')).displayProperties.description : null,
           // Uncomment these to see all the original data, in case you want to dig and find other things to display
           originalData: { ...item },
@@ -246,8 +247,6 @@ const processCharacters = async (data) => {
         }
       }
     }
-
-    console.log(stats);
 
     return {
       membershipId,
