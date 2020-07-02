@@ -4,6 +4,12 @@ const {
   getPrimaryStatDetails,
 } = require('./dbHandlers');
 
+
+// All these empty functions are for future use cases. Each item can have it's own properties processed
+// without polluting up the general item function.
+
+// Feels messy for now, but I think as I find more useful things (especially on the bigger app) this will pay off.
+
 const handleArmor = async (details, item, instanceDetails) => {
   const primaryStat = await getPrimaryStatDetails(instanceDetails.primaryStat);
   // Armor Energy definitions from DB along with the instanced data from API
