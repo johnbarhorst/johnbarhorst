@@ -1,7 +1,17 @@
 // HELPER FUNCTIONS:
 
+
+// Bungie has a ton of ErrorCode possibilities, 1 = success!
+function checkStatus(res) {
+  if (res.ErrorCode === 1) {
+    return true
+  } else {
+    return false;
+  }
+}
+
 // Hash converter for sqlite look ups
-exports.convertHash = hash => {
+const convertHash = hash => {
   let x = parseInt(hash);
   if (x > 0xFFFFFFFF) {
     console.error('Too big, must have a wrong number');
@@ -17,3 +27,5 @@ exports.convertHash = hash => {
   }
   return x;
 }
+
+module.exports = { checkStatus, convertHash };
