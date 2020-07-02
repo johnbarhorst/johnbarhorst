@@ -83,20 +83,8 @@ const processCharacters = async (data) => {
         // so that later on there aren't errors. Allows for easier processing of all the data.
 
         const instancedStats = (modifiedStats[item.itemInstanceId] || { stats: {} }).stats;
-        const detailedItemCategoryHashes = await Promise.all(itemCategoryHashes.map(async hash => await getFromDB(hash, 'DestinyItemCategoryDefinition')));
-
-        // Get stat group hash details from DB and sync the display up with each stat.
-        const statGroupHash = details.stats.statGroupHash ?
-          await getFromDB(details.stats.statGroupHash, 'DestinyStatGroupDefinition') : null;
-
-        const staticStats = await getDetailsAll(details.stats.stats, 'DestinyStatDefinition', async (stat, details) => {
-          return {
-            ...stat,
-            ...details.displayProperties,
-            index: details.index,
-            dbDetails: { ...details }
-          }
-        }) || null;
+        const detailedItemCategoryHashes = await Promise.all(
+          itemCategoryHashes.map(async hash => await getFromDB(hash, 'DestinyItemCategoryDefinition')));
 
         // Match up item sockets with its instanced data, if no instanced data, return an empty array,
         // so that later on a .map() will return nothing instead of throwing an error.
@@ -112,6 +100,10 @@ const processCharacters = async (data) => {
             dbDetails: { ...details },
           };
         });
+
+        // Get stat group hash details from DB and sync the display up with each stat.
+        const statGroupHash = details.stats.statGroupHash ?
+          await getFromDB(details.stats.statGroupHash, 'DestinyStatGroupDefinition') : null;
 
         let instanceStats;
 
@@ -142,7 +134,6 @@ const processCharacters = async (data) => {
           itemHash: item.itemHash,
           screenshot: details.screenshot,
           displaySource: details.displaySource,
-          staticStats,
           detailedItemCategoryHashes,
           ...itemSpecificProps,
 
