@@ -1,27 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { useHover } from '../../Hooks';
-
-// const ToolTip = ({ children }) => {
-//   return (
-//     <motion.div>
-//       {children}
-//     </motion.div>
-//   )
-// }
 
 const CharacterStatCard = ({ stats }) => {
-  const [isHovered, bind, [enterX, enterY], [exitX, exitY]] = useHover();
-  console.log('test', isHovered);
-  console.log('x y', enterX, enterY, exitX, exitY);
   return (
     <StatContainer>
       {stats.sort((a, b) => {
         const order = ['power', 'mobility', 'resilience', 'recovery', 'discipline', 'intellect', 'strength'];
         return order.indexOf(a.name.toLowerCase()) - order.indexOf(b.name.toLowerCase())
-      }).map(({ name, icon, value, description }, i) => (
-        <StatDisplay key={name} {...bind} >
+      }).map(({ name, icon, value }, i) => (
+        <StatDisplay key={name} >
           <Img src={`https://www.bungie.net${icon}`} alt={name} />
           <div>
             <p>{name}: <span>{value}</span></p>
