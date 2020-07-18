@@ -59,6 +59,9 @@ const colors = {
   light: '#ffffff',
   dark: '#121212',
   lightBg: '#ffffff22',
+  void: '#9c7bb5',
+  arc: '#82aac9',
+  solar: '#ed591e',
 };
 
 const colorsArray = [
