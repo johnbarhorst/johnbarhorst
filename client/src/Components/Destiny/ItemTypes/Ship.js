@@ -10,7 +10,7 @@ export const Ship = ({ icon, masterwork, sockets, name, itemTypeDisplayName, scr
   const [isExpanded, toggleExpanded] = useToggle(false, true);
   return (
     <ItemWrapper>
-      <ShipCard
+      <ItemCard
         onClick={() => toggleExpanded(isExpanded => !isExpanded)}
         background={screenshot}
         className={isExpanded && 'isExpanded'}
@@ -21,7 +21,7 @@ export const Ship = ({ icon, masterwork, sockets, name, itemTypeDisplayName, scr
           <motion.p positionTransition key={itemTypeDisplayName}>{itemTypeDisplayName}</motion.p>
         </div>
         <Sockets sockets={sockets} isExpanded={isExpanded} />
-      </ShipCard>
+      </ItemCard>
     </ItemWrapper>
   )
 }
