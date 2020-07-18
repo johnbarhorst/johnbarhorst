@@ -10,7 +10,7 @@ export const Ship = ({ icon, masterwork, sockets, name, itemTypeDisplayName, scr
   const [isExpanded, toggleExpanded] = useToggle(false, true);
   return (
     <ItemWrapper>
-      <ItemCard
+      <ShipCard
         onClick={() => toggleExpanded(isExpanded => !isExpanded)}
         background={screenshot}
         className={isExpanded && 'isExpanded'}
@@ -21,15 +21,7 @@ export const Ship = ({ icon, masterwork, sockets, name, itemTypeDisplayName, scr
           <motion.p positionTransition key={itemTypeDisplayName}>{itemTypeDisplayName}</motion.p>
         </div>
         <Sockets sockets={sockets} isExpanded={isExpanded} />
-      </ItemCard>
+      </ShipCard>
     </ItemWrapper>
   )
 }
-
-
-// Ship screenshots appear to be less wide than other items... or not?
-// const ShipCard = styled(ItemCard)`
-//   &.isExpanded {
-//     background-size: cover;
-//   }
-// `;
