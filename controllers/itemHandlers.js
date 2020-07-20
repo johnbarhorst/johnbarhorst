@@ -11,17 +11,27 @@ const {
 // Feels messy for now, but I think as I find more useful things (especially on the bigger app) this will pay off.
 
 const handleArmor = async (details, item, instanceDetails) => {
+
   const primaryStat = await getPrimaryStatDetails(instanceDetails.primaryStat);
   // Armor Energy definitions from DB along with the instanced data from API
-  const getEnergyDetails = async item => {
-    const details = await getFromDB(item.energyTypeHash, 'DestinyEnergyTypeDefinition');
-    return {
-      ...details.displayProperties,
-      transparentIconPath: details.transparentIconPath,
-      capacity: item.energyCapacity,
-      used: item.energyUsed,
-      unused: item.energyUnused,
-      dbDetails: { ...details }
+  // Armor 1.0 versions have no energy type. Thus, we must account for this.
+  const getEnergyDetails = async energyInfo => {
+    try {
+      const details = await getFromDB(energyInfo.energyTypeHash, 'DestinyEnergyTypeDefinition');
+      return {
+        ...details.displayProperties,
+        transparentIconPath: details.transparentIconPath,
+        capacity: energyInfo.energyCapacity,
+        used: energyInfo.energyUsed,
+        unused: energyInfo.energyUnused,
+        energyType: energyInfo.energyType,
+        dbDetails: { ...details },
+        firstGen: false
+      }
+    } catch (error) {
+      return {
+        firstGen: true
+      }
     }
   }
   const statGroupHash = await getFromDB(details.stats.statGroupHash, 'DestinyStatGroupDefinition');

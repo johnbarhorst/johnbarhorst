@@ -45,6 +45,7 @@ const getDetailsAll = async (object, table, callback) => {
         };
       }
     } catch {
+      console.log('Item not found', hash);
       return {
         ...object[hash],
         error: 'Item not found'

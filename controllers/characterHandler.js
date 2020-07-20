@@ -150,7 +150,8 @@ const processCharacters = async (data) => {
           originalDetails: { ...details },
         };
 
-      } catch {
+      } catch (error) {
+        console.log(error);
         // TODO: So far, the only issues I've had invole having an outdated manifest DB from bungie.
         // Likely this isn't the only error possible, but for now this is a decent catch.
         return {
