@@ -64,6 +64,15 @@ const colors = {
   solar: '#ed591e',
 };
 
+
+// Correspond color values to the energyType enum values.
+const energyColors = {
+  1: colors.arc,
+  2: colors.solar,
+  3: colors.void,
+}
+
+// An array of the Pantone color values for randomizing and fun and profit.
 const colorsArray = [
   '#FF6F61',
   '#6B5B95',
@@ -113,13 +122,14 @@ export const lightTheme = {
   btn: {
     bg: colors.fuschiaRose,
   },
-  mw_gradient,
+  breakpoints,
   colors,
   colorsArray,
   cycledColor,
+  energyColors,
   fonts,
-  breakpoints,
   media,
+  mw_gradient,
 };
 
 export const darkTheme = {
@@ -130,13 +140,14 @@ export const darkTheme = {
   btn: {
     bg: colors.fuschiaRose,
   },
-  mw_gradient,
+  breakpoints,
   colors,
   colorsArray,
   cycledColor,
+  energyColors,
   fonts,
-  breakpoints,
-  media
+  media,
+  mw_gradient,
 }
 
 
