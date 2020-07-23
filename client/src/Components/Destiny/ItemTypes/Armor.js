@@ -5,7 +5,13 @@ import { useToggle } from '../../../Hooks';
 import InstanceStatsCard from '../InstanceStatsCard';
 import LoreDisplay from '../LoreDisplay';
 import Sockets from '../Sockets';
-import { ItemWrapper, ItemIcon, ItemCard, DetailsButton, DetailsCard } from '../../../Elements';
+import { ItemWrapper, ItemIcon, ItemCard, DetailsButton, DetailsCard, ElementTypeImage } from '../../../Elements';
+
+const elementTypePaths = {
+  1: "/img/destiny_content/damage_types/arc.png",
+  2: "/img/destiny_content/damage_types/thermal.png",
+  3: "/img/destiny_content/damage_types/void.png",
+}
 
 export const Armor = ({ icon, masterwork, name, itemTypeDisplayName, energy, primaryStat, instanceStats, sockets, lore }) => {
 
@@ -20,11 +26,11 @@ export const Armor = ({ icon, masterwork, name, itemTypeDisplayName, energy, pri
           <p>{itemTypeDisplayName}</p>
           <EnergyDisplay energy={energy} />
         </div>
-        <div style={{ textAlign: 'end' }}>
+        <ItemEndCard>
           <p>{primaryStat.name}</p>
           <p>{primaryStat.value}</p>
-          <DetailsButton>{isExpanded ? <span>&#9660;</span> : <span>&#9650;</span>}</DetailsButton>
-        </div>
+          <ArmorTypeImage background={elementTypePaths[energy.energyType]} />
+        </ItemEndCard>
       </ItemCard>
       <AnimatePresence>
         {isExpanded &&
@@ -72,6 +78,17 @@ const EnergyDisplay = ({ energy }) => {
     </EnergyBarContainer>
   )
 };
+
+const ItemEndCard = styled(motion.div)`
+  display: grid;
+  justify-items: end;
+`;
+
+// Smaller variant looks better for armor.
+const ArmorTypeImage = styled(ElementTypeImage)`
+  height: 25px;
+  width: 25px;
+`;
 
 const EnergyBarContainer = styled(motion.div)`
     display: flex;
