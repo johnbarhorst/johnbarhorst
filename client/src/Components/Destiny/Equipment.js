@@ -35,9 +35,41 @@ import Item from './Item';
 //   29: 'finisher'
 // }
 
-const itemOrder = [16, 3, 28, 2, 24, 22, 21, 14, 23, 17, 29, 0];
+const itemOrder = [16, 3, 2, 28, 24, 22, 21, 14, 23, 17, 29, 0];
 
 const Equipment = ({ equipment }) => {
+  const sorted = equipment.sort((a, b) =>
+    itemOrder.indexOf(a.itemType) - itemOrder.indexOf(b.itemType))
+    .reduce((acc, item) => {
+      switch (item.itemType) {
+        case 3:
+          acc[0].data.push(item);
+          return acc;
+
+        case 2:
+          acc[1].data.push(item);
+          return acc;
+
+        default:
+          acc[2].data.push(item);
+          return acc;
+
+          break;
+      }
+    }, [
+      {
+        title: 'Weapons',
+        data: []
+      },
+      {
+        title: 'Armor',
+        data: []
+      },
+      {
+        title: 'Misc',
+        data: []
+      }
+    ]);
   return (
     <div>
       <Wrapper
@@ -45,9 +77,14 @@ const Equipment = ({ equipment }) => {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
-        {equipment.sort((a, b) =>
-          itemOrder.indexOf(a.itemType) - itemOrder.indexOf(b.itemType))
-          .map(item => <Item {...item} key={item.itemHash} />)}
+        {sorted.map(itemList => {
+          return (
+            <div>
+              <h3>{itemList.title}</h3>
+              {itemList.data.map(item => <Item {...item} key={item.itemHash} />)}
+            </div>
+          )
+        })}
       </Wrapper>
     </div>
   )
