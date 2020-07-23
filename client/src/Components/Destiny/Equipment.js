@@ -55,8 +55,6 @@ const Equipment = ({ equipment }) => {
 
 export default Equipment;
 
-Equipment.whyDidYouRender = true;
-
 const Wrapper = styled(motion.section)`
 
 `;
