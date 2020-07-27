@@ -5,15 +5,15 @@
   "proxy": "http://localhost:3001",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.4.1",
+    "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
-    "@welldone-software/why-did-you-render": "^4.2.5",
-    "framer-motion": "^1.9.0",
-    "react": "^16.13.0",
-    "react-dom": "^16.13.0",
-    "react-router-dom": "^5.1.2",
+    "@welldone-software/why-did-you-render": "^4.2.7",
+    "framer-motion": "^2.1.4",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.0",
-    "styled-components": "^5.0.1"
+    "styled-components": "^5.1.1"
   },
   "scripts": {
     "start": "react-scripts start",

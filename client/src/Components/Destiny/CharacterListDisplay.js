@@ -1,8 +1,8 @@
 import React, { useReducer, useEffect } from 'react';
 import { useParams, Link, } from 'react-router-dom';
 import styled from 'styled-components';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useFetchOnLoad, useAutoHeightAnimation } from '../../Hooks';
+import { motion, AnimatePresence, AnimateSharedLayout } from 'framer-motion';
+import { useFetchOnLoad } from '../../Hooks';
 import EmblemCard from './EmblemCard';
 import Character from './Character';
 import ErrorDisplay from '../ErrorDisplay';
@@ -58,7 +58,6 @@ const CharacterListDisplay = () => {
   const [{ isLoading, isError, data }] = useFetchOnLoad(
     `/api/characters/${membershipType}/${membershipId}`, {}, { characters: [] });
   const [{ activeCharacter, characterList, showFullList }, dispatch] = useReducer(reducer, initialState);
-  const [controls, ref] = useAutoHeightAnimation([isLoading, isError, showFullList, activeCharacter]);
 
 
   const handleCharacterSelect = (character) => {
@@ -78,26 +77,23 @@ const CharacterListDisplay = () => {
   }, [isLoading, isError, data.characters])
 
   return (
-    <motion.div ref={ref} controls={controls}>
-      <motion.div
-        variants={emblemDisplayVariants}
-        initial={false}
-        animate={'animate'}
-        exit={'exit'}
-        style={{ marginBottom: '1em' }}
-      >
-        {isLoading && (
-          <StatusDisplay>
-            <H3>Loading...</H3>
-          </StatusDisplay>
-        )}
-        {isError && (
-          <StatusDisplay>
-            <ErrorDisplay {...data} />
-            <Link to='/destiny/search' >Search again</Link>
-          </StatusDisplay>
-        )}
-        <AnimatePresence>
+    <motion.div>
+      <AnimateSharedLayout type='crossfade'>
+        <motion.div
+          layout
+          style={{ marginBottom: '1em' }}
+        >
+          {isLoading && (
+            <StatusDisplay>
+              <H3>Loading...</H3>
+            </StatusDisplay>
+          )}
+          {isError && (
+            <StatusDisplay>
+              <ErrorDisplay {...data} />
+              <Link to='/destiny/search' >Search again</Link>
+            </StatusDisplay>
+          )}
           {showFullList ? characterList.map(character => (
             <EmblemCard
               characterData={character}
@@ -112,9 +108,9 @@ const CharacterListDisplay = () => {
                 key={activeCharacter.characterId}
               />
             )}
-        </AnimatePresence>
-      </motion.div>
-      {activeCharacter && <Character characterData={activeCharacter} />}
+        </motion.div>
+        {activeCharacter && <Character characterData={activeCharacter} />}
+      </AnimateSharedLayout>
 
     </motion.div>
   )
@@ -126,21 +122,3 @@ const StatusDisplay = styled(motion.div)`
   text-align: center;
   margin-top: 3em;
 `;
-
-const emblemDisplayVariants = {
-  initial: {
-    opacity: 0,
-    height: 'auto'
-  },
-  animate: {
-    opacity: 1,
-    height: 'auto',
-    transition: {
-      duration: .1,
-      when: 'beforeChildren'
-    }
-  },
-  exit: { opacity: 0 }
-}
-
-CharacterListDisplay.whyDidYouRender = true;

@@ -1,31 +1,31 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import styled from 'styled-components';
 
 
 const EmblemCard = ({ characterData, clickHandler, variants }) => {
   const { race, gender, light, classType, emblemBackgroundPath, characterId } = characterData;
   return (
-    <Card
-      variants={emblemVariants}
-      bgPath={emblemBackgroundPath}
-      onClick={() => clickHandler(characterData)}
-      positionTransition={{
-        damping: 1000
-      }}
-      initial={'initial'}
-      animate={'animate'}
-      exit={'exit'}
-      key={characterId}
-    >
-      <div className='class-race' >
-        <h3>{classType}</h3>
-        <p>{`${race} ${gender}`}</p>
-      </div>
-      <div>
-        <h2>{light}</h2>
-      </div>
-    </Card>
+    <AnimatePresence>
+      <Card
+        bgPath={emblemBackgroundPath}
+        onClick={() => clickHandler(characterData)}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        key={characterId}
+        layout
+        layoutId={characterId}
+      >
+        <div className='class-race' >
+          <h3>{classType}</h3>
+          <p>{`${race} ${gender}`}</p>
+        </div>
+        <div>
+          <h2>{light}</h2>
+        </div>
+      </Card>
+    </AnimatePresence>
   )
 }
 export default EmblemCard;
@@ -63,17 +63,3 @@ const Card = styled(motion.div)`
     margin-right: 5px;
   }
 `;
-
-const emblemVariants = {
-  initial: {
-    opacity: 0
-  },
-  animate: {
-    opacity: 1,
-    transition: {
-      delay: .3,
-      stiffness: 1000
-    }
-  },
-  exit: { opacity: 0 }
-}
