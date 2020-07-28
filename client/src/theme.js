@@ -62,6 +62,7 @@ const colors = {
   void: '#9c7bb5',
   arc: '#82aac9',
   solar: '#ed591e',
+  powerGold: '#ddc918',
 };
 
 
