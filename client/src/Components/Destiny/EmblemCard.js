@@ -18,11 +18,11 @@ const EmblemCard = ({ characterData, clickHandler, variants }) => {
         layoutId={characterId}
       >
         <div className='class-race' >
-          <h3>{classType}</h3>
+          <p>{classType}</p>
           <p>{`${race} ${gender}`}</p>
         </div>
-        <div>
-          <h2>{light}</h2>
+        <div className="light-level">
+          <p>{light}</p>
         </div>
       </Card>
     </AnimatePresence>
@@ -34,32 +34,33 @@ const Card = styled(motion.div)`
   cursor: pointer;
   display: flex;
   justify-content: space-between;
-  background: #ffffff url(${props => 'https://www.bungie.net' + props.bgPath}) top / cover no-repeat;
+  background: #ffffff url(${props => 'https://www.bungie.net' + props.bgPath}) center / cover no-repeat;
   color: #f5f5f5;
   margin-bottom: 5px;
+  height: 70px;
   @media screen and (min-width: ${props => props.theme.breakpoints.sm}) {
     max-width: 474px;
     max-height: 96px;
   }
   .class-race {
     margin-left: 70px;
-    h3 {
-      font-weight: normal;
-      font-size: 1.5em;
-      margin-top: 1rem;
-      margin-bottom: .2rem;
-    }
     p {
       margin: 0;
+      &:first-child {
+        font-size: 1.5em;
+      }
     }
     @media screen and (min-width: ${props => props.theme.breakpoints.sm}) {
       margin-left: 96px;
     }
   }
 
-  h2 {
-    font-weight: normal;
-    color: rgb(221, 201, 24);
+  .light-level {
+    p {
+    font-size: 1.3em;
+    color: ${props => props.theme.colors.powerGold};;
+    margin: 0;
     margin-right: 5px;
+    }
   }
 `;
