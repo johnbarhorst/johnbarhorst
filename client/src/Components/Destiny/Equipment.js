@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
+import { motion, AnimateSharedLayout } from 'framer-motion';
 import Item from './Item';
 
 // Numbers based on itemType enum from Bungie API docs.
@@ -71,22 +71,16 @@ const Equipment = ({ equipment }) => {
       }
     ]);
   return (
-    <div>
-      <Wrapper
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-      >
-        {sorted.map(itemList => {
-          return (
-            <div>
-              <h3>{itemList.title}</h3>
-              {itemList.data.map(item => <Item {...item} key={item.itemHash} />)}
-            </div>
-          )
-        })}
-      </Wrapper>
-    </div>
+    <Wrapper>
+      {sorted.map(itemList => {
+        return (
+          <div key={itemList.title}>
+            <h3>{itemList.title}</h3>
+            {itemList.data.map(item => <Item {...item} key={item.itemHash} />)}
+          </div>
+        )
+      })}
+    </Wrapper>
   )
 }
 

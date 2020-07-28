@@ -78,7 +78,7 @@ const CharacterListDisplay = () => {
 
   return (
     <motion.div>
-      <AnimateSharedLayout type='crossfade'>
+      <AnimateSharedLayout>
         <motion.div
           layout
           style={{ marginBottom: '1em' }}
@@ -109,9 +109,8 @@ const CharacterListDisplay = () => {
               />
             )}
         </motion.div>
-        {activeCharacter && <Character characterData={activeCharacter} />}
       </AnimateSharedLayout>
-
+      {activeCharacter && <Character characterData={activeCharacter} />}
     </motion.div>
   )
 }

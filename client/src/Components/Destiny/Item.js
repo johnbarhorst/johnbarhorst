@@ -69,4 +69,3 @@ const Item = (props) => {
 
 export default Item;
 
-Item.whyDidYouRender = true;

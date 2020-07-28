@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, AnimateSharedLayout } from 'framer-motion';
 import Equipment from './Equipment';
 import CharacterStatCard from './CharacterStatCard';
 
@@ -11,8 +11,6 @@ const Character = ({ characterData }) => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        layout
-
       >
         <CharacterStatCard stats={stats} />
         <Equipment equipment={equipment} />

@@ -42,7 +42,7 @@ export const Weapon = ({ name, ammoType, itemTypeDisplayName, damageType, primar
       <AnimatePresence>
         {isExpanded &&
           <DetailsCard
-            initial={false}
+            initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
@@ -56,5 +56,3 @@ export const Weapon = ({ name, ammoType, itemTypeDisplayName, damageType, primar
     </ItemWrapper>
   )
 }
-
-Weapon.whyDidYouRender = true;
