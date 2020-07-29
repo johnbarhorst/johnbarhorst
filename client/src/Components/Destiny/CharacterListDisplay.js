@@ -78,22 +78,22 @@ const CharacterListDisplay = () => {
 
   return (
     <motion.div>
-      <AnimateSharedLayout>
+      {isLoading && (
+        <StatusDisplay>
+          <H3>Loading...</H3>
+        </StatusDisplay>
+      )}
+      {isError && (
+        <StatusDisplay>
+          <ErrorDisplay {...data} />
+          <Link to='/destiny/search' >Search again</Link>
+        </StatusDisplay>
+      )}
+      <AnimateSharedLayout initial={false}>
         <motion.div
           layout
           style={{ marginBottom: '1em' }}
         >
-          {isLoading && (
-            <StatusDisplay>
-              <H3>Loading...</H3>
-            </StatusDisplay>
-          )}
-          {isError && (
-            <StatusDisplay>
-              <ErrorDisplay {...data} />
-              <Link to='/destiny/search' >Search again</Link>
-            </StatusDisplay>
-          )}
           {showFullList ? characterList.map(character => (
             <EmblemCard
               characterData={character}
