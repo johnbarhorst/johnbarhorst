@@ -46,7 +46,7 @@ const SquareShuffle = () => {
         <Square
           color={color}
           key={color}
-          positionTransition
+          layout
         />
       )}
     </Container>
