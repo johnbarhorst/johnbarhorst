@@ -6,6 +6,8 @@ import { AnimatedButton, H3, Form } from '../../Elements';
 import { useFetchData, useInput } from '../../Hooks';
 import AccountCard from './AccountCard';
 
+const inputIsInvalid = string => !string || string.trim().length < 1 ? true : false;
+
 const Search = () => {
   const [{ isLoading, isError, data }, getAccounts] = useFetchData({ accounts: [] });
   const [searchValue, resetSearch] = useInput('');
@@ -14,9 +16,7 @@ const Search = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!searchValue.value || searchValue.value.trim().length === 0) {
-      return
-    }
+    if (inputIsInvalid(searchValue.value)) { return }
     setSearchedValue(searchValue.value);
     getAccounts(`/api/search/${searchValue.value}`);
     resetSearch();
