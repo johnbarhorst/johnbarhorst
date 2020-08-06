@@ -3,22 +3,23 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { AnimatedButton, H3, Form } from '../../Elements';
-import { useFetchData } from '../../Hooks';
+import { useFetchData, useInput } from '../../Hooks';
 import AccountCard from './AccountCard';
 
 const Search = () => {
   const [{ isLoading, isError, data }, getAccounts] = useFetchData({ accounts: [] });
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, resetSearch] = useInput('');
   const [searchedValue, setSearchedValue] = useState('');
   const { accounts, errorMessage } = data;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!searchValue || searchValue.trim().length === 0) {
+    if (!searchValue.value || searchValue.value.trim().length === 0) {
       return
     }
-    setSearchedValue(searchValue);
-    getAccounts(`/api/search/${searchValue}`);
+    setSearchedValue(searchValue.value);
+    getAccounts(`/api/search/${searchValue.value}`);
+    resetSearch();
   }
 
   return (
@@ -31,7 +32,7 @@ const Search = () => {
         <H3>Search for a Destiny 2 player screen name.</H3>
       </TopBar>
       <Form onSubmit={handleSubmit}>
-        <input type="text" name="search" id="search" value={searchValue} onChange={e => setSearchValue(e.target.value)} />
+        <input type="text" name="search" id="search" placeholder="ex. crashxvii" {...searchValue} />
         <AnimatedButton
           type='submit'
           whileHover={{
