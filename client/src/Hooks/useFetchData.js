@@ -1,4 +1,4 @@
-import { useReducer, useEffect } from 'react';
+import { useReducer, useEffect, useState } from 'react';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -83,3 +83,28 @@ export const useFetchOnLoad = (url, options, initialData) => {
   }, [])
   return [state]
 };
+
+export const useFetch = uri => {
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState();
+  const [data, setData] = useState();
+
+  useEffect(() => {
+    let isSubscribed = true;
+    if (isSubscribed) {
+      if (!uri) return;
+      fetch(uri)
+        .then(data => data.json())
+        .then(setData)
+        .then(() => setLoading(false))
+        .catch(setError);
+    }
+    return () => isSubscribed = false;
+  }, [uri]);
+
+  return {
+    loading,
+    data,
+    error
+  }
+} 
