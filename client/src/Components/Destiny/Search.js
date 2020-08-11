@@ -1,24 +1,26 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { AnimatedButton, H3, Form } from '../../Elements';
-import { useFetchData, useInput } from '../../Hooks';
-import AccountCard from './AccountCard';
+import { useInput } from '../../Hooks';
+import Fetch from '../Fetch';
+import SearchResults from './SearchResults';
 
+
+// Trim whitespace and prevent submit on empty string.
 const inputIsInvalid = string => !string || string.trim().length < 1 ? true : false;
+const API_SEARCH_PATH = `/api/search/`;
 
 const Search = () => {
-  const [{ isLoading, isError, data }, getAccounts] = useFetchData({ accounts: [] });
-  const [searchValue, resetSearch] = useInput('');
-  const [searchedValue, setSearchedValue] = useState('');
-  const { accounts, errorMessage } = data;
+  const [searchInput, resetSearch] = useInput('');
+  const [searchString, setSearchString] = useState();
+  const [searchURI, setSearchURI] = useState();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (inputIsInvalid(searchValue.value)) { return }
-    setSearchedValue(searchValue.value);
-    getAccounts(`/api/search/${searchValue.value}`);
+    if (inputIsInvalid(searchInput.value)) return;
+    setSearchString(searchInput.value);
+    setSearchURI(API_SEARCH_PATH + searchInput.value);
     resetSearch();
   }
 
@@ -32,7 +34,7 @@ const Search = () => {
         <H3>Search for a Destiny 2 player screen name.</H3>
       </TopBar>
       <Form onSubmit={handleSubmit}>
-        <input type="text" name="search" id="search" placeholder="ex. crashxvii" {...searchValue} />
+        <input type="text" name="search" id="search" placeholder="ex. crashxvii" {...searchInput} />
         <AnimatedButton
           type='submit'
           whileHover={{
@@ -44,29 +46,20 @@ const Search = () => {
         >Search</AnimatedButton>
       </Form>
       <Container variants={variants} >
-        {isLoading && <H3>Searching...</H3>}
-        {isError && (
-          <div>
-            <H3>We encountered an error while searching for user {searchedValue}</H3>
-            <p>{errorMessage}</p>
-          </div>
-        )}
-        {!isError && !isLoading && searchedValue && accounts.length === 0 ? (
-          <div>
-            <H3>No results found for {searchedValue}</H3>
-          </div>
-        ) : null}
-        {!isError && !isLoading ? accounts.map(account => (
-          <Link to={`/destiny/characters/${account.membershipType}/${account.membershipId}`} key={account.membershipId}>
-            <AccountCard account={account} />
-          </Link>
-        )) : null}
+        <Fetch
+          uri={searchURI}
+          loadingFallback={searchURI ? <H3>Searching...</H3> : null}
+
+          renderSuccess={({ data }) => <SearchResults data={data} />}
+        />
       </Container>
     </motion.div>
   )
 }
 
 export default Search;
+
+// Styled Components
 
 const TopBar = styled(motion.section)`
   text-align: center;
