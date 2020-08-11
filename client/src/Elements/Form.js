@@ -7,6 +7,7 @@ export const Form = styled.form`
 
   input {
   background: ${props => props.theme.background};
+  color: ${props => props.theme.colors.light};
   padding: 5px 10px;
   font-size: 20px;
   border-radius: 5px;
