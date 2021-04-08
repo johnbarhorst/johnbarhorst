@@ -209,7 +209,7 @@ const processCharacters = async (data) => {
       if (details) {
         return {
           ...details.displayProperties,
-          hasTitle: details.titleInfo.hasTitle,
+          hasTitle: details?.titleInfo?.hasTitle,
           titlesByGender: { ...details.titleInfo.titlesByGender }
         }
       } else {
