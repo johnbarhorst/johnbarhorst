@@ -18,7 +18,7 @@ const Search = () => {
     e.preventDefault();
     if (inputIsInvalid(searchValue.value)) { return }
     setSearchedValue(searchValue.value);
-    getAccounts(`/api/search/${searchValue.value}`);
+    await getAccounts(`/api/search/${searchValue.value}/0`);
     resetSearch();
   }
 
