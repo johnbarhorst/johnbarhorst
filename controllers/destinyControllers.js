@@ -62,28 +62,63 @@ exports.getCurrentManifest = async (req, res) => {
     }
     ));
 
-  // Just sending something here to finish the browser call to the server. This shouldn't be necessary once I make it a cron job.
+  // Just sending something here to finish the browser call to the server. This shouldn't be necessary once I automate it.
   res.status(200);
   res.send('Check data');
 }
 
+// Example response from new search function. It's very specific, can't do crashxvii
+// {
+//   searchResults: [
+//     {
+//       bungieGlobalDisplayName: 'Crash XVII',
+//       bungieGlobalDisplayNameCode: 8729,
+//       bungieNetMembershipId: '1740551',
+//       destinyMemberships: [
+//        {
+//          iconPath: '/img/theme/bungienet/icons/xboxLiveLogo.png',
+//          crossSaveOverride: 0,
+//          applicableMembershipTypes: [ 1 ],
+//          isPublic: true,
+//          membershipType: 1,
+//          membershipId: '4611686018434143187',
+//          displayName: 'Crash XVII',
+//          bungieGlobalDisplayName: 'Crash XVII',
+//          bungieGlobalDisplayNameCode: 8729
+//        }
+//      ]
+//     }
+//   ],
+//   page: 0,
+//   hasMore: false
+// }
+
+
+
 exports.searchAccounts = async (req, res) => {
-  const searchQuery = await fetch(
-    `https://www.bungie.net/Platform/Destiny2/SearchDestinyPlayer/All/${req.params.displayName}/`,
-    { headers }).then(res => res.json());
-  const responseStatus = checkStatus(searchQuery);
-  if (responseStatus) {
-    res.status(200);
-    const accountList = {
-      accounts: searchQuery.Response
-    };
-    res.send(JSON.stringify(accountList));
-  } else {
-    res.status(401);
-    const errorStatus = {
-      message: searchQuery.Message
-    }
-    res.json(errorStatus);
+  const {displayName, page} = req.params;
+  try {
+    const searchQuery = await fetch(
+      `https://www.bungie.net/Platform/User/Search/Prefix/${displayName}/${page}/`,
+      { headers }).then(res => res.json());
+      console.log(searchQuery.Response);
+      const responseStatus = checkStatus(searchQuery);
+      if (responseStatus) {
+        res.status(200);
+        const accountList = {
+          // Temp changes for functionality testing. This is not a solution.
+          accounts: searchQuery.Response.searchResults[0].destinyMemberships
+        };
+        res.send(JSON.stringify(accountList));
+      } else {
+        res.status(401);
+        const errorStatus = {
+          message: searchQuery.Message
+        }
+        res.json(errorStatus);
+      }
+  } catch (error) {
+    
   }
 }
 
