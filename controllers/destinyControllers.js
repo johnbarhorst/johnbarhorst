@@ -118,7 +118,11 @@ exports.searchAccounts = async (req, res) => {
         res.json(errorStatus);
       }
   } catch (error) {
-    
+    res.status(401);
+    const errorStatus = {
+      message: error
+    }
+    res.json(errorStatus);
   }
 }
 
